@@ -1,18 +1,25 @@
 package cn.partytime.util;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 /**
  * Created by administrator on 2017/8/8.
  */
+@Service
 public class ConfigUtil {
 
+    @Value("${ip}")
     private String ip;
 
+    @Value("${port}")
     private Integer port;
 
+    @Value("${code}")
     private String code;
 
     public String getWebSocketUrl(){
-        return "http://"+ip+":"+port;
+        return "http://"+ip+":"+port+"?code="+code;
     }
 
     public String getIp() {

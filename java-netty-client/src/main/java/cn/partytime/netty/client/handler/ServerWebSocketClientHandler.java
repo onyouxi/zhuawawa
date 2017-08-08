@@ -37,7 +37,6 @@
 
 package cn.partytime.netty.client.handler;
 
-import cn.partytime.config.ClientCache;
 import cn.partytime.util.ConfigUtil;
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.*;
@@ -66,14 +65,9 @@ public class ServerWebSocketClientHandler extends SimpleChannelInboundHandler<Ob
     @Autowired
     private ConfigUtil configUtil;
 
-    @Autowired
-    private ClientCache clientCache;
-
     private  WebSocketClientHandshaker handshaker;
 
     private ChannelPromise handshakeFuture;
-
-
 
     public ChannelFuture handshakeFuture() {
         return handshakeFuture;
@@ -88,7 +82,6 @@ public class ServerWebSocketClientHandler extends SimpleChannelInboundHandler<Ob
     public void channelActive(ChannelHandlerContext ctx) {
         URI uri = null;
         try {
-
             uri = new URI(configUtil.getWebSocketUrl());
             handshaker = WebSocketClientHandshakerFactory.newHandshaker(uri, WebSocketVersion.V13, null, true, new DefaultHttpHeaders());
             handshaker.handshake(ctx.channel());

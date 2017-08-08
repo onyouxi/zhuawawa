@@ -43,7 +43,7 @@ public final class ServerWebSocketClient {
     @Autowired
     @Qualifier("serverWebSocketClientHandler")
     private ServerWebSocketClientHandler serverWebSocketClientHandler;
-
+    @Autowired
     private ConfigUtil configUtil;
 
     public  void init() throws Exception {
