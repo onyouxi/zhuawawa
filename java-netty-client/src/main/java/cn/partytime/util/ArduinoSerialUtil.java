@@ -32,7 +32,8 @@ public class ArduinoSerialUtil {
             {
                 while ( ( len = this.in.read(buffer)) > -1 )
                 {
-                    System.out.print(new String(buffer,0,len));
+                    String cmd = new String(buffer,0,len);
+                    System.out.print(cmd);
                 }
             }
             catch ( IOException e )
@@ -85,6 +86,7 @@ public class ArduinoSerialUtil {
                 serialPort.setSerialPortParams(9600,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
                 in = serialPort.getInputStream();
                 out = serialPort.getOutputStream();
+                (new Thread(new SerialReader(in))).start();
             } else{
                 System.out.println("Error: Only serial ports are handled by this example.");
             }
@@ -95,7 +97,6 @@ public class ArduinoSerialUtil {
         try {
             ArduinoSerialUtil arduinoSerialUtil = new ArduinoSerialUtil();
             arduinoSerialUtil.connect("/dev/cu.usbmodem1411");
-            (new Thread(new SerialReader(arduinoSerialUtil.in))).start();
             arduinoSerialUtil.write("a");
             arduinoSerialUtil.write("b");
             arduinoSerialUtil.write("fkfk");
