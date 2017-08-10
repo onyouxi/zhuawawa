@@ -2,51 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>聚时代-表白</title>
+    <title>按钮操作</title>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="screen-orientation" content="portrait">
     <meta name="x5-orientation" content="portrait">
-    <script src="/js/wechat/jquery.min.js"></script>
 </head>
 <body>
-<div style="position:absolute;left:0;right:0;top:0;bottom:0;overflow:hidden;z-index:3;">
-    <image src="/images/wechat/love/index.jpg" style="position:absolute;height:100%;width:100%;overflow:hidden;z-index:3;"/>
-    <div style="position:absolute;bottom:3%;text-align:center;width:100%;z-index:3;">
-        <div id="selectDiv" style="display:none;z-index:3;">
-            <div style="position:absolute;width:100%;z-index:10">
-                <div>
-                    <image src="/images/wechat/love/love1.png" onclick="openView(this)"/>
+<div style="text-align:center;width:100%;position:absolute;">
+            <div style="margin-top:10%">
+                <div style="margin-bottom:20%;">
+                    <button style="width:80px">上</button>
+                </div>
+                <div style="float:left;margin-left:10%;margin-right:25%;">
+                    <button style="width:80px">左</button>
                 </div>
                 <div>
-                    <image src="/images/wechat/love/love2.png" onclick="openView(this)"/>
+                    <button style="width:80px">右</button>
                 </div>
-                <div>
-                    <image src="/images/wechat/love/love3.png" onclick="openView(this)"/>
+                <div  style="margin-top:20%;">
+                    <button style="width:80px">下</button>
                 </div>
-                <div>
-                    <image src="/images/wechat/love/love4.png" onclick="openView(this)"/>
-                </div>
-                <div>
-                    <image src="/images/wechat/love/love5.png" onclick="openView(this)"/>
-                </div>
-            </div>
-            <div style="position:absolute;width:100%;z-index:3;top:-4px">
-                <image src="/images/wechat/love/index_select.png" />
-            </div>
-        </div>
-        <div style="width:100%;height:10px;margin-top:230px;"></div>
-        <div style="margin-top:10px;">
-            <image src="/images/wechat/love/index_btn.png" onclick="selectLove()"/>
 
-        </div>
-
-        <!--
-        <input type="button" onclick="selectLove()" style="background:url('/images/wechat/love/index_btn.png') no-repeat;width:213px;border:none;height:5.3em;"/>
-        -->
-    </div>
+            </div>
 
 </div>
 <script>
