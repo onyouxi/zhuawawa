@@ -43,19 +43,6 @@ public class ArduinoSerialUtil {
         }
     }
 
-    public void read() {
-        try {
-            // 进行输入输出操作
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void write(String msg) throws InterruptedException {
         try {
             Thread.sleep(2000);// 链接后暂停2秒再继续执行

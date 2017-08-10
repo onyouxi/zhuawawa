@@ -37,6 +37,7 @@
 
 package cn.partytime.netty.client.handler;
 
+import cn.partytime.service.ZhuawawaService;
 import cn.partytime.util.ConfigUtil;
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.*;
@@ -64,6 +65,9 @@ public class ServerWebSocketClientHandler extends SimpleChannelInboundHandler<Ob
 
     @Autowired
     private ConfigUtil configUtil;
+
+    @Autowired
+    private ZhuawawaService zhuawawaService;
 
     private  WebSocketClientHandshaker handshaker;
 
@@ -116,6 +120,8 @@ public class ServerWebSocketClientHandler extends SimpleChannelInboundHandler<Ob
             TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
             System.out.println("WebSocket Client received message: " + textFrame.text());
             String commandTxt = textFrame.text();
+            zhuawawaService.action(commandTxt);
+            
         }
     }
 
