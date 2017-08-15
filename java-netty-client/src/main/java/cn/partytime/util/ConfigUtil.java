@@ -19,7 +19,7 @@ public class ConfigUtil {
     private String code;
 
     public String getWebSocketUrl(){
-        return "http://"+ip+":"+port+"?code="+code;
+        return "http://"+ip+":"+port+"/ws/machine?code="+this.getCode();
     }
 
     public String getIp() {

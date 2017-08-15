@@ -4,6 +4,7 @@ import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 
+
 import java.io.*;
 
 /**
@@ -23,6 +24,7 @@ public class ArduinoSerialUtil {
         {
             this.in = in;
         }
+
 
         public void run ()
         {
@@ -45,8 +47,8 @@ public class ArduinoSerialUtil {
 
     public void write(String msg) throws InterruptedException {
         try {
-            Thread.sleep(2000);// 链接后暂停2秒再继续执行
-            System.out.println("connected!");
+            Thread.sleep(1000);// 链接后暂停2秒再继续执行
+            System.out.println("write msg:"+msg);
             // 进行输入输出操作
             OutputStreamWriter writer = new OutputStreamWriter(out);
             BufferedWriter bw = new BufferedWriter(writer);
@@ -80,6 +82,7 @@ public class ArduinoSerialUtil {
         }
     }
 
+    /**
     public static void main(String[] args) {
         try {
             ArduinoSerialUtil arduinoSerialUtil = new ArduinoSerialUtil();
@@ -93,5 +96,5 @@ public class ArduinoSerialUtil {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
+    }**/
 }

@@ -67,7 +67,7 @@ public final class ServerWebSocketClient {
                              serverWebSocketClientHandler);
                  }
              });
-           channelFuture = b.connect(uri.getHost(), port).sync();
+            channelFuture = b.connect(uri.getHost(), port).sync();
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -78,6 +78,7 @@ public final class ServerWebSocketClient {
                 }
             }
             group.shutdownGracefully();
+            Thread.sleep(5*1000);
             log.info("远程服务器连接不上，重新接连");
             init();
         }

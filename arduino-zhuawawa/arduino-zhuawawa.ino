@@ -4,25 +4,23 @@ int Pin2 = 3;
 int Pin3 = 4;
 int Pin4 = 5;
 int Pin5 = 6;
-int Pin6 = 7;
+int Pin6 = 12;
+
+int currentPinNum=0;
+long time=0;
 
 void setup() {
    Serial.begin(9600);
    while (!Serial) {   
     ; // wait for serial port to connect. Needed for native USB port only
    }
-   pinMode(Pin1, OUTPUT);//加币
+   pinMode(Pin1, OUTPUT);//向前移动
    pinMode(Pin2, OUTPUT);//向左移动
    pinMode(Pin3, OUTPUT);//向右移动
-   pinMode(Pin4, OUTPUT);//向上移动
-   pinMode(Pin5, OUTPUT);//向下移动
-   pinMode(Pin6, OUTPUT);//抓娃娃
-   digitalWrite(Pin1, HIGH); 
-   digitalWrite(Pin2, HIGH);
-   digitalWrite(Pin3, HIGH); 
-   digitalWrite(Pin4, HIGH);
-   digitalWrite(Pin5, HIGH); 
-   digitalWrite(Pin6, HIGH);
+   pinMode(Pin4, OUTPUT);//向后移动
+   pinMode(Pin5, OUTPUT);//抓娃娃
+   pinMode(Pin6, OUTPUT);//加币
+  
 }
 
 void loop() {
@@ -47,36 +45,58 @@ void loop() {
         zhua();
     }
   }
-
+  if(time != 0 && millis()-time >3000){
+      cmdEnd();
+  }
+  
 }
 
 //终止当前行为
 void cmdEnd(){
+  if(currentPinNum==1){
+    digitalWrite(Pin1, LOW);
+  }else if(currentPinNum==2){
+    digitalWrite(Pin2, LOW);
+  }else if(currentPinNum==3){
+    digitalWrite(Pin3, LOW);
+  }else if(currentPinNum==4){
+    digitalWrite(Pin4, LOW);
+  }
+  currentPinNum=0;
+  time=0;
   Serial.println("success");
 }
 
 //向左移动
 void left(){
+  digitalWrite(Pin2, HIGH);
+  time=millis();
   Serial.println("success");
 }
 
 //向右移动
 void right(){
+  digitalWrite(Pin3, HIGH);
   Serial.println("success");
 }
 
 //向上移动
 void up(){
+  digitalWrite(Pin1, HIGH);
   Serial.println("success");
 }
 
 //向下移动
 void down(){
+  digitalWrite(Pin4, HIGH);
   Serial.println("success");
 }
 
 //抓娃娃
 void zhua(){
+  digitalWrite(Pin5, HIGH);
+  delay(100);
+  digitalWrite(Pin5, LOW);
   Serial.println("success");
 }
 
@@ -87,6 +107,13 @@ void zhuaEnd(){
 
 //增加一次抓娃娃的机会
 void add(){
+   digitalWrite(Pin6, HIGH);
+   delay(100);
+   digitalWrite(Pin6, LOW);
+   delay(100);
+   digitalWrite(Pin6, HIGH);
+   delay(100);
+   digitalWrite(Pin6, LOW);
   Serial.println("success");
 }
 

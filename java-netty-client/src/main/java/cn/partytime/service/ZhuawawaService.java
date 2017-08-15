@@ -2,6 +2,8 @@ package cn.partytime.service;
 
 import cn.partytime.util.ArduinoSerialUtil;
 import cn.partytime.util.CmdConst;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -79,7 +81,9 @@ public class ZhuawawaService {
     }
 
 
-    public void action(String cmd) throws InterruptedException {
+    public void action(String jsonCmd) throws InterruptedException {
+        JSONObject jsonObject = JSON.parseObject(jsonCmd);
+        String cmd = jsonObject.getString("cmd");
         if( "end".equals(cmd)){
             this.end();
         }else if( "add".equals(cmd)) {

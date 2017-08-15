@@ -1,12 +1,10 @@
-package cn.partytime.wechat.pojo;
+package cn.partytime.model;
 
 /**
- *
- * 按钮的基类
- * Created by Administrator on 2014/12/21.
+ * Created by administrator on 2017/8/13.
  */
+public class CmdModel {
 
-public class Button {
     private String name;
 
     public String getName() {

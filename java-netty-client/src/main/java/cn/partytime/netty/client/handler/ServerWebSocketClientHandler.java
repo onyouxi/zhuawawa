@@ -47,6 +47,7 @@ import io.netty.handler.codec.http.websocketx.*;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.CharsetUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -56,7 +57,7 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Slf4j
 @Component
 @Qualifier("serverWebSocketClientHandler")
 @ChannelHandler.Sharable
@@ -96,6 +97,7 @@ public class ServerWebSocketClientHandler extends SimpleChannelInboundHandler<Ob
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
+
         System.out.println("WebSocket Client disconnected!");
     }
 
@@ -108,7 +110,6 @@ public class ServerWebSocketClientHandler extends SimpleChannelInboundHandler<Ob
             handshakeFuture.setSuccess();
             return;
         }
-
         if (msg instanceof FullHttpResponse) {
             FullHttpResponse response = (FullHttpResponse) msg;
             throw new IllegalStateException(
