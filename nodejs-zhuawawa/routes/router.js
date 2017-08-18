@@ -3,7 +3,7 @@ var router = express.Router();
 
 /**跳转到主页*/
 router.get('/', function(req, res, next) {
-  res.render('user/user', { title: 'Express' });
+  res.render('wawa/wawa', { title: 'Express' });
 });
 /**跳转到登录页*/
 router.get('/login', function(req, res, next) {
@@ -32,6 +32,10 @@ router.get('/reward', function(req, res, next) {
 
 router.get('/order', function(req, res, next) {
     res.render('order/order');
+});
+
+router.get('/wawa', function(req, res, next) {
+  res.render('wawa/wawa');
 });
 
 

@@ -112,24 +112,12 @@ var logout = function(){
 
 var navbarSelect = function(){
     var url = window.location.href;
-    if( url.indexOf('/party')!=-1){
+    if( url.indexOf('/wawa')!=-1){
         $('.icon-gamepad').parent().parent().attr('class','active');
     }
-    if( url.indexOf('/cinema')!=-1){
-        $('.icon-film').parent().parent().attr('class','active');
-    }
+
     if( url.indexOf('/user')!=-1){
         $('.icon-user').parent().parent().attr('class','active');
-    }
-    if( url.indexOf('/blockword')!=-1){
-        $('.icon-bar-chart').parent().parent().attr('class','active');
-    }
-    if( url.indexOf('/predanmu')!=-1){
-        $('.icon-list-alt').parent().parent().attr('class','active');
-    }
-
-    if( url.indexOf('/adDanmuLibrary')!=-1){
-        $('.icon-play-circle').parent().parent().attr('class','active');
     }
 
     if( url.indexOf('/wechat')!=-1){
@@ -140,12 +128,8 @@ var navbarSelect = function(){
         $('.icon-font').parent().parent().attr('class','active');
     }
 
-    if( url.indexOf('/shopManager')!=-1){
+    if( url.indexOf('/adminmanager')!=-1){
         $('.icon-bold').parent().parent().attr('class','active');
-    }
-
-    if( url.indexOf('/order')!=-1){
-        $('.icon-text-height').parent().parent().attr('class','active');
     }
 
 }

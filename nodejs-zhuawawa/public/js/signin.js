@@ -22,7 +22,7 @@ var login = function(){
         }
     }).done(function (data) {
         if (data.result == 200) {
-            window.location.href='/party';
+            window.location.href='/wawa';
         } else {
             alert(data.result_msg);
         };
@@ -52,19 +52,3 @@ var loginByCode = function(){
     });
 }
 
-var sendWechatCode = function(){
-    $.ajax({
-        url:"/v1/getWeChatCode",
-        type: "get",
-        dataType: "json",
-        data: {
-            userName: $('#username').val(),
-        }
-    }).done(function (data) {
-        if (data.result == 200) {
-            alert('发送成功！');
-        } else {
-            alert(data.result_msg);
-        };
-    });
-}
