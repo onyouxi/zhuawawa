@@ -1,6 +1,7 @@
 package com.onyouxi.utils;
 
-import org.apache.commons.lang.StringUtils;
+
+import org.springframework.util.StringUtils;
 
 /**
  * Created by Administrator on 2015/1/9.
@@ -13,7 +14,7 @@ public class EmojiFilter {
      * @return 一旦含有就抛出
      */
     public static boolean containsEmoji(String source) {
-        if (StringUtils.isBlank(source)) {
+        if (StringUtils.isEmpty(source)) {
             return false;
         }
 

@@ -1,6 +1,9 @@
 package com.onyouxi.controller;
 
+import com.onyouxi.utils.MessageUtil;
 import com.onyouxi.utils.WechatSignUtil;
+import com.onyouxi.wechat.entity.ReceiveXmlEntity;
+import com.onyouxi.wechat.process.ReceiveXmlProcess;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by administrator on 2017/8/16.
@@ -55,4 +63,82 @@ public class WechatRestController {
         }
 
     }
+
+
+    /**
+     * 解析处理xml、获取智能回复结果（通过图灵机器人api接口）
+     *
+     * @return 最终的解析结果（xml格式数据）
+     */
+    @RequestMapping(value = "/valid", method = RequestMethod.POST)
+    public String processWechatMag(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        log.info("valid get message-----POST");
+
+        // 将请求、响应的编码均设置为UTF-8（防止中文乱码）
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        /** 解析xml数据 */
+        ReceiveXmlEntity xmlEntity = new ReceiveXmlProcess().getMsgEntity(request);
+        log.info("valid post:" + xmlEntity.toString());
+        //按照touserName 得到公众帐号信息
+        String wechatId = xmlEntity.getToUserName();
+        String openId = xmlEntity.getFromUserName();
+
+
+        String result = "";
+        //消息类型为event
+        if (MessageUtil.REQ_MESSAGE_TYPE_EVENT.equals(xmlEntity.getMsgType())) {
+            log.info("event------->"+xmlEntity.getEvent());
+            //当用户同意允许公众账号获取地理位置时，每次打开微信公众账号，都会收到此消息
+            if (MessageUtil.REQ_MESSAGE_TYPE_LOCATION.equals(xmlEntity.getEvent())) {
+                log.info("REQ_MESSAGE_TYPE_LOCATION" + xmlEntity.getContent());
+
+                //关注微信
+            } else if (MessageUtil.EVENT_TYPE_SUBSCRIBE.equals(xmlEntity.getEvent())) {
+                log.info("EVENT_TYPE_SUBSCRIBE" + xmlEntity.getContent());
+
+                //取消关注
+            } else if (MessageUtil.EVENT_TYPE_UNSUBSCRIBE.equals(xmlEntity.getEvent())) {
+                log.info("EVENT_TYPE_UNSUBSCRIBE" + xmlEntity.getContent());
+
+                //CLICK事件推送
+            } else if (MessageUtil.EVENT_TYPE_CLICK.equals(xmlEntity.getEvent())) {
+
+                String eventKey = xmlEntity.getEventKey();
+                if (!StringUtils.isEmpty(eventKey)) {
+                    if (eventKey.equals("VOICE_DAN_MU")) {
+
+
+                    } else if (eventKey.equals("MONEY")) {
+
+                    } else if (eventKey.equals("CONTECT_US")) {
+
+                    }
+                }
+                log.info("EVENT_TYPE_CLICK" + eventKey);
+                return result;
+                //view事件推送
+            } else if (MessageUtil.EVENT_TYPE_VIEW.equals(xmlEntity.getEvent())) {
+                String eventKey = xmlEntity.getEventKey();
+                //处理view事件推送,主要记录用户点击事件
+                String url = xmlEntity.getUrl();
+                log.info("EVENT_TYPE_VIEW" + eventKey);
+            }
+        } else if (MessageUtil.REQ_MESSAGE_TYPE_TEXT.equals(xmlEntity.getMsgType())) {
+            String content = xmlEntity.getContent();
+            if (!StringUtils.isEmpty(content)) {
+                log.info("RESP_MESSAGE_TYPE_TEXT" + content);
+
+
+            }
+
+        } else if (MessageUtil.REQ_MESSAGE_TYPE_VOICE.equals(xmlEntity.getMsgType())) {
+            String recognition = xmlEntity.getRecognition();
+
+
+        }
+        return result;
+    }
+
 }

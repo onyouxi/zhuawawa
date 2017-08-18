@@ -1,0 +1,29 @@
+<% include common/header.html %>
+<div class="account-container">
+    <div class="content clearfix">
+
+        <h1>用户登录</h1>
+
+        <div class="login-fields">
+            <div class="field">
+                <input type="text" id="username" name="username" value="" placeholder="请输入用户名" class="login username-field"/>
+            </div> <!-- /field -->
+
+            <div class="field">
+                <input type="text" id="password" name="password" value="" placeholder="请输入密码" class="login password-field"/>
+            </div>
+
+
+        </div> <!-- /login-fields -->
+
+        <div class="login-actions">
+            <button class="button btn btn-success btn-large" onclick="login();">登录</button>
+        </div> <!-- .actions -->
+
+
+    </div> <!-- /content -->
+</div> <!-- /account-container -->
+<link href="/css/login/signin.css" rel="stylesheet" type="text/css">
+<script src="/js/signin.js"></script>
+</body>
+</html>

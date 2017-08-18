@@ -1,16 +1,18 @@
 package com.onyouxi.service;
 
-import com.alibaba.fastjson.JSON;
+
 import com.onyouxi.constant.Const;
 import com.onyouxi.model.MachineSokcetModel;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jack on 15/6/26.
@@ -46,8 +48,7 @@ public class MachineSessionService {
     }else if(Const.ZHUA.equals(name)){
       machineSokcetModel.setCmd(Const.ZHUA);
     }
-
-    TextMessage textMessage = new TextMessage(JSON.toJSONString(machineSokcetModel));
+    TextMessage textMessage = new TextMessage(JSONObject.fromObject(machineSokcetModel).toString());
     sendMsg(session,textMessage);
 
   }

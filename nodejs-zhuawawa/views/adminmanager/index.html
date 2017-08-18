@@ -1,0 +1,54 @@
+<% include ../common/header.html %>
+<% include ../common/navbar.html %>
+<!-- /subnavbar -->
+<div class="main">
+    <div class="main-inner">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div class="widget widget-table action-table">
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="openCreateAdminUser()">新增账号</button>
+                        </div>
+                        <!-- /widget-header -->
+                        <div class="widget-content">
+                            <table id="tableList" class="table table-striped"
+                                   data-pagination-first-text="第一页"
+                                   data-pagination-pre-text="前一页"
+                                   data-pagination-next-text="下一页"
+                                   data-pagination-last-text="最后一页">
+                            </table>
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+                    <!-- /widget -->
+                </div>
+                <!-- /span6 -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /main-inner -->
+</div>
+<div id="myModal" class="hide fade" >
+    <div class="modal-dialog modal">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel"></h3>
+        </div>
+        <div class="modal-body" id="modalBody">
+
+        </div>
+        <div class="modal-footer" id="modalFooter">
+
+        </div>
+    </div>
+</div>
+<link href="/plug/bootstrapTable/bootstrap-table.min.css" rel="stylesheet"/>
+<script src="/plug/bootstrapTable/bootstrap-table.min.js"></script>
+<script src="/plug/bootstrapTable/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/js/common/danmu.table.plug.js"></script>
+<script src="/js/common/danmu.ajax.plug.js"></script>
+<script src="/js/bussiness/adminmanager/adminmanager.js"></script>
+<% include ../common/bottom.html %>

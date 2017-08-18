@@ -1,9 +1,7 @@
 package com.onyouxi.handler;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONException;
-import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 import org.springframework.util.StringUtils;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -25,13 +23,13 @@ public abstract class BaseTextWebSocketHandler extends TextWebSocketHandler {
   public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
     if (message != null && !StringUtils.isEmpty(message)) {
       try {
-        JSONObject json = JSON.parseObject(message.getPayload());
+
+        JSONObject json = JSONObject.fromObject(message.getPayload());
         if (json.containsKey("type")) {
           String type = json.getString("type");
           handler(session, type, json);
           return;
         }
-      } catch (JSONException e) {
 
       } catch (Exception e) {
         log.error("", e);

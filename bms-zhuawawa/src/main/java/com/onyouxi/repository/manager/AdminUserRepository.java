@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 /**
  * Created by liuwei on 16/3/1.
  */
-@EnableMongoRepositories(mongoTemplateRef = "adminUserMongoTemplate")
+@EnableMongoRepositories(mongoTemplateRef = "mongoTemplate")
 public interface AdminUserRepository extends MongoRepository<AdminUserModel, String> {
 
      AdminUserModel findByUserName(String userName);
@@ -19,9 +19,6 @@ public interface AdminUserRepository extends MongoRepository<AdminUserModel, Str
      AdminUserModel findByUserNameAndPassword(String userName,String password);
 
      Page<AdminUserModel> findAll(Pageable pageable);
-
-
-
 
 
 }

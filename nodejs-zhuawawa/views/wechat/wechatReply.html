@@ -1,0 +1,78 @@
+<% include ../common/header.html %>
+<% include ../common/navbar.html %>
+<!-- /subnavbar -->
+<div class="main">
+    <div class="main-inner">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div class="widget widget-table action-table">
+                        <div class="controls" style="padding-left: 200px;">
+                            <input type="text" class="span6" placeholder="关键词查询" id="replyWords" onpropertychange="findByWordsLike()" oninput="findByWordsLike()"/>
+                            <button class="btn btn-primary" onclick="addWechatReply()" style="margin-bottom: 8px;" id="findReplyBtn" disabled>添加</button>
+                        </div>
+                        <!-- /widget-header -->
+                        <div class="widget-content">
+                            <table id="tableList" class="table table-striped"
+                                   data-pagination-first-text="第一页"
+                                   data-pagination-pre-text="前一页"
+                                   data-pagination-next-text="下一页"
+                                   data-pagination-last-text="最后一页">
+                            </table>
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+                    <!-- /widget -->
+                </div>
+                <!-- /span6 -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /main-inner -->
+</div>
+<div id="myModal" class="hide fade">
+    <div class="modal-dialog modal">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">新增自动回复</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="replyWords">关键词</label>
+                    <div class="controls">
+                        <input type="text" class="span4" id="addReplyWords" placeholder="多个关键词使用英文逗号 , 分割">
+                    </div> <!-- /controls -->
+                </div>
+                <div class="control-group" id="messageControl">
+                    <label class="control-label" for="message">自动回复内容</label>
+                    <div class="controls">
+                        <textarea style="width:300px;height:50px" id="message"></textarea>
+                    </div> <!-- /controls -->
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="message">关联音频</label>
+                    <div class="controls">
+                        <button id="selectVoiceBtn" class="btn" >关联音频</button>
+                    </div> <!-- /controls -->
+                </div>
+                <div class="control-group" id="voiceControl">
+                     <!-- /controls -->
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+            <button class="btn btn-primary" onclick="saveReplyWords()" id="saveOrUpdateBtn">保存</button>
+        </div>
+    </div>
+</div>
+<link href="/plug/bootstrapTable/bootstrap-table.min.css" rel="stylesheet"/>
+<script src="/plug/bootstrapTable/bootstrap-table.min.js"></script>
+<script src="/plug/bootstrapTable/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/js/common/danmu.table.plug.js"></script>
+<script src="/js/common/danmu.ajax.plug.js"></script>
+<script src="/js/bussiness/wechat/wechatReply.js"></script>
+<% include ../common/bottom.html %>

@@ -32,16 +32,7 @@ public class AdminUserController {
         return restResultModel;
     }
 
-    @RequestMapping(value = "/testFind", method = RequestMethod.GET)
-    public RestResultModel testFindAdminUser(){
-        List<String> ids = new ArrayList<String>();
-        ids.add("5768da13bee8e17853efc591");
-        ids.add("5768da13bee8e17853efc593");
-        List<AdminUserModel> adminUserModelList = adminUserService.findByIds(ids);
-        RestResultModel restResultModel = new RestResultModel();
-        restResultModel.setData(adminUserModelList);
-        return restResultModel;
-    }
+
 
 
     @RequestMapping(value = "/testAdd", method = RequestMethod.GET)

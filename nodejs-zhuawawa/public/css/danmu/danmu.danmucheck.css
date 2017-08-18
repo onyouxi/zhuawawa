@@ -1,0 +1,64 @@
+.danmucheck-items {
+    margin: 1em 0 0;
+}
+
+.danmucheck-items li {
+    /*padding: 0 2em 0 1.5em;*/
+    padding-bottom: 1em;
+    /*margin-bottom: 1em;*/
+    border-bottom: 1px dotted #CCC;
+}
+
+.danmucheck-items li:last-child { padding-bottom: 0; border: none; }
+
+
+.danmucheck-items-widget-header {
+
+    position: relative;
+
+    height: 40px;
+    line-height: 40px;
+
+    -webkit-background-clip: padding-box;
+}
+
+.danmucheck-items-widget-header h3 {
+
+    position: relative;
+    top: 2px;
+    left: 10px;
+
+    display: inline-block;
+    margin-right: 3em;
+
+    font-size: 14px;
+    font-weight: 800;
+    color: #525252;
+    line-height: 18px;
+
+    text-shadow: 1px 1px 2px rgba(255,255,255,.5);
+}
+
+.danmucheck-items-widget-header [class^="icon-"], .danmucheck-items-widget-header [class*=" icon-"] {
+
+    display: inline-block;
+    margin-left: 13px;
+    margin-right: -2px;
+
+    font-size: 16px;
+    color: #555;
+    vertical-align: middle;
+
+}
+
+/******************************************************************/
+.danmu-partyName{
+    color:#c12e2a;
+}
+.danmuCheck-link-status{
+    color:#c12e2a;
+}
+
+.dataTr{
+    height: 50px;
+}
