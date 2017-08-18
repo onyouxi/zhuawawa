@@ -42,7 +42,7 @@ public class AdminUserService {
      * @param nick
      * @return
      */
-    public AdminUserModel createAdminUser(String userName,String password,String nick,String roleId,String wechatId ){
+    public AdminUserModel createAdminUser(String userName,String password,String nick){
         if( isExistUserName(userName)){
             throw new IllegalArgumentException("用户名不能重复");
         }

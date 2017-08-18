@@ -35,13 +35,7 @@ public class AdminUserController {
 
     @RequestMapping(value = "/testAdd", method = RequestMethod.GET)
     public RestResultModel testAddAdminUser(){
-
-            AdminUserModel adminUserModel = new AdminUserModel();
-            adminUserModel.setPassword("!QAZ2wsx");
-            adminUserModel.setUserName("liuwei");
-            adminUserModel.setNick("刘伟");
-            adminUserService.save(adminUserModel);
-
+        adminUserService.createAdminUser("liuwei","!QAZ2wsx","刘伟");
         RestResultModel restResultModel = new RestResultModel();
         restResultModel.setData("success");
         return restResultModel;
