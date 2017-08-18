@@ -15,7 +15,7 @@ router.get('/user', function(req, res, next) {
   res.render('user/user');
 });
 
-router.get('/wechat', function(req, res, next) {
+router.get('/reply', function(req, res, next) {
   res.render('wechat/wechatReply');
 });
 

@@ -120,7 +120,7 @@ var navbarSelect = function(){
         $('.icon-user').parent().parent().attr('class','active');
     }
 
-    if( url.indexOf('/wechat')!=-1){
+    if( url.indexOf('/reply')!=-1){
         $('.icon-camera').parent().parent().attr('class','active');
     }
 
