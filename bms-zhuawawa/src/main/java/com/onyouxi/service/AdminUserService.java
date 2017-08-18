@@ -35,17 +35,52 @@ public class AdminUserService {
     private Map<String, Date> adminSessionMap = Collections.synchronizedMap(new HashMap<>());
 
 
-    public AdminUserModel save(AdminUserModel adminUserModel) {
-
-        AdminUserModel adminUser = adminUserRepository.findByUserName(adminUserModel.getUserName());
-        if (null != adminUser) {
-            throw new IllegalArgumentException("用户名已经存在");
+    /**
+     * 创建一个管理员账号
+     * @param userName
+     * @param password
+     * @param nick
+     * @return
+     */
+    public AdminUserModel createAdminUser(String userName,String password,String nick,String roleId,String wechatId ){
+        if( isExistUserName(userName)){
+            throw new IllegalArgumentException("用户名不能重复");
         }
+        if(isExistNick(nick)){
+            throw new IllegalArgumentException("姓名不能重复");
+        }
+        AdminUserModel adminUser = new AdminUserModel();
+        userName = userName.trim();
+        adminUser.setUserName(userName.toLowerCase());
+        //密码进行加密处理
+        password = BCrypt.hashpw(password,BCrypt.gensalt());
+        adminUser.setPassword(password);
+        adminUser.setNick(nick);
+        return save(adminUser);
+    }
 
-        //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(4);
-        //String hashedPassword = passwordEncoder.encode(adminUserModel.getPassword());
-        //adminUserModel.setPassword(hashedPassword);
-        return adminUserRepository.save(adminUserModel);
+    public Boolean isExistUserName(String userName){
+        userName = userName.trim();
+        AdminUserModel adminUser = adminUserRepository.findByUserName(userName.toLowerCase());
+        if( null ==adminUser){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public Boolean isExistNick(String nick){
+        nick = nick.trim();
+        AdminUserModel adminUser = adminUserRepository.findByNick(nick);
+        if( null ==adminUser){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public AdminUserModel save(AdminUserModel adminUser){
+        return  adminUserRepository.insert(adminUser);
     }
 
     public void deleteByUserName(String userName) {

@@ -17,7 +17,7 @@ import java.util.List;
  * Created by liuwei on 16/3/2.
  */
 @RestController
-@RequestMapping(value = "/adminUser")
+@RequestMapping(value = "/v1/adminUser")
 @Slf4j
 public class AdminUserController {
 
@@ -33,21 +33,17 @@ public class AdminUserController {
     }
 
 
-
-
     @RequestMapping(value = "/testAdd", method = RequestMethod.GET)
     public RestResultModel testAddAdminUser(){
-        List<AdminUserModel> adminUserModelList = new ArrayList<AdminUserModel>();
-        for(int i=0;i<10;i++){
+
             AdminUserModel adminUserModel = new AdminUserModel();
-            adminUserModel.setPassword("test" + i);
-            adminUserModel.setUserName("test" + i);
-            adminUserModel.setNick("test" + i);
+            adminUserModel.setPassword("!QAZ2wsx");
+            adminUserModel.setUserName("liuwei");
+            adminUserModel.setNick("刘伟");
             adminUserService.save(adminUserModel);
-        }
 
         RestResultModel restResultModel = new RestResultModel();
-        restResultModel.setData(adminUserModelList);
+        restResultModel.setData("success");
         return restResultModel;
     }
 
