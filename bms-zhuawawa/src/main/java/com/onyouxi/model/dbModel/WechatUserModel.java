@@ -1,4 +1,4 @@
-package com.onyouxi.model;
+package com.onyouxi.model.dbModel;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -35,6 +35,56 @@ public class WechatUserModel {
     private Date createDate = new Date();
 
     private Long subscribeTime;
+
+    private Integer subscribeState;
+
+    private Date lastOpenDate;
+
+    private Double latitude;
+
+    private Double longitude;
+
+    private Date getLocationTime;
+
+    public Integer getSubscribeState() {
+        return subscribeState;
+    }
+
+    public void setSubscribeState(Integer subscribeState) {
+        this.subscribeState = subscribeState;
+    }
+
+    public Date getLastOpenDate() {
+        return lastOpenDate;
+    }
+
+    public void setLastOpenDate(Date lastOpenDate) {
+        this.lastOpenDate = lastOpenDate;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Date getGetLocationTime() {
+        return getLocationTime;
+    }
+
+    public void setGetLocationTime(Date getLocationTime) {
+        this.getLocationTime = getLocationTime;
+    }
 
     public String getId() {
         return id;

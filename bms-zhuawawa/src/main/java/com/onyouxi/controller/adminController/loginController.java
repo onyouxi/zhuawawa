@@ -1,8 +1,8 @@
-package com.onyouxi.controller;
+package com.onyouxi.controller.adminController;
 
 import com.onyouxi.constant.Const;
-import com.onyouxi.model.AdminUserModel;
-import com.onyouxi.model.RestResultModel;
+import com.onyouxi.model.dbModel.AdminUserModel;
+import com.onyouxi.model.pageModel.RestResultModel;
 import com.onyouxi.service.AdminUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

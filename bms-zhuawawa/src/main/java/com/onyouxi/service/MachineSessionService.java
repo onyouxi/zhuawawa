@@ -2,7 +2,7 @@ package com.onyouxi.service;
 
 
 import com.onyouxi.constant.Const;
-import com.onyouxi.model.MachineSokcetModel;
+import com.onyouxi.model.pageModel.MachineSokcetModel;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.onyouxi.controller;
+package com.onyouxi.controller.wechatController;
 
 import com.onyouxi.utils.MessageUtil;
 import com.onyouxi.utils.WechatSignUtil;

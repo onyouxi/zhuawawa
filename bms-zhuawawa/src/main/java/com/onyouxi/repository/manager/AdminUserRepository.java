@@ -1,6 +1,6 @@
 package com.onyouxi.repository.manager;
 
-import com.onyouxi.model.AdminUserModel;
+import com.onyouxi.model.dbModel.AdminUserModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;

@@ -1,4 +1,4 @@
-package com.onyouxi.model;
+package com.onyouxi.model.pageModel;
 
 /**
  * Created by administrator on 2017/8/15.

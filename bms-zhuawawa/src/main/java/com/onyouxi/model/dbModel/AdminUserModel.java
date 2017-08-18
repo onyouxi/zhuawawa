@@ -1,4 +1,4 @@
-package com.onyouxi.model;
+package com.onyouxi.model.dbModel;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -21,6 +21,8 @@ public class AdminUserModel {
     private String nick;
 
     private Date createTime = new Date();
+
+    private Date lastLoginTime;
 
     public String getId() {
         return id;
@@ -60,5 +62,13 @@ public class AdminUserModel {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 }

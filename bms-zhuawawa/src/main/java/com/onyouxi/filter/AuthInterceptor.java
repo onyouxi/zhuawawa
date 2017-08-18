@@ -1,7 +1,8 @@
 package com.onyouxi.filter;
 
 import com.onyouxi.constant.Const;
-import com.onyouxi.model.AdminUserModel;
+import com.onyouxi.controller.adminController.BaseAdminController;
+import com.onyouxi.model.dbModel.AdminUserModel;
 import com.onyouxi.service.AdminUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,13 @@ public class AuthInterceptor implements HandlerInterceptor {
                     response.setStatus(444);
                     return false;
                 }
+            }
+
+            AdminUserModel adminUser = adminUserService.getAdminUser(cookieValue);
+            //注入adminUser
+            if( handlerMethod.getBean() instanceof BaseAdminController){
+                BaseAdminController baseAdminController = (BaseAdminController) handlerMethod.getBean();
+                baseAdminController.setAdminUser(adminUser);
             }
 
         }

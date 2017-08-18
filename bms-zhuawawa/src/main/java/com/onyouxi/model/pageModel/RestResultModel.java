@@ -1,4 +1,4 @@
-package com.onyouxi.model;
+package com.onyouxi.model.pageModel;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

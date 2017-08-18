@@ -1,7 +1,7 @@
 package com.onyouxi.service;
 
 import com.onyouxi.constant.Const;
-import com.onyouxi.model.AdminUserModel;
+import com.onyouxi.model.dbModel.AdminUserModel;
 import com.onyouxi.repository.manager.AdminUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
@@ -32,7 +32,7 @@ public class AdminUserService {
     @Autowired
     private AdminUserRepository adminUserRepository;
 
-    private Map<String, Date> adminSessionMap = Collections.synchronizedMap(new HashMap<>());
+    private Map<String, AdminUserModel> adminSessionMap = Collections.synchronizedMap(new HashMap<>());
 
 
     /**
@@ -119,11 +119,11 @@ public class AdminUserService {
 
     public void addSessionTime(String cookieValue, HttpServletResponse response) {
         String key = Const.ADMIN_USER_CACHE_KEY + cookieValue;
-        Date cacheTime = adminSessionMap.get(key);
+        AdminUserModel adminUserModel = adminSessionMap.get(key);
         Date now = new Date();
         long time = now.getTime() + 3600 * 3 * 1000;
-
-        adminSessionMap.put(key, new Date(time));
+        adminUserModel.setLastLoginTime(new Date(time));
+        adminSessionMap.put(key,adminUserModel);
         Cookie authKeyCookie = new Cookie(Const.COOKIE_AUTH_KEY, cookieValue);
         authKeyCookie.setMaxAge(3600 * 3);
         authKeyCookie.setPath("/");
@@ -132,11 +132,11 @@ public class AdminUserService {
 
     public Boolean checkAuthKey(String authKey) {
         String key = Const.ADMIN_USER_CACHE_KEY + authKey;
-        Date time = adminSessionMap.get(key);
-        if (null == time) {
+        AdminUserModel adminUserModel = adminSessionMap.get(key);
+        if (null == adminUserModel) {
             return false;
         } else {
-            long a = time.getTime() - new Date().getTime();
+            long a = adminUserModel.getLastLoginTime().getTime() - new Date().getTime();
             if (a > 3600 * 3 * 1000) {
                 adminSessionMap.remove(key);
                 return false;
@@ -181,7 +181,7 @@ public class AdminUserService {
     public String createAuthKey(AdminUserModel adminUser){
         String hashKey = BCrypt.hashpw(adminUser.getId(),BCrypt.gensalt());
         String key = Const.ADMIN_USER_CACHE_KEY+hashKey;
-        adminSessionMap.put(key,new Date());
+        adminSessionMap.put(key,adminUser);
         return hashKey;
     }
 
@@ -195,6 +195,53 @@ public class AdminUserService {
             }
         }
 
+    }
+
+     /*
+     * 根据authKey获得管理员
+     * @param authKey
+     * @return
+     */
+    public AdminUserModel getAdminUser(String authKey){
+        String key = Const.ADMIN_USER_CACHE_KEY+authKey;
+        return adminSessionMap.get(key);
+    }
+
+    public AdminUserModel updateAdminInfoById(AdminUserModel adminUser){
+        if( null == adminUser || StringUtils.isEmpty(adminUser.getId())){
+            throw new IllegalArgumentException("对象或者主键不能为空");
+        }
+        AdminUserModel au = adminUserRepository.findOne(adminUser.getId());
+        if( null != au){
+            if(!StringUtils.isEmpty(adminUser.getNick())){
+                au.setNick(adminUser.getNick());
+            }
+            if(!StringUtils.isEmpty(adminUser.getUserName())){
+                au.setUserName(adminUser.getUserName());
+            }
+            if(!StringUtils.isEmpty(adminUser.getPassword())){
+                String password = BCrypt.hashpw(adminUser.getPassword(),BCrypt.gensalt());
+                au.setPassword(password);
+            }
+        }
+        return adminUserRepository.save(au);
+    }
+
+    public void deleteById(String id){
+        adminUserRepository.delete(id);
+    }
+
+    public Boolean checkPassword(String id,String password){
+        AdminUserModel adminUser = adminUserRepository.findOne(id);
+        if( null == adminUser){
+            return false;
+        }
+        return BCrypt.checkpw(password,adminUser.getPassword());
+
+    }
+
+    public AdminUserModel findById(String id){
+        return adminUserRepository.findOne(id);
     }
 
 }
