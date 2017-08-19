@@ -5,6 +5,7 @@ import com.onyouxi.utils.WechatSignUtil;
 import com.onyouxi.wechat.entity.ReceiveXmlEntity;
 import com.onyouxi.wechat.process.ReceiveXmlProcess;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -140,5 +141,6 @@ public class WechatRestController {
         }
         return result;
     }
+
 
 }
