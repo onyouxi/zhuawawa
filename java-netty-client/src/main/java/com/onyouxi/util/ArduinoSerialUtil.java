@@ -3,6 +3,7 @@ package com.onyouxi.util;
 import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
+import org.springframework.util.StringUtils;
 
 
 import java.io.*;
@@ -15,6 +16,8 @@ public class ArduinoSerialUtil {
     private InputStream in;
 
     private OutputStream out;
+
+    private static Integer status = 0;
 
     public static class SerialReader implements Runnable
     {
@@ -32,11 +35,15 @@ public class ArduinoSerialUtil {
             int len = -1;
             try
             {
-                while ( ( len = this.in.read(buffer)) > -1 )
-                {
-                    String cmd = new String(buffer,0,len);
+                String cmd = null;
+                while ( ( len = this.in.read(buffer)) > -1 ) {
+                    cmd = new String(buffer,0,len);
+                    if(!StringUtils.isEmpty(cmd) && "s".equals(cmd)){
+                        status = 0;
+                    }
                     System.out.print(cmd);
                 }
+
             }
             catch ( IOException e )
             {
@@ -47,13 +54,18 @@ public class ArduinoSerialUtil {
 
     public void write(String msg) throws InterruptedException {
         try {
+            status = 1;
             System.out.println("write msg:"+msg);
             // 进行输入输出操作
             OutputStreamWriter writer = new OutputStreamWriter(out);
             BufferedWriter bw = new BufferedWriter(writer);
             for (int i = 0; i < 3; i++) {
-                bw.write(msg);
-                bw.flush();
+                if(status == 1){
+                    bw.write(msg);
+                    bw.flush();
+                    System.out.println("write msg:"+msg+" num:"+i+" status:"+status);
+                    Thread.sleep(500);
+                }
             }
             bw.close();
             writer.close();

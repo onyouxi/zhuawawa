@@ -78,7 +78,7 @@
                 if(timeOutEvent!=0 && btnNum != 5){
                     alert("请长时间按按钮");
                 }else{
-                    if(btnNum != 5){
+                    if(timeOutEvent==0){
                         sendMessage('{type:"action",code:"'+code+'",name:"end"}');
                     }
                 }
