@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="screen-orientation" content="portrait">
     <meta name="x5-orientation" content="portrait">
-    <script src="/js/jquery-3.2.1.min.js" ></script>
+    <script src="/wcstatic/js/jquery-3.2.1.min.js" ></script>
     <style>
         .gray {
             filter: grayscale(100%);
@@ -25,20 +25,20 @@
 <div style="text-align:center;width:100%;position:absolute;">
             <div style="margin-top:10%;">
                 <div style="width:100%">
-                    <img src="/img/button1.png" btnNum="1" style="width:20%" class="btn"/>
+                    <img src="/wcstatic/img/button1.png" btnNum="1" style="width:20%" class="btn"/>
                 </div>
                 <div style="float:left;width:20%;margin-left:20%;margin-right:20%;">
-                    <img src="/img/button4.png" btnNum="2" style="width:100%" class="btn"/>
+                    <img src="/wcstatic/img/button4.png" btnNum="2" style="width:100%" class="btn"/>
                 </div>
                 <div style="float:left;width:20%">
-                    <img src="/img/button2.png" btnNum="3" style="width:100%" class="btn"/>
+                    <img src="/wcstatic/img/button2.png" btnNum="3" style="width:100%" class="btn"/>
                 </div>
                 <div  style="margin-top:24%;">
-                    <img src="/img/button3.png" btnNum="4" style="width:20%" class="btn"/>
+                    <img src="/wcstatic/img/button3.png" btnNum="4" style="width:20%" class="btn"/>
                 </div>
             </div>
             <div style="margin-top:20%">
-                <img src="/img/button.png" btnNum="5" style="width:40%" class="btn" />
+                <img src="/wcstatic/img/button.png" btnNum="5" style="width:40%" class="btn" />
             </div>
 </div>
 <script>
