@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by liuwei on 16/3/2.
  */
 @RestController
-@RequestMapping(value = "/v1/adminUser")
+@RequestMapping(value = "/v1/api/admin/adminUser")
 @Slf4j
 public class AdminUserController extends BaseAdminController {
 
