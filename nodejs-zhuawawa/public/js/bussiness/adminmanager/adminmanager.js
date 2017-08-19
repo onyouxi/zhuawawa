@@ -112,9 +112,7 @@ var createAdminUser = function(){
     var obj = {
         nick:nick,
         name:userName,
-        password:password,
-        roleId:roleId,
-        weChatId:weChatId
+        password:password
     }
 
     $.danmuAjax('/v1/api/admin/adminUser/save', 'POST','json',obj, function (data) {
@@ -208,9 +206,7 @@ var updateAdminUser = function(id){
         id:id,
         nick:nick,
         name:userName,
-        password:password,
-        roleId:$('#roleId').val(),
-        weChatId:weChatId
+        password:password
     }
     $.danmuAjax('/v1/api/admin/adminUser/update', 'POST','json',obj, function (data) {
       if (data.result == 200) {
