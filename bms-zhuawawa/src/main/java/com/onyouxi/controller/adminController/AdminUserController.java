@@ -39,7 +39,7 @@ public class AdminUserController extends BaseAdminController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public RestResultModel save(String name, String password, String nick,String roleId,String weChatId){
+    public RestResultModel save(String name, String password, String nick){
         if( !"admin".equals(getAdminUser().getUserName()) ){
             throw new IllegalArgumentException("只有管理员才可以使用");
         }
@@ -67,7 +67,7 @@ public class AdminUserController extends BaseAdminController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public RestResultModel update(String id,String name, String password, String nick,String roleId,String weChatId){
+    public RestResultModel update(String id,String name, String password, String nick){
         if( !"admin".equals(getAdminUser().getUserName()) ){
             throw new IllegalArgumentException("只有管理员才可以使用");
         }
