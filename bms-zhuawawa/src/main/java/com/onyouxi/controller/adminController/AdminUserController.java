@@ -40,9 +40,10 @@ public class AdminUserController extends BaseAdminController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public RestResultModel save(String name, String password, String nick){
+        /**
         if( !"admin".equals(getAdminUser().getUserName()) ){
             throw new IllegalArgumentException("只有管理员才可以使用");
-        }
+        }**/
         RestResultModel restResultModel = new RestResultModel();
         adminUserService.createAdminUser(name,password,nick);
         restResultModel.setResult(200);
@@ -68,9 +69,10 @@ public class AdminUserController extends BaseAdminController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public RestResultModel update(String id,String name, String password, String nick){
+        /**
         if( !"admin".equals(getAdminUser().getUserName()) ){
             throw new IllegalArgumentException("只有管理员才可以使用");
-        }
+        }**/
         RestResultModel restResultModel = new RestResultModel();
         AdminUserModel adminUser = new AdminUserModel();
         adminUser.setId(id);
@@ -84,9 +86,11 @@ public class AdminUserController extends BaseAdminController {
 
     @RequestMapping(value = "/del", method = RequestMethod.GET)
     public RestResultModel del(String id){
+        /**
         if( !"admin".equals(getAdminUser().getUserName()) ){
             throw new IllegalArgumentException("只有管理员才可以使用");
         }
+         **/
         RestResultModel restResultModel = new RestResultModel();
         adminUserService.deleteById(id);
         restResultModel.setResult(200);
