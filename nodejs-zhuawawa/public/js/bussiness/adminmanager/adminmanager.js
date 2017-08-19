@@ -59,27 +59,12 @@ var openCreateAdminUser = function(){
    '<input type="text" class="span4" id="userName"  maxlength="30" onblur="checkUserName()"></div><br>'+
    '<label class="control-label" style="width:50px">密码</label><div class="controls" style="margin-left:60px;">'+
    '<input type="text" class="span4" id="password" maxlength="10" autocomplete="off"></div><br>'+
-   '<label class="control-label" style="width:50px">关联微信编号</label><div class="controls" style="margin-left:60px;">'+
-   '<input type="text" class="span4" id="weChatId" ></div><br>';
+   '</div><br>';
 
-    $.danmuAjax('/v1/api/admin/adminUser/findRole', 'GET','json',null, function (data) {
-      if (data.result == 200) {
-          htmlStr += '<label class="control-label" style="width:50px">角色</label><div class="controls" style="margin-left:60px;">';
-          htmlStr += '<select id="roleId">';
-          for(var i=0;i<data.data.length;i++){
-            htmlStr += '<option value="'+data.data[i].id+'">'+data.data[i].roleName+'</option>';
-          }
-          htmlStr += '</select>';
-      }
-      htmlStr += '</div></div></form>';
-        $('#modalBody').html(htmlStr);
-        var footerHtml = '<button class="btn btn-primary" onclick="createAdminUser()" id="saveAdmin">保存</button>';
-        $('#modalFooter').html(footerHtml);
-        $('#myModal').modal('show');
-    }, function (data) {
-        console.log(data);
-    });
-
+    $('#modalBody').html(htmlStr);
+    var footerHtml = '<button class="btn btn-primary" onclick="createAdminUser()" id="saveAdmin">保存</button>';
+    $('#modalFooter').html(footerHtml);
+    $('#myModal').modal('show');
 
 }
 var createAdminUser = function(){
@@ -162,31 +147,12 @@ var openUpdateAdminUser = function(id,nick,userName){
          '<input type="text" class="span4" id="userName"  maxlength="30" value="'+userName+'" onblur="updateCheckUserName()"></div><br>'+
          '<label class="control-label" style="width:50px">密码</label><div class="controls" style="margin-left:60px;">'+
          '<input type="password" class="span4" id="password" maxlength="10" autocomplete="off"></div><br>'+
-         '<label class="control-label" style="width:50px">关联微信编号</label><div class="controls" style="margin-left:60px;">'+
-         '<input type="text" class="span4" id="weChatId" value="'+data.data.wechatId+'"></div><br>';
+         '</div><br>';
 
-          $.danmuAjax('/v1/api/admin/adminUser/findRole', 'GET','json',null, function (data1) {
-            if (data.result == 200) {
-                htmlStr += '<label class="control-label" style="width:50px">角色</label><div class="controls" style="margin-left:60px;">';
-                htmlStr += '<select id="roleId">';
-                for(var i=0;i<data1.data.length;i++){
-                  if(data1.data[i].id == data.data.roleId){
-                    htmlStr += '<option value="'+data1.data[i].id+'" selected="selected">'+data1.data[i].roleName+'</option>';
-                  }else{
-                    htmlStr += '<option value="'+data1.data[i].id+'">'+data1.data[i].roleName+'</option>';
-                  }
-
-                }
-                htmlStr += '</select>';
-            }
-            htmlStr += '</div></div></form>';
-             $('#modalBody').html(htmlStr);
-             var footerHtml = '<button class="btn btn-primary" onclick="updateAdminUser(\''+id+'\')" id="saveAdmin">修改</button>';
-             $('#modalFooter').html(footerHtml);
-             $('#myModal').modal('show');
-          }, function (data) {
-              console.log(data);
-          });
+         $('#modalBody').html(htmlStr);
+         var footerHtml = '<button class="btn btn-primary" onclick="updateAdminUser(\''+id+'\')" id="saveAdmin">修改</button>';
+         $('#modalFooter').html(footerHtml);
+         $('#myModal').modal('show');
 
 
       }
