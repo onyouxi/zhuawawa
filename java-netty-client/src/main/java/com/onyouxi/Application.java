@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 
 @SpringBootApplication
-@ComponentScan("cn.partytime")
+@ComponentScan("com.onyouxi")
 public class Application {
 
     public static void main(String[] args) {

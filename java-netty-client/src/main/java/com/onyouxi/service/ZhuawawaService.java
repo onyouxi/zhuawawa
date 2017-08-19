@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.onyouxi.util.ArduinoSerialUtil;
 import com.onyouxi.util.CmdConst;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -18,10 +19,13 @@ public class ZhuawawaService {
 
     private ArduinoSerialUtil arduinoSerialUtil;
 
+    @Value("${arduinoSerialUrl}")
+    private String arduinoSerialUrl;
+
     @PostConstruct
     public void init() throws Exception {
         arduinoSerialUtil = new ArduinoSerialUtil();
-        arduinoSerialUtil.connect("/dev/cu.usbmodem1411");
+        arduinoSerialUtil.connect(arduinoSerialUrl);
     }
 
     /**

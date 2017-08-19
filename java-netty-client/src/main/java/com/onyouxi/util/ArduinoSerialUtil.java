@@ -47,7 +47,6 @@ public class ArduinoSerialUtil {
 
     public void write(String msg) throws InterruptedException {
         try {
-            Thread.sleep(1000);// 链接后暂停2秒再继续执行
             System.out.println("write msg:"+msg);
             // 进行输入输出操作
             OutputStreamWriter writer = new OutputStreamWriter(out);

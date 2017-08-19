@@ -64,11 +64,12 @@ void cmdEnd(){
   }
   currentPinNum=0;
   time=0;
-  Serial.println("success");
+  Serial.println("success"+currentPinNum);
 }
 
 //向左移动
 void left(){
+  currentPinNum=2;
   digitalWrite(Pin2, HIGH);
   time=millis();
   Serial.println("success");
@@ -76,18 +77,21 @@ void left(){
 
 //向右移动
 void right(){
+  currentPinNum=3;
   digitalWrite(Pin3, HIGH);
   Serial.println("success");
 }
 
 //向上移动
 void up(){
+  currentPinNum=1;
   digitalWrite(Pin1, HIGH);
   Serial.println("success");
 }
 
 //向下移动
 void down(){
+  currentPinNum=4;
   digitalWrite(Pin4, HIGH);
   Serial.println("success");
 }
@@ -95,7 +99,7 @@ void down(){
 //抓娃娃
 void zhua(){
   digitalWrite(Pin5, HIGH);
-  delay(100);
+  delay(200);
   digitalWrite(Pin5, LOW);
   Serial.println("success");
 }

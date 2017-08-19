@@ -48,11 +48,23 @@
             touchstart:function(e){
                 var btnNum = $(this).attr('btnNum');
                 $(this).attr('class','btn gray');
-                if(btnNum == 5){
-                        sendMessage('{type:"action",code:"'+code+'",name:"zhua"}');
+                var name;
+                if(btnNum==1){
+                    name='left';
+                }else if(btnNum==2){
+                    name='down';
+                }else if(btnNum==3){
+                    name='up';
+                }else if(btnNum==4){
+                    name='right';
+                }else if(btnNum==5){
+                    name='zhua';
                 }
-                timeOutEvent=setTimeout("longPress("+btnNum+")",200);
-
+                if( name ){
+                    sendMessage('{type:"action",code:"'+code+'",name:"'+name+'"}');
+                    console.log(btnNum);
+                }
+                timeOutEvent=setTimeout("longPress()",100);
                 e.preventDefault();
             },
             touchmove:function(){
@@ -78,22 +90,9 @@
 
 
 
-    function longPress(btnNum){
+    function longPress(){
         timeOutEvent = 0;
-        var name;
-        if(btnNum==1){
-            name='left';
-        }else if(btnNum==2){
-            name='down';
-        }else if(btnNum==3){
-            name='up';
-        }else if(btnNum==4){
-            name='right';
-        }
-        if( name ){
-            sendMessage('{type:"action",code:"'+code+'",name:"'+name+'"}');
-            console.log(btnNum);
-        }
+        sendMessage('{type:"action",code:"'+code+'",name:"end"}');
     }
 
     var websoctAddress;
