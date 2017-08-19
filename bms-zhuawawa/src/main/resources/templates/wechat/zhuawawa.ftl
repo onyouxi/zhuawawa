@@ -64,7 +64,7 @@
                     sendMessage('{type:"action",code:"'+code+'",name:"'+name+'"}');
                     console.log(btnNum);
                 }
-                timeOutEvent=setTimeout("longPress()",100);
+                timeOutEvent=setTimeout("longPress()",200);
                 e.preventDefault();
             },
             touchmove:function(){
@@ -78,7 +78,8 @@
                 if(timeOutEvent!=0 && btnNum != 5){
                     alert("请长时间按按钮");
                 }else{
-                    if(timeOutEvent==0){
+                    if(btnNum != 5){
+                        console.log('end');
                         sendMessage('{type:"action",code:"'+code+'",name:"end"}');
                     }
                 }
@@ -92,7 +93,6 @@
 
     function longPress(){
         timeOutEvent = 0;
-        sendMessage('{type:"action",code:"'+code+'",name:"end"}');
     }
 
     var websoctAddress;
