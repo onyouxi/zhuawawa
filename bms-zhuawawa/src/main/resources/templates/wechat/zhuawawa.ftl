@@ -98,7 +98,7 @@
 
     var websoctAddress;
     var ws;
-    var websoctAddress = "ws://127.0.0.1:9898/ws/user?openId=123123123";
+    var websoctAddress = "ws://${websocketUrl}/ws/user?openId=123123123";
     var webSocketInit = function () {
         //初始化websocket
         if (WebSocket) {

@@ -1,6 +1,7 @@
 package com.onyouxi.controller.wechatController;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class WechatController {
 
+    @Value("${zhuawawa.websocketUrl}")
+    private String websocketUrl;
+
     @RequestMapping(value = "/zhuawawa", method = RequestMethod.GET)
     public String zhuawawa(String code, Model model, HttpServletResponse response, HttpServletRequest request){
+        model.addAttribute("websocketUrl",websocketUrl);
         return "wechat/zhuawawa";
     }
 
