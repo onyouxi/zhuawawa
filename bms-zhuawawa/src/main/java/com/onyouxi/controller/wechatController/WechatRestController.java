@@ -1,11 +1,14 @@
 package com.onyouxi.controller.wechatController;
 
+import com.onyouxi.constant.Const;
 import com.onyouxi.model.dbModel.WechatUserModel;
 import com.onyouxi.service.WechatUserService;
 import com.onyouxi.utils.MessageUtil;
 import com.onyouxi.utils.WechatSignUtil;
 import com.onyouxi.utils.WeixinUtil;
 import com.onyouxi.wechat.entity.ReceiveXmlEntity;
+import com.onyouxi.wechat.message.TextMessage;
+import com.onyouxi.wechat.process.FormatXmlProcess;
 import com.onyouxi.wechat.process.ReceiveXmlProcess;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +109,14 @@ public class WechatRestController {
             } else if (MessageUtil.EVENT_TYPE_SUBSCRIBE.equals(xmlEntity.getEvent())) {
                 log.info("EVENT_TYPE_SUBSCRIBE" + xmlEntity.getContent());
                 wechatUserService.save(openId);
+                TextMessage text = new TextMessage();
+                text.setToUserName(xmlEntity.getFromUserName());
+                text.setFromUserName(xmlEntity.getToUserName());
+                text.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+                text.setCreateTime(new Date().getTime());
+                text.setFuncFlag(0);
+                text.setContent(Const.WELCOME);
+                result = FormatXmlProcess.textMessageToXml(text);
                 //取消关注
             } else if (MessageUtil.EVENT_TYPE_UNSUBSCRIBE.equals(xmlEntity.getEvent())) {
                 log.info("EVENT_TYPE_UNSUBSCRIBE" + xmlEntity.getContent());

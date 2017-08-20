@@ -24,4 +24,6 @@ public class Const {
     public static final String ADMIN_USER_CACHE_KEY = "adminCache";
 
     public static final String COOKIE_NICK = "nick";
+
+    public static final String WELCOME = "本公众号正在开发中，敬请期待";
 }
