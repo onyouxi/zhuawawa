@@ -26,9 +26,9 @@ import java.util.Date;
 @Slf4j
 public class WeixinUtil {
 
-    public static String APP_ID = "wx0934dc72c6c20345";
+    public static String APP_ID = "wx0bd61f1f517bfa54";
 
-    private static String APP_SECRET = "4540074883e459c42cd6fdbe20509eb1";
+    private static String APP_SECRET = "6ac721127dd8c8363bbb3dbac2d7a29a";
 
     /**
      * 商户号
