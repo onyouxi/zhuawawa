@@ -28,10 +28,16 @@ var columnsArray = [
 
     },
     {
-        field:'imgUrl',
         title: '微信头像',
         align: 'center',
-        width:'15%'
+        width:'15%',
+        formatter: function (value, row, index) {
+            if(null != row && null != row.imgUrl){
+                return '<img width="30%" src="'+row.imgUrl+'" />';
+            }else{
+               return "";
+            }
+        }
     },
     {
         field: 'nick',
