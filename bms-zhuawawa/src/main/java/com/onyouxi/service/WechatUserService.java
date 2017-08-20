@@ -48,6 +48,7 @@ public class WechatUserService {
             oldWebchatUser.setLanguage(wechatUser.getLanguage());
             oldWebchatUser.setNick(wechatUser.getNick());
             oldWebchatUser.setLastOpenDate(new Date());
+            oldWebchatUser.setSubscribeState(0);
             if (null != wechatUser.getSubscribeState()) {
                 oldWebchatUser.setSubscribeState(wechatUser.getSubscribeState());
             }
