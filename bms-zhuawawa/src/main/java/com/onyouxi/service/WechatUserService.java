@@ -1,16 +1,20 @@
 package com.onyouxi.service;
 
 import com.onyouxi.model.dbModel.WechatUserModel;
+import com.onyouxi.model.pageModel.AccessTokenCacheModel;
 import com.onyouxi.repository.manager.WechatUserRepository;
+import com.onyouxi.utils.WeixinUtil;
+import com.onyouxi.wechat.pojo.AccessToken;
+import com.onyouxi.wechat.pojo.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.WebSocketSession;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by liuwei on 2016/9/28.
@@ -25,6 +29,9 @@ public class WechatUserService {
 
     @Autowired
     private WechatUserLogService wechatUserLogService;
+
+
+    private List<AccessTokenCacheModel> accessTokenCache = Collections.synchronizedList(new ArrayList<>());
 
     public WechatUserModel findById(String id){
         return wechatUserRepository.findOne(id);
@@ -123,6 +130,40 @@ public class WechatUserService {
         return wechatUserRepository.findAll();
     }
 
+    public AccessToken getAccessToken(){
+        AccessTokenCacheModel accessTokenCacheModel = accessTokenCache.get(0);
+        AccessToken accessToken = null;
+        if( null !=  accessTokenCacheModel) {
+            long a = accessTokenCacheModel.getCreateTime().getTime()-new Date().getTime();
+            if( a > 2*3600*1000 ){
+                accessToken = new WeixinUtil().getAccessToken();
+                accessTokenCacheModel = new AccessTokenCacheModel();
+                accessTokenCacheModel.setAccessToken(accessToken);
+                accessTokenCacheModel.setCreateTime(new Date());
+                accessTokenCache.add(accessTokenCacheModel);
+            }else{
+                accessToken = accessTokenCacheModel.getAccessToken();
+            }
+        }else{
+            accessToken = new WeixinUtil().getAccessToken();
+            accessTokenCacheModel = new AccessTokenCacheModel();
+            accessTokenCacheModel.setAccessToken(accessToken);
+            accessTokenCacheModel.setCreateTime(new Date());
+            accessTokenCache.add(accessTokenCacheModel);
+        }
+        return accessToken;
+    }
+
+    public WechatUserModel save(String openId){
+        UserInfo userInfo =  WeixinUtil.getUserInfo(this.getAccessToken().getToken(),openId);
+        if( null != userInfo){
+            return this.save(userInfo.toWechatUser());
+        }else{
+            return null;
+        }
+
+
+    }
 
 
 }

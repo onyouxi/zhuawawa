@@ -1,5 +1,7 @@
 package com.onyouxi.wechat.pojo;
 
+import com.onyouxi.model.dbModel.WechatUserModel;
+
 /**
  * 接口访问凭证
  * Created by on 2014/12/14.
@@ -28,6 +30,21 @@ public class UserInfo {
     private long subscribe_time;
     //只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。
     private String unionid;
+
+    public WechatUserModel toWechatUser(){
+        WechatUserModel wechatUser = new WechatUserModel();
+        wechatUser.setCity(this.getCity());
+        wechatUser.setCountry(this.getCountry());
+        wechatUser.setImgUrl(this.getHeadimgurl());
+        wechatUser.setLanguage(this.getLanguage());
+        wechatUser.setNick(this.getNickname());
+        wechatUser.setSex(this.getSex());
+        wechatUser.setProvince(this.getProvince());
+        wechatUser.setOpenId(this.getOpenid());
+        wechatUser.setSubscribeTime(this.getSubscribe_time());
+        wechatUser.setUnionId(this.getUnionid());
+        return wechatUser;
+    }
 
     public int getSubscribe() {
         return subscribe;

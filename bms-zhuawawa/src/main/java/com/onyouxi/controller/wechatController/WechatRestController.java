@@ -1,10 +1,14 @@
 package com.onyouxi.controller.wechatController;
 
+import com.onyouxi.model.dbModel.WechatUserModel;
+import com.onyouxi.service.WechatUserService;
 import com.onyouxi.utils.MessageUtil;
 import com.onyouxi.utils.WechatSignUtil;
+import com.onyouxi.utils.WeixinUtil;
 import com.onyouxi.wechat.entity.ReceiveXmlEntity;
 import com.onyouxi.wechat.process.ReceiveXmlProcess;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +30,9 @@ import java.util.Map;
 @RequestMapping(value = "/wechat")
 @Slf4j
 public class WechatRestController {
+
+    @Autowired
+    private WechatUserService wechatUserService;
 
     /**
      * 微信公众平台验证用
@@ -98,11 +105,11 @@ public class WechatRestController {
                 //关注微信
             } else if (MessageUtil.EVENT_TYPE_SUBSCRIBE.equals(xmlEntity.getEvent())) {
                 log.info("EVENT_TYPE_SUBSCRIBE" + xmlEntity.getContent());
-
+                wechatUserService.save(openId);
                 //取消关注
             } else if (MessageUtil.EVENT_TYPE_UNSUBSCRIBE.equals(xmlEntity.getEvent())) {
                 log.info("EVENT_TYPE_UNSUBSCRIBE" + xmlEntity.getContent());
-
+                wechatUserService.unsubscribe(openId);
                 //CLICK事件推送
             } else if (MessageUtil.EVENT_TYPE_CLICK.equals(xmlEntity.getEvent())) {
 

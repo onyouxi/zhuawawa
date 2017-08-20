@@ -26,7 +26,7 @@ var columnsArray = [
         align: 'center',
         formatter: function (value, row, index) {
             if(row.wechatUser){
-                return row.wechatUser.id;
+                return row.id;
             }
         }
     },
@@ -36,12 +36,12 @@ var columnsArray = [
         width:'15%',
         formatter: function (value, row, index) {
             if(row.wechatUser){
-                return '<img width="40%" src="'+row.wechatUser.imgUrl+'" />';
+                return '<img width="40%" src="'+row.imgUrl+'" />';
             }
         }
     },
     {
-        field: 'wechatUser.nick',
+        field: 'nick',
         title: '微信昵称',
         align: 'center'
     },
@@ -49,9 +49,9 @@ var columnsArray = [
         title: '性别',
         align: 'center',
         formatter: function (value, row, index) {
-            if(row.wechatUser.sex == 1){
+            if(row.sex == 1){
                 return '男';
-            }else if(row.wechatUser.sex == 2){
+            }else if(row.sex == 2){
                  return '女';
             }else{
                 return '未知';
@@ -63,22 +63,11 @@ var columnsArray = [
         title: '关注状态',
         align: 'center',
         formatter: function (value, row, index) {
-            if(row.wechatUser.subscribeState == 0){
+            if(row.subscribeState == 0){
                 return '关注中';
-            }else if(row.wechatUser.subscribeState == 1){
+            }else if(row.subscribeState == 1){
                  return '取消关注';
             }else{
-                return '未知';
-            }
-        }
-    },
-    {
-        title: '注册场地',
-        align: 'center',
-        formatter: function (value, row, index) {
-            if(row.registAddress){
-                return row.registAddress.name;
-            }else {
                 return '未知';
             }
         }
@@ -87,28 +76,17 @@ var columnsArray = [
         title: '注册时间',
         align: 'center',
         formatter: function (value, row, index) {
-            if(row.wechatUserInfo){
-                return new Date(parseInt(row.wechatUserInfo.registDate)).format('yyyy-MM-dd hh:mm:ss');
+            if(row.createDate){
+                return new Date(parseInt(row.createDate)).format('yyyy-MM-dd hh:mm:ss');
             }
         }
-    },
-    {
-        title: '最后登录场地',
-        align: 'center',
-        formatter: function (value, row, index) {
-            if(row.lastAddress){
-                return row.lastAddress.name;
-            }else {
-                return '未知';
-            }
-        }
-    },
+    }
     {
         title: '最后登录时间',
         align: 'center',
         formatter: function (value, row, index) {
-            if(row.wechatUser && row.wechatUser.lastOpenDate){
-                return new Date(parseInt(row.wechatUser.lastOpenDate)).format('yyyy-MM-dd hh:mm:ss');
+            if(row.lastOpenDate){
+                return new Date(parseInt(row.lastOpenDate)).format('yyyy-MM-dd hh:mm:ss');
             }
         }
     },
@@ -116,7 +94,7 @@ var columnsArray = [
         title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
-            return '<a class="btn" onclick="openAddress(\''+row.wechatUser.id+'\')">修改场地</a><a class="btn" onclick="delUser(\''+row.wechatUser.id+'\',\''+row.wechatUser.nick+'\')">删除</a>';
+            return '<a class="btn" onclick="delUser(\''+row.id+'\',\''+row.nick+'\')">删除</a>';
         },
         events: 'operateEvents'
     }
