@@ -3,6 +3,9 @@ package com.onyouxi.util;
 import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 
@@ -11,7 +14,12 @@ import java.io.*;
 /**
  * Created by administrator on 2017/8/9.
  */
+@Slf4j
+@Service
 public class ArduinoSerialUtil {
+
+    @Value("${arduinoSerialUrl}")
+    private String arduinoSerialUrl;
 
     private InputStream in;
 
@@ -52,7 +60,10 @@ public class ArduinoSerialUtil {
         }
     }
 
-    public void write(String msg) throws InterruptedException {
+    public void write(String msg) throws Exception {
+        if( null == out){
+            this.connect();
+        }
         try {
             status = 1;
             System.out.println("write msg:"+msg);
@@ -74,9 +85,8 @@ public class ArduinoSerialUtil {
         }
     }
 
-    public void connect ( String portName ) throws Exception
-    {
-        CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
+    public void connect() throws Exception {
+        CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(arduinoSerialUrl);
         if ( portIdentifier.isCurrentlyOwned() ) {
             System.out.println("Error: Port is currently in use");
         } else {

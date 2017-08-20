@@ -43,6 +43,7 @@ import com.onyouxi.util.ConfigUtil;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.websocketx.*;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
@@ -97,7 +98,6 @@ public class ServerWebSocketClientHandler extends SimpleChannelInboundHandler<Ob
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-
         System.out.println("WebSocket Client disconnected!");
     }
 
@@ -105,6 +105,12 @@ public class ServerWebSocketClientHandler extends SimpleChannelInboundHandler<Ob
     public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         Channel ch = ctx.channel();
         if (!handshaker.isHandshakeComplete()) {
+            if (msg instanceof FullHttpResponse) {
+                FullHttpResponse response = (FullHttpResponse) msg;
+                if(response.status().code() > 400){
+                    ctx.close();
+                }
+            }
             handshaker.finishHandshake(ch, (FullHttpResponse) msg);
             System.out.println("WebSocket Client connected!");
             handshakeFuture.setSuccess();
@@ -112,9 +118,9 @@ public class ServerWebSocketClientHandler extends SimpleChannelInboundHandler<Ob
         }
         if (msg instanceof FullHttpResponse) {
             FullHttpResponse response = (FullHttpResponse) msg;
-            throw new IllegalStateException(
-                    "Unexpected FullHttpResponse (getStatus=" + response.status() +
-                            ", content=" + response.content().toString(CharsetUtil.UTF_8) + ')');
+            if(response.status().code() > 400){
+                ctx.close();
+            }
         }
         WebSocketFrame frame = (WebSocketFrame) msg;
         if (frame instanceof TextWebSocketFrame) {

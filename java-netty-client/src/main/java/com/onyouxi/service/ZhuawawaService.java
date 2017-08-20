@@ -19,20 +19,23 @@ public class ZhuawawaService {
 
     private ArduinoSerialUtil arduinoSerialUtil;
 
-    @Value("${arduinoSerialUrl}")
-    private String arduinoSerialUrl;
+
 
     @PostConstruct
-    public void init() throws Exception {
-        arduinoSerialUtil = new ArduinoSerialUtil();
-        arduinoSerialUtil.connect(arduinoSerialUrl);
+    public void init(){
+        try {
+            arduinoSerialUtil = new ArduinoSerialUtil();
+            arduinoSerialUtil.connect();
+        }catch (Exception e){
+            log.error("ArduinoSerial init error:",e);
+        }
     }
 
     /**
      * 给娃娃机加币
      * @throws InterruptedException
      */
-    public void add() throws InterruptedException {
+    public void add() throws Exception {
         arduinoSerialUtil.write(CmdConst.ADD);
     }
 
@@ -40,7 +43,7 @@ public class ZhuawawaService {
      * 结束当前指令
      * @throws InterruptedException
      */
-    public void end() throws InterruptedException {
+    public void end() throws Exception {
         arduinoSerialUtil.write(CmdConst.END);
     }
 
@@ -48,7 +51,7 @@ public class ZhuawawaService {
      * 向左移动
      * @throws InterruptedException
      */
-    public void left() throws InterruptedException {
+    public void left() throws Exception {
         arduinoSerialUtil.write(CmdConst.LEFT);
     }
 
@@ -56,7 +59,7 @@ public class ZhuawawaService {
      * 向右移动
      * @throws InterruptedException
      */
-    public void right() throws InterruptedException {
+    public void right() throws Exception {
         arduinoSerialUtil.write(CmdConst.RIGHT);
     }
 
@@ -64,7 +67,7 @@ public class ZhuawawaService {
      * 向前移动
      * @throws InterruptedException
      */
-    public void up() throws InterruptedException {
+    public void up() throws Exception {
         arduinoSerialUtil.write(CmdConst.UP);
     }
 
@@ -72,7 +75,7 @@ public class ZhuawawaService {
      * 向后移动
      * @throws InterruptedException
      */
-    public void down() throws InterruptedException {
+    public void down() throws Exception {
         arduinoSerialUtil.write(CmdConst.DOWN);
     }
 
@@ -80,12 +83,12 @@ public class ZhuawawaService {
      * 抓娃娃
      * @throws InterruptedException
      */
-    public void zhua() throws InterruptedException {
+    public void zhua() throws Exception {
         arduinoSerialUtil.write(CmdConst.ZHUA);
     }
 
 
-    public void action(String jsonCmd) throws InterruptedException {
+    public void action(String jsonCmd) throws Exception {
         JSONObject jsonObject = JSON.parseObject(jsonCmd);
         String cmd = jsonObject.getString("cmd");
         if( "end".equals(cmd)){
