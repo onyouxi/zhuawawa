@@ -80,7 +80,7 @@ var columnsArray = [
                 return new Date(parseInt(row.createDate)).format('yyyy-MM-dd hh:mm:ss');
             }
         }
-    }
+    },
     {
         title: '最后登录时间',
         align: 'center',
