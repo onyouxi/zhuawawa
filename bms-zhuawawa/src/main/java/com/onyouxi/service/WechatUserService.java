@@ -131,10 +131,14 @@ public class WechatUserService {
     }
 
     public AccessToken getAccessToken(){
-        AccessTokenCacheModel accessTokenCacheModel = accessTokenCache.get(0);
+        log.info("get access token");
         AccessToken accessToken = null;
+        AccessTokenCacheModel accessTokenCacheModel = null;
+        if(accessTokenCache.size() > 0){
+            accessTokenCacheModel = accessTokenCache.get(0);
+        }
         if( null !=  accessTokenCacheModel) {
-            long a = accessTokenCacheModel.getCreateTime().getTime()-new Date().getTime();
+            long a = new Date().getTime() - accessTokenCacheModel.getCreateTime().getTime();
             if( a > 2*3600*1000 ){
                 accessToken = new WeixinUtil().getAccessToken();
                 accessTokenCacheModel = new AccessTokenCacheModel();
@@ -145,7 +149,7 @@ public class WechatUserService {
                 accessToken = accessTokenCacheModel.getAccessToken();
             }
         }else{
-            accessToken = new WeixinUtil().getAccessToken();
+            accessToken = WeixinUtil.getAccessToken();
             accessTokenCacheModel = new AccessTokenCacheModel();
             accessTokenCacheModel.setAccessToken(accessToken);
             accessTokenCacheModel.setCreateTime(new Date());
