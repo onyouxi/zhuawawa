@@ -22,23 +22,16 @@ var columnsArray = [
         }
     },
     {
+        field:id,
         title: '微信编号',
-        align: 'center',
-        formatter: function (value, row, index) {
-            if(row.wechatUser){
-                return row.id;
-            }
-        }
+        align: 'center'
+
     },
     {
+        field:imgUrl,
         title: '微信头像',
         align: 'center',
-        width:'15%',
-        formatter: function (value, row, index) {
-            if(row.wechatUser){
-                return '<img width="40%" src="'+row.imgUrl+'" />';
-            }
-        }
+        width:'15%'
     },
     {
         field: 'nick',

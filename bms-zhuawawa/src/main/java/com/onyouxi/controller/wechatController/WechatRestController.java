@@ -144,7 +144,6 @@ public class WechatRestController {
         } else if (MessageUtil.REQ_MESSAGE_TYPE_VOICE.equals(xmlEntity.getMsgType())) {
             String recognition = xmlEntity.getRecognition();
 
-
         }
         return result;
     }

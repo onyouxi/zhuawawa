@@ -109,9 +109,12 @@ public class WechatUserService {
 
     public void unsubscribe(String openId) {
         WechatUserModel wechatUser = this.findByOpenId(openId);
-        wechatUser.setSubscribeState(1);
-        wechatUserRepository.save(wechatUser);
-        wechatUserLogService.save(openId, "unsubscribe");
+        if( null != wechatUser){
+            wechatUser.setSubscribeState(1);
+            wechatUserRepository.save(wechatUser);
+            wechatUserLogService.save(openId, "unsubscribe");
+        }
+
     }
 
 
