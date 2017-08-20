@@ -22,13 +22,13 @@ var columnsArray = [
         }
     },
     {
-        field:id,
+        field:'id',
         title: '微信编号',
         align: 'center'
 
     },
     {
-        field:imgUrl,
+        field:'imgUrl',
         title: '微信头像',
         align: 'center',
         width:'15%'
