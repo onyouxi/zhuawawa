@@ -52,6 +52,7 @@ public class ReceiveXmlProcess {
 			//利用反射机制，调用set方法
 			//获取该实体的元类型
 			Class<?> c = Class.forName("com.onyouxi.wechat.entity.ReceiveXmlEntity");
+
 			msg = (ReceiveXmlEntity)c.newInstance();//创建这个实体的对象
 			
 			while(iter.hasNext()){
