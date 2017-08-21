@@ -3,6 +3,9 @@ package com.onyouxi.model.dbModel;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * Created by administrator on 2017/8/18.
  */
@@ -20,8 +23,13 @@ public class MachineModel {
     //描述信息
     private String des;
 
-    //机器状态 0运行中 1排队中 2停止使用
+    //机器状态 0空闲  1排队中
     private Integer status;
+
+    //0运行中  1停止使用
+    private Integer canUse;
+
+    private Date createTime;
 
     public String getId() {
         return id;
@@ -61,5 +69,21 @@ public class MachineModel {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getCanUse() {
+        return canUse;
+    }
+
+    public void setCanUse(Integer canUse) {
+        this.canUse = canUse;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }
