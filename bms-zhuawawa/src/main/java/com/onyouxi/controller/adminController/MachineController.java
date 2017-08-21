@@ -7,6 +7,7 @@ import com.onyouxi.service.MachineService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,7 +31,7 @@ public class MachineController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public RestResultModel save(MachineModel machineModel){
+    public RestResultModel save(@ModelAttribute MachineModel machineModel){
         RestResultModel restResultModel = new RestResultModel();
         machineService.save(machineModel);
         restResultModel.setResult(200);
@@ -58,6 +59,15 @@ public class MachineController {
         RestResultModel restResultModel = new RestResultModel();
         machineService.del(id);
         restResultModel.setResult(200);
+        return restResultModel;
+    }
+
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public RestResultModel findById(String id){
+        RestResultModel restResultModel = new RestResultModel();
+        MachineModel machineModel = machineService.findById(id);
+        restResultModel.setResult(200);
+        restResultModel.setData(machineModel);
         return restResultModel;
     }
 
