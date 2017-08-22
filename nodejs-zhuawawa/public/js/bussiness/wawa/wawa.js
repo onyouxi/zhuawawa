@@ -50,9 +50,9 @@ var columnsArray = [
         formatter: function (value, row, index) {
             var btn;
             if(row.canUse == 0){
-                btn='<a>停止使用</a>';
+                btn='<a class="btn" >停止使用</a>';
             }else{
-                btn='<a>启用</a>';
+                btn='<a class="btn" >启用</a>';
             }
             return btn+'<a class="btn" onclick="delUser(\''+row.id+'\',\''+row.nick+'\')">修改</a><a class="btn" onclick="delUser(\''+row.id+'\',\''+row.nick+'\')">删除</a>';
         },
