@@ -39,7 +39,7 @@ public class MachineController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public RestResultModel update(MachineModel machineModel){
+    public RestResultModel update(@ModelAttribute MachineModel machineModel){
         RestResultModel restResultModel = new RestResultModel();
         machineService.update(machineModel);
         restResultModel.setResult(200);
