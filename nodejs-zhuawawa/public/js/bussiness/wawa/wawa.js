@@ -150,9 +150,9 @@ var delMachine = function(id,name){
               console.log(data);
               $('#myModal').modal('hide');
               $.initTable('tableList', columnsArray, quaryObject, tableUrl);
-              alert('更新成功')
+              alert('删除成功')
           }else{
-             alert('更新失败')
+             alert('删除s失败')
           }
         }, function (data) {
             console.log(data);
@@ -168,9 +168,9 @@ var updateCanUse = function(id,name,canUse){
     }
     var confirmTitle;
     if(canUse == 0){
-        confirmTitle='确认要停止使用';
+        confirmTitle='确认要启用';
     }else{
-        confirmTitle='确认要开启';
+        confirmTitle='确认要停止使用';
     }
     if (confirm(confirmTitle+'“' + name + '”吗？')) {
         $.danmuAjax('/v1/api/admin/machine/updateCanUse', 'GET','json',obj, function (data) {
@@ -178,9 +178,9 @@ var updateCanUse = function(id,name,canUse){
               console.log(data);
               $('#myModal').modal('hide');
               $.initTable('tableList', columnsArray, quaryObject, tableUrl);
-              alert('更新成功')
+              alert('操作成功')
           }else{
-             alert('更新失败')
+             alert('操作失败')
           }
         }, function (data) {
             console.log(data);
