@@ -50,11 +50,11 @@ var columnsArray = [
         formatter: function (value, row, index) {
             var btn;
             if(row.canUse == 0){
-                btn='<a class="btn" >停止使用</a>';
+                btn='<a class="btn" onclick="updateCanUse(\''+row.id+'\',\''+row.name+'\',1)">停止使用</a>';
             }else{
-                btn='<a class="btn" >启用</a>';
+                btn='<a class="btn" onclick="updateCanUse(\''+row.id+'\',\''+row.name+'\',0)">启用</a>';
             }
-            return btn+'<a class="btn" onclick="delUser(\''+row.id+'\',\''+row.nick+'\')">修改</a><a class="btn" onclick="delUser(\''+row.id+'\',\''+row.nick+'\')">删除</a>';
+            return btn+'<a class="btn" onclick="openUpdate(\''+row.id+'\')">修改</a><a class="btn" onclick="delMachine(\''+row.id+'\',\''+row.name+'\')">删除</a>';
         },
         events: 'operateEvents'
     }
@@ -138,6 +138,55 @@ var updateMachine = function(){
     }, function (data) {
         console.log(data);
     });
+}
+
+var delMachine = function(id,name){
+    var obj = {
+        id:id
+    }
+    if (confirm('确认要删除设备“' + name + '”吗？')) {
+        $.danmuAjax('/v1/api/admin/machine/del', 'GET','json',obj, function (data) {
+          if (data.result == 200) {
+              console.log(data);
+              $('#myModal').modal('hide');
+              $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+              alert('更新成功')
+          }else{
+             alert('更新失败')
+          }
+        }, function (data) {
+            console.log(data);
+        });
+    }
+
+}
+
+var updateCanUse = function(id,name,canUse){
+    var obj = {
+        id:id,
+        canUse:canUse
+    }
+    var confirmTitle;
+    if(canUse == 0){
+        confirmTitle='确认要停止使用';
+    }else{
+        confirmTitle='确认要开启';
+    }
+    if (confirm(confirmTitle+'“' + name + '”吗？')) {
+        $.danmuAjax('/v1/api/admin/machine/updateCanUse', 'GET','json',obj, function (data) {
+          if (data.result == 200) {
+              console.log(data);
+              $('#myModal').modal('hide');
+              $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+              alert('更新成功')
+          }else{
+             alert('更新失败')
+          }
+        }, function (data) {
+            console.log(data);
+        });
+    }
+
 }
 
 //加载表格数据
