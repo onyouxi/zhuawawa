@@ -8,6 +8,7 @@ import com.onyouxi.wechat.process.FormatXmlProcess;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
+import org.springframework.util.StringUtils;
 
 
 import javax.net.ssl.HttpsURLConnection;
@@ -174,6 +175,9 @@ public class WeixinUtil {
      * @return
      */
     public static String getUserOpenId( String code) {
+        if(StringUtils.isEmpty(code)){
+            return null;
+        }
         String requestUrl = openid_code_url.replace("APPID",APP_ID ).replace("APPSECRET", APP_SECRET).replace("CODE", code);
         log.info("code=>openid url:"+requestUrl);
 

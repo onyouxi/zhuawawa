@@ -16,7 +16,7 @@ public class WechatMachineModel {
 
     private String machineId;
 
-    private Date createTime;
+    private Date createTime=new Date();
 
     public String getId() {
         return id;

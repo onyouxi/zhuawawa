@@ -110,7 +110,7 @@ var openUpdate = function(id){
             '<textarea id="des" class="span6">'+data.data.des+'</textarea></div><br>'+
             '</div><br>';
              $('#modalBody').html(htmlStr);
-             var footerHtml = '<button class="btn btn-primary" onclick="updateMachine()">修改</button>';
+             var footerHtml = '<button class="btn btn-primary" onclick="updateMachine(\''+row.id+'\')">修改</button>';
              $('#modalFooter').html(footerHtml);
              $('#myModal').modal('show');
           }else{
@@ -121,8 +121,9 @@ var openUpdate = function(id){
         });
 }
 
-var updateMachine = function(){
+var updateMachine = function(id){
     var obj = {
+        id:id,
         name:$('#name').val(),
         des:$('#des').val()
     }

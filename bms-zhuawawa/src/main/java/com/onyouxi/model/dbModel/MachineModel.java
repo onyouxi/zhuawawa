@@ -23,13 +23,19 @@ public class MachineModel {
     //描述信息
     private String des;
 
-    //机器状态 0空闲  1排队中
+    //机器状态 0空闲  1游戏中 2排队中
     private Integer status;
 
     //0运行中  1停止使用
     private Integer canUse;
 
     private Date createTime;
+
+    //正在玩的用户
+    private String currentWechatId;
+
+    //当前的奖品
+    private String prizeId;
 
     public String getId() {
         return id;
@@ -85,5 +91,21 @@ public class MachineModel {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getCurrentWechatId() {
+        return currentWechatId;
+    }
+
+    public void setCurrentWechatId(String currentWechatId) {
+        this.currentWechatId = currentWechatId;
+    }
+
+    public String getPrizeId() {
+        return prizeId;
+    }
+
+    public void setPrizeId(String prizeId) {
+        this.prizeId = prizeId;
     }
 }

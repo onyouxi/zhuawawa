@@ -46,6 +46,11 @@ public class WechatUserModel {
 
     private Date getLocationTime;
 
+    /**
+     * 可以玩的次数
+     */
+    private Integer playNum;
+
     public Integer getSubscribeState() {
         return subscribeState;
     }
@@ -180,5 +185,13 @@ public class WechatUserModel {
 
     public void setSubscribeTime(Long subscribeTime) {
         this.subscribeTime = subscribeTime;
+    }
+
+    public Integer getPlayNum() {
+        return playNum;
+    }
+
+    public void setPlayNum(Integer playNum) {
+        this.playNum = playNum;
     }
 }

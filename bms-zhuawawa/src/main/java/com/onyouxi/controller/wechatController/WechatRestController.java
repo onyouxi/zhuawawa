@@ -2,6 +2,7 @@ package com.onyouxi.controller.wechatController;
 
 import com.onyouxi.constant.Const;
 import com.onyouxi.model.dbModel.WechatUserModel;
+import com.onyouxi.service.WechatMachineService;
 import com.onyouxi.service.WechatUserService;
 import com.onyouxi.utils.MessageUtil;
 import com.onyouxi.utils.WechatSignUtil;
@@ -36,6 +37,9 @@ public class WechatRestController {
 
     @Autowired
     private WechatUserService wechatUserService;
+
+    @Autowired
+    private WechatMachineService wechatMachineService;
 
     /**
      * 微信公众平台验证用

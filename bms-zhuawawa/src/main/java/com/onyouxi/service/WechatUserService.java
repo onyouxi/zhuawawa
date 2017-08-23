@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.*;
@@ -57,6 +58,8 @@ public class WechatUserService {
             //保存用户信息
             wechatUser.setLastOpenDate(new Date());
             wechatUser.setSubscribeState(0);
+            //首次关注送5次游戏次数
+            wechatUser.setPlayNum(5);
             //保存微信用户信息
             return wechatUserRepository.insert(wechatUser);
         }
@@ -92,7 +95,9 @@ public class WechatUserService {
 
 
     public WechatUserModel findByOpenId(String openId) {
-
+        if(StringUtils.isEmpty(openId)){
+            return null;
+        }
         return wechatUserRepository.findByOpenId(openId);
     }
 
@@ -169,8 +174,17 @@ public class WechatUserService {
         }else{
             return null;
         }
+    }
 
-
+    public void updateWechatUserPlayNum(String wechatId,Integer num){
+        WechatUserModel wechatUserModel = this.findById(wechatId);
+        if( null != wechatUserModel){
+            if( null == wechatUserModel.getPlayNum() || wechatUserModel.getPlayNum() < 0){
+                wechatUserModel.setPlayNum(0);
+            }
+            wechatUserModel.setPlayNum(wechatUserModel.getPlayNum()+num);
+            wechatUserRepository.save(wechatUserModel);
+        }
     }
 
 

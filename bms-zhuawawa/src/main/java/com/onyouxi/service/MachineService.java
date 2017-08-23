@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -77,10 +78,11 @@ public class MachineService {
         }
     }
 
-    public void updateStatus(String id,Integer status){
+    public void updateStatus(String id,Integer status,String wechatId){
         MachineModel machineModel = machineRepository.findOne(id);
         if( null != machineModel){
             machineModel.setStatus(status);
+            machineModel.setCurrentWechatId(wechatId);
             machineRepository.save(machineModel);
         }
     }
@@ -94,6 +96,9 @@ public class MachineService {
     }
 
     public MachineModel findById(String id){
+        if(StringUtils.isEmpty(id)){
+            return null;
+        }
         return  machineRepository.findOne(id);
     }
 
