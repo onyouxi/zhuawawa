@@ -24,4 +24,6 @@ public interface WechatUserRepository extends MongoRepository<WechatUserModel, S
 
     public Page<WechatUserModel> findBySubscribeTimeBetween(long from, long to,Pageable pageable);
 
+    public List<WechatUserModel> findByIdIn(List<String> idList);
+
 }

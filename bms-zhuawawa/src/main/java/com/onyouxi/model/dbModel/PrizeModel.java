@@ -15,6 +15,9 @@ public class PrizeModel {
 
     private String name;
 
+    //该奖品的分数
+    private Integer points;
+
     private String imgUrl;
 
     private Date createTime = new Date();
@@ -49,5 +52,13 @@ public class PrizeModel {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
     }
 }

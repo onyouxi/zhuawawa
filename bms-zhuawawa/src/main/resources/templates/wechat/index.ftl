@@ -32,26 +32,46 @@
          <img src="/wcstatic/imgs/timg.jpeg" style="width:100%"/>
     </div>
     <div>
-        <!--
+        <#if gameStatus == 1>
         <div style="margin-top:3%;">
-            <span style="color:#78c300">剩余的游戏次数:</span><span style="color:red">5</span><span style="color:#78c300">次</span><button class="startButton"  style="font-size:10px;">充值</button>
+            <span style="color:#78c300">剩余的游戏次数:</span><span style="color:red">${user.playNum}</span><span style="color:#78c300">次</span><button class="startButton"  style="font-size:10px;">充值</button>
         </div>
-
+        <#if machine.wechatUserModel??>
+        <div style="margin-top:3%;">
+            <span style="color:red">${machine.wechatUserModel.nick}</span><span style="color:#78c300">正在游戏中</span>
+        </div>
+        </#if>
         <div style="margin-top:3%;word-wrap:break-word;height:5.3em">
             <span>
-                <span style="color:#78c300">目前排队中</span>：<span>阿斯顿发sdfsfd,阿斯顿发,sdfsfd,asdfs,gjgj,sdfsfd,asdfs,gjgj,sdfsfd,asdfs,gjgj</span>
+                <span style="color:#78c300">目前排队中</span>：<span style="color:red">
+                <#if wechatMachineModelList??>
+                    <#list wechatMachineModelList as wm>
+                        <#if wm.wechatUserModel??>
+                            ${wm.wechatUserModel.nick}
+                            <#if wm_index lt wechatMachineModelList?size>
+                                ,
+                            </#if>
+                        </#if>
+                    </#list>
+                <#else>
+                无
+                </#if>
+                </span>
             </span>
         </div>
-        -->
+        </#if>
+        <#if gameStatus == 0>
         <div style="margin-top:3%;text-align:center;">
-            <span style="color:#78c300">游戏时间:</span><span style="color:red;font-size:40px">30</span><span style="color:#78c300">秒</span>
+            <span style="color:#78c300">游戏时间:</span><span style="color:red;font-size:40px">${gameTime!30}</span><span style="color:#78c300">秒</span>
         </div>
+        </#if>
     </div>
-    <!--
+    <#if gameStatus == 1>
     <div style="text-align:center;width:100%;">
         <button class="startButton" style="font-size:40px;">开始游戏</button>
     </div>
-    -->
+    </#if>
+     <#if gameStatus == 0>
     <div style="width:100%;margin-top:10px;">
             <div style="float:left;width:60%;margin-left:5%">
                 <div>
@@ -71,7 +91,7 @@
                 <img src="/wcstatic/imgs/btn.png" btnNum="5" style="width:94px" class="btn" />
             </div>
     </div>
-
+    </#if>
 <div>
 </body>
 </html>

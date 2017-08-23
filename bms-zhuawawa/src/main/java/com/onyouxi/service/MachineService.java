@@ -1,6 +1,7 @@
 package com.onyouxi.service;
 
 import com.onyouxi.model.dbModel.MachineModel;
+import com.onyouxi.model.pageModel.MachineResult;
 import com.onyouxi.repository.manager.MachineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,9 @@ public class MachineService {
 
     @Autowired
     private MachineRepository machineRepository;
+
+    @Autowired
+    private WechatUserService wechatUserService;
 
     private String[] letter = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
     private String[] number = {"0","1","2","3","4","5","6","7","8","9"};
@@ -100,6 +104,16 @@ public class MachineService {
             return null;
         }
         return  machineRepository.findOne(id);
+    }
+
+    public MachineResult findByMachineId(String machineId){
+        MachineResult machineResult = new MachineResult();
+        MachineModel machineModel = this.findById(machineId);
+        machineResult.setMachineModel(machineModel);
+        if( !StringUtils.isEmpty(machineModel.getCurrentWechatId())){
+            machineResult.setWechatUserModel(wechatUserService.findById(machineModel.getCurrentWechatId()));
+        }
+        return machineResult;
     }
 
 

@@ -187,5 +187,9 @@ public class WechatUserService {
         }
     }
 
+    public List<WechatUserModel> findByIds(List<String> ids){
+        return wechatUserRepository.findByIdIn(ids);
+    }
+
 
 }
