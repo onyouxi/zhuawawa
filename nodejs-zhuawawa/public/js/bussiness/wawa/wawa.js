@@ -54,7 +54,7 @@ var columnsArray = [
             }else{
                 btn='<a class="btn" onclick="updateCanUse(\''+row.id+'\',\''+row.name+'\',0)">启用</a>';
             }
-            return btn+'<a class="btn" onclick="openUpdate(\''+row.id+'\')">选择奖品</a><a class="btn" onclick="openUpdate(\''+row.id+'\')">修改</a><a class="btn" onclick="delMachine(\''+row.id+'\',\''+row.name+'\')">删除</a>';
+            return btn+'<a class="btn" onclick="openSelectPrize()">选择奖品</a><a class="btn" onclick="openUpdate(\''+row.id+'\')">修改</a><a class="btn" onclick="delMachine(\''+row.id+'\',\''+row.name+'\')">删除</a>';
         },
         events: 'operateEvents'
     }
