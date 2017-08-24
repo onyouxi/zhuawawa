@@ -201,7 +201,7 @@ var openPrize = function(){
    '<input type="file" class="span4"  name="上传新图" /></div><br>'+
    '</div><br>';
     $('#modalBody').html(htmlStr);
-    var footerHtml = '<button class="btn btn-primary" onclick="saveMachine()">保存</button>';
+    var footerHtml = '<button class="btn btn-primary" onclick="savePrize()">保存</button>';
     $('#modalFooter').html(footerHtml);
     $('#myModal').modal('show');
 }
