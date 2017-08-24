@@ -226,7 +226,7 @@ var savePrize = function(){
 }
 
 
-var openSelectPrize = function()
+var openSelectPrize = function(){
         var prizeTableUrl = '/v1/api/admin/prize/page';
         var prizeQueryObject = {
             pageSize: 6
