@@ -26,8 +26,7 @@ public class MachineController {
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public PageResultModel findAll(Integer pageNumber, Integer pageSize){
         pageNumber = pageNumber-1;
-        Page<MachineModel> machinePage = machineService.findAll(pageNumber,pageSize);
-        return new PageResultModel(machinePage);
+        return machineService.findAllMachine(pageNumber,pageSize);
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)

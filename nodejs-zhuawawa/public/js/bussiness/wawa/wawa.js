@@ -8,13 +8,13 @@ var columnsArray = [
         }
     },
     {
-        field:'name',
+        field:'machineModel.name',
         title: '设备名称',
         align: 'center'
 
     },
     {
-        field: 'code',
+        field: 'machineModel.code',
         title: '设备序列号',
         align: 'center'
     },
@@ -22,9 +22,9 @@ var columnsArray = [
         title: '设备状态',
         align: 'center',
         formatter: function (value, row, index) {
-            if(row.canUse == 0){
+            if(row.machineModel.canUse == 0){
                 return '运行中';
-            }else if(row.canUse == 1){
+            }else if(row.machineModel.canUse == 1){
                  return '停止使用';
             }else{
                 return '未知';
@@ -35,12 +35,21 @@ var columnsArray = [
         title: '排队情况',
         align: 'center',
         formatter: function (value, row, index) {
-            if(row.status == 0){
+            if(row.machineModel.status == 0){
                 return '空闲';
-            }else if(row.status == 1){
+            }else if(row.machineModel.status == 1){
                  return '使用中';
             }else{
                 return '未知';
+            }
+        }
+    },
+    {
+        title: '奖品',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if(row.prizeModel){
+                return row.prizeModel.name;
             }
         }
     },
@@ -50,11 +59,11 @@ var columnsArray = [
         formatter: function (value, row, index) {
             var btn;
             if(row.canUse == 0){
-                btn='<a class="btn" onclick="updateCanUse(\''+row.id+'\',\''+row.name+'\',1)">停止使用</a>';
+                btn='<a class="btn" onclick="updateCanUse(\''+row.machineModel.id+'\',\''+row.machineModel.name+'\',1)">停止使用</a>';
             }else{
-                btn='<a class="btn" onclick="updateCanUse(\''+row.id+'\',\''+row.name+'\',0)">启用</a>';
+                btn='<a class="btn" onclick="updateCanUse(\''+row.machineModel.id+'\',\''+row.machineModel.name+'\',0)">启用</a>';
             }
-            return btn+'<a class="btn" onclick="openSelectPrize()">选择奖品</a><a class="btn" onclick="openUpdate(\''+row.id+'\')">修改</a><a class="btn" onclick="delMachine(\''+row.id+'\',\''+row.name+'\')">删除</a>';
+            return btn+'<a class="btn" onclick="openSelectPrize(\''+row.machineModel.id+'\')">选择奖品</a><a class="btn" onclick="openUpdate(\''+row.machineModel.id+'\')">修改</a><a class="btn" onclick="delMachine(\''+row.machineModel.id+'\',\''+row.machineModel.name+'\')">删除</a>';
         },
         events: 'operateEvents'
     }
@@ -226,7 +235,7 @@ var savePrize = function(){
 }
 
 
-var openSelectPrize = function(){
+var openSelectPrize = function(machineId){
         $('#modalBody').html('<table id="addressTableList" class="table table-striped" table-height="360"></table>');
         var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>';
         $('#modalFooter').html(buttonHtml);
@@ -245,7 +254,7 @@ var openSelectPrize = function(){
                field: '', title: '操作',
                align: 'center',
                formatter: function (value, row, index) {
-                    return '<a class="btn" onclick="openUpdatePrize(\''+row.id+'\',\''+row.name+'\')">修改</a><a class="btn" onclick="delPrize(\''+row.id+'\',\''+row.name+'\')">删除</a><a class="btn" onclick="selectPrize(\''+row.id+'\',\''+row.name+'\')">选择</a>';
+                    return '<a class="btn" onclick="openUpdatePrize(\''+row.id+'\',\''+row.name+'\')">修改</a><a class="btn" onclick="delPrize(\''+row.id+'\',\''+row.name+'\')">删除</a><a class="btn" onclick="selectPrize(\''+machineId+'\',\''+row.id+'\')">选择</a>';
                }
             }
         ];
@@ -312,6 +321,24 @@ var delPrize = function(id){
           if (data.result == 200) {
               console.log(data);
               openSelectPrize();
+              alert('删除成功')
+          }else{
+             alert('删除失败')
+          }
+        }, function (data) {
+            console.log(data);
+        });
+}
+
+var selectPrize =function(machineId,prizeId){
+    var obj = {
+        id:machineId,
+        prizeId:prizeId
+    }
+    $.danmuAjax('/v1/api/admin/machine/selectPrize', 'GET','json',obj, function (data) {
+          if (data.result == 200) {
+              console.log(data);
+              $.initTable('tableList', columnsArray, quaryObject, tableUrl);
               alert('更新成功')
           }else{
              alert('更新失败')

@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by administrator on 2017/8/23.
  */
@@ -40,6 +42,11 @@ public class PrizeService {
 
     public void del(String id){
         prizeRepository.delete(id);
+    }
+
+
+    public List<PrizeModel> findByIds(List<String> idList){
+        return prizeRepository.findByIdIn(idList);
     }
 
 

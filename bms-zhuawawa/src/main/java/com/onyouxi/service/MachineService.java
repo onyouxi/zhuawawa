@@ -1,7 +1,9 @@
 package com.onyouxi.service;
 
 import com.onyouxi.model.dbModel.MachineModel;
+import com.onyouxi.model.dbModel.PrizeModel;
 import com.onyouxi.model.pageModel.MachineResult;
+import com.onyouxi.model.pageModel.PageResultModel;
 import com.onyouxi.repository.manager.MachineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,9 @@ public class MachineService {
 
     @Autowired
     private WechatUserService wechatUserService;
+
+    @Autowired
+    private PrizeService prizeService;
 
     private String[] letter = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
     private String[] number = {"0","1","2","3","4","5","6","7","8","9"};
@@ -122,6 +127,36 @@ public class MachineService {
             machineResult.setWechatUserModel(wechatUserService.findById(machineModel.getCurrentWechatId()));
         }
         return machineResult;
+    }
+
+    public PageResultModel<MachineResult> findAllMachine(Integer page,Integer size){
+        Page<MachineModel> machineModelPage = this.findAll(page,size);
+        PageResultModel pageResultModel = new PageResultModel();
+        if( null != machineModelPage){
+            List<MachineResult> machineResultList = new ArrayList<>();
+            List<String> prizeIdList = new ArrayList<>();
+            for(MachineModel machineModel : machineModelPage.getContent()){
+                if(!StringUtils.isEmpty(machineModel.getPrizeId())){
+                    prizeIdList.add(machineModel.getPrizeId());
+                }
+            }
+            List<PrizeModel> prizeModelList = prizeService.findByIds(prizeIdList);
+            for(MachineModel machineModel : machineModelPage.getContent()){
+                MachineResult machineResult = new MachineResult();
+                machineResult.setMachineModel(machineModel);
+                if( null != prizeModelList && prizeModelList.size() > 0){
+                    for(PrizeModel prizeModel : prizeModelList){
+                        if(prizeModel.getId().equals(machineModel.getPrizeId())){
+                            machineResult.setPrizeModel(prizeModel);
+                        }
+                    }
+                }
+                machineResultList.add(machineResult);
+            }
+            pageResultModel.setRows(machineResultList);
+            pageResultModel.setTotal(machineModelPage.getTotalElements());
+        }
+        return pageResultModel;
     }
 
 
