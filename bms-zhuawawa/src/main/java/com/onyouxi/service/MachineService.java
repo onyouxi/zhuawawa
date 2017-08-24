@@ -99,6 +99,14 @@ public class MachineService {
         }
     }
 
+    public void updatePrizeId(String id,String prizeId){
+        MachineModel machineModel = machineRepository.findOne(id);
+        if( null != machineModel){
+            machineModel.setPrizeId(prizeId);
+            machineRepository.save(machineModel);
+        }
+    }
+
     public MachineModel findById(String id){
         if(StringUtils.isEmpty(id)){
             return null;

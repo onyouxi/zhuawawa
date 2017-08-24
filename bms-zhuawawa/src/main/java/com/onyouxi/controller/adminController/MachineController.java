@@ -71,4 +71,14 @@ public class MachineController {
         return restResultModel;
     }
 
+    @RequestMapping(value = "/selectPrize", method = RequestMethod.GET)
+    public RestResultModel selectPrize(String id,String prizeId){
+        RestResultModel restResultModel = new RestResultModel();
+        machineService.updatePrizeId(id,prizeId);
+        restResultModel.setResult(200);
+        return restResultModel;
+    }
+
+
+
 }

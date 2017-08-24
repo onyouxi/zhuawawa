@@ -54,7 +54,7 @@ var columnsArray = [
             }else{
                 btn='<a class="btn" onclick="updateCanUse(\''+row.id+'\',\''+row.name+'\',0)">启用</a>';
             }
-            return btn+'<a class="btn" onclick="openUpdate(\''+row.id+'\')">修改</a><a class="btn" onclick="delMachine(\''+row.id+'\',\''+row.name+'\')">删除</a>';
+            return btn+'<a class="btn" onclick="openUpdate(\''+row.id+'\')">选择奖品</a><a class="btn" onclick="openUpdate(\''+row.id+'\')">修改</a><a class="btn" onclick="delMachine(\''+row.id+'\',\''+row.name+'\')">删除</a>';
         },
         events: 'operateEvents'
     }
@@ -190,5 +190,120 @@ var updateCanUse = function(id,name,canUse){
 
 }
 
+var openPrize = function(){
+    $('#myModalLabel').html('新增奖品');
+    var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
+   '<label class="control-label" style="width:50px">奖品名称</label><div class="controls" style="margin-left:60px;">'+
+   '<input type="text" class="span4" id="prizeName" /></div><br>'+
+   '<label class="control-label" style="width:50px">奖品积分</label><div class="controls" style="margin-left:60px;">'+
+   '<input type="text" class="span4" id="prizePoints"  /></div><br>'+
+   '<label class="control-label" style="width:50px">奖品图片</label><div class="controls" style="margin-left:60px;">'+
+   '<input type="file" class="span4"  name="上传新图" /></div><br>'+
+   '</div><br>';
+    $('#modalBody').html(htmlStr);
+    var footerHtml = '<button class="btn btn-primary" onclick="saveMachine()">保存</button>';
+    $('#modalFooter').html(footerHtml);
+    $('#myModal').modal('show');
+}
+
+var savePrize = function(){
+    var obj = {
+        name:$('#prizeName').val(),
+        points:$('#prizePoints').val()
+    }
+    $.danmuAjax('/v1/api/admin/prize/save', 'POST','json',obj, function (data) {
+          if (data.result == 200) {
+              console.log(data);
+              $('#myModal').modal('hide');
+              $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+              alert('更新成功')
+          }else{
+             alert('更新失败')
+          }
+        }, function (data) {
+            console.log(data);
+        });
+}
+
+
+var openSelectPrize = function()
+        var prizeTableUrl = '/v1/api/admin/prize/page';
+        var prizeQueryObject = {
+            pageSize: 6
+        }
+        var prizeColumnsArray =[
+            {
+                field: 'name',
+                title: '名称',
+                align: 'center'
+            },
+            {
+               field: '', title: '操作',
+               align: 'center',
+               formatter: function (value, row, index) {
+                    return '<a class="btn" onclick="openUpdatePrize(\''+row.id+'\',\''+row.name+'\')">修改</a><a class="btn" onclick="selectPrize(\''+row.id+'\',\''+row.name+'\')">选择</a>';
+               }
+            }
+        ];
+
+        var tableSuccess = function(){
+            $('#modalBody').find('.pull-left').remove();
+        }
+        $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl,tableSuccess);
+
+        var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>' +
+        '<button class="btn btn-primary" onclick="openAddress(\''+partyName+'\',\''+partyId+'\')">本活动的场地</button>';
+        $('#modalFooter').html(buttonHtml);
+
+}
+
+
+
+var openUpdatePrize = function(id){
+    var obj = {
+        id:id
+    }
+    $.danmuAjax('/v1/api/admin/prize/get', 'GET','json',obj, function (data) {
+          if (data.result == 200) {
+              $('#myModalLabel').html('修改奖品信息');
+                  var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
+                 '<label class="control-label" style="width:50px">奖品名称</label><div class="controls" style="margin-left:60px;">'+
+                 '<input type="text" class="span4" id="prizeName" value="'+data.data.name+'" /></div><br>'+
+                 '<label class="control-label" style="width:50px">奖品积分</label><div class="controls" style="margin-left:60px;">'+
+                 '<input type="text" class="span4" id="prizePoints"  value="'+data.data.points+'"/></div><br>'+
+                 '<label class="control-label" style="width:50px">奖品图片</label><div class="controls" style="margin-left:60px;">'+
+                 '<input type="file" class="span4"  name="上传新图" /></div><br>'+
+                 '</div><br>';
+                  $('#modalBody').html(htmlStr);
+                  var footerHtml = '<button class="btn btn-primary" onclick="updatePrize('+data.data.id+')">修改</button>';
+                  $('#modalFooter').html(footerHtml);
+                  $('#myModal').modal('show');
+          }else{
+             alert('查询失败')
+          }
+    }, function (data) {
+        console.log(data);
+    });
+}
+
+var updatePrize = function(id){
+    var obj = {
+        id:id
+        name:$('#prizeName').val(),
+        points:$('#prizePoints').val()
+    }
+    $.danmuAjax('/v1/api/admin/prize/update', 'POST','json',obj, function (data) {
+          if (data.result == 200) {
+              console.log(data);
+              $('#myModal').modal('hide');
+              openSelectPrize();
+              alert('更新成功')
+          }else{
+             alert('更新失败')
+          }
+        }, function (data) {
+            console.log(data);
+        });
+}
 //加载表格数据
 $.initTable('tableList', columnsArray, quaryObject, tableUrl);
