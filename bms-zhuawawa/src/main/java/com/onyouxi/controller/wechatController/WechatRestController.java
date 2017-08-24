@@ -1,20 +1,19 @@
 package com.onyouxi.controller.wechatController;
 
 import com.onyouxi.constant.Const;
-import com.onyouxi.model.dbModel.WechatUserModel;
-import com.onyouxi.service.WechatMachineService;
+import com.onyouxi.model.pageModel.RestResultModel;
 import com.onyouxi.service.WechatUserService;
+import com.onyouxi.service.ZhuawawaService;
 import com.onyouxi.utils.MessageUtil;
 import com.onyouxi.utils.WechatSignUtil;
-import com.onyouxi.utils.WeixinUtil;
 import com.onyouxi.wechat.entity.ReceiveXmlEntity;
 import com.onyouxi.wechat.message.TextMessage;
 import com.onyouxi.wechat.process.FormatXmlProcess;
 import com.onyouxi.wechat.process.ReceiveXmlProcess;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,9 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by administrator on 2017/8/16.
@@ -39,7 +35,7 @@ public class WechatRestController {
     private WechatUserService wechatUserService;
 
     @Autowired
-    private WechatMachineService wechatMachineService;
+    private ZhuawawaService zhuawawaService;
 
     /**
      * 微信公众平台验证用
@@ -161,6 +157,19 @@ public class WechatRestController {
 
         }
         return result;
+    }
+
+    @RequestMapping(value = "/start", method = RequestMethod.GET)
+    public RestResultModel start(@CookieValue(required=false) String wechatId, String machineId) {
+        RestResultModel restResultModel = new RestResultModel();
+        String result = zhuawawaService.start(wechatId,machineId);
+        if( null != result){
+            restResultModel.setResult(500);
+            restResultModel.setData(result);
+        }else{
+            restResultModel.setResult(200);
+        }
+        return restResultModel;
     }
 
 }

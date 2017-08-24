@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>抓娃娃s</title>
+    <title>抓娃娃</title>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
@@ -93,5 +93,118 @@
     </div>
     </#if>
 <div>
+<script>
+    var code='${machine.machineModel.code}';
+    $(function(){
+        $('.btn').on({
+            touchstart:function(e){
+                var btnNum = $(this).attr('btnNum');
+                $(this).attr('class','btn gray');
+                var name;
+                if(btnNum==1){
+                    name='left';
+                }else if(btnNum==2){
+                    name='down';
+                }else if(btnNum==3){
+                    name='up';
+                }else if(btnNum==4){
+                    name='right';
+                }else if(btnNum==5){
+                    name='zhua';
+                }
+                if( name ){
+                    sendMessage('{type:"action",code:"'+code+'",name:"'+name+'"}');
+                    console.log(btnNum);
+                }
+                timeOutEvent=setTimeout("longPress()",200);
+                e.preventDefault();
+            },
+            touchmove:function(){
+                clearTimeout(timeOutEvent);
+                timeOutEvent=0;
+            },
+            touchend:function(){
+                clearTimeout(timeOutEvent);
+                $(this).attr('class','btn');
+                 var btnNum = $(this).attr('btnNum');
+                if(timeOutEvent!=0 && btnNum != 5){
+                    alert("请长时间按按钮");
+                }else{
+                    if(btnNum != 5){
+                        console.log('end');
+                        sendMessage('{type:"action",code:"'+code+'",name:"end"}');
+                    }
+                }
+                return false;
+            }
+        })
+
+    });
+
+
+
+    function longPress(){
+        timeOutEvent = 0;
+    }
+
+    var websoctAddress;
+    var ws;
+    var websoctAddress = "ws://${websocketUrl}/ws/user?wechatId=${user.id}";
+    var webSocketInit = function () {
+        //初始化websocket
+        if (WebSocket) {
+            ws = new WebSocket(websoctAddress);
+            ws.onopen = function (event) {
+                ws.onmessage = function (event) {
+                    //收到消息后处理
+                    acceptMessageHandler(event);
+                }
+                ws.onerror = function (event) {
+                    return;
+                }
+                ws.onclose = function (event) {
+                    return false;
+                }
+            }
+        } else {
+            alert('浏览器不支持webscoket，请使用支持html5的浏览器');
+        }
+    }
+
+    /**
+     * 发送消息
+     */
+    function sendMessage(msg) {
+        if (webSocketIsConnect()) {
+            ws.send(msg);
+        }
+    }
+
+    function webSocketIsConnect() {
+        if (ws.readyState == 1) {
+            return true;
+        }
+        return false;
+    }
+    function acceptMessageHandler(event) {
+
+    }
+    webSocketInit();
+
+
+    function start(){
+        $.ajax({
+          url: "/wechat/start?macineId=${machine.machineModel.id}",
+          type: "get"
+        }).done(function (data) {
+             if(data.result == 200){
+                alert('开始游戏');
+             }else{
+                  alert(data.result_msg);
+             }
+        });
+
+    }
+</script>
 </body>
 </html>

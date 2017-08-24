@@ -42,8 +42,8 @@ public class UserH5ReceiveHandler extends BaseTextWebSocketHandler {
         URI uri = session.getUri();
         String query = uri.getQuery();
         if(!StringUtils.isEmpty(query)){
-            if(query.indexOf("openId") != -1){
-                String openId = query.substring(query.indexOf("openId=")+7,query.length()-1);
+            if(query.indexOf("wechatId") != -1){
+                String openId = query.substring(query.indexOf("wechatId=")+9,query.length()-1);
                 log.info("openId {}",openId);
                 userSessionService.addUser(openId,session);
             }else{

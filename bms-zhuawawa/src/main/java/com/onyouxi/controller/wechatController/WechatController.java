@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -68,6 +69,10 @@ public class WechatController {
             model.addAttribute("wechatMachineList",wechatMachineResultList);
             model.addAttribute("gameStatus",1);
         }
+        Cookie cookie = new Cookie("wechatId", wechatUser.getId());
+        cookie.setMaxAge(3600);
+        cookie.setPath("/");
+        response.addCookie(cookie);
 
         return "wechat/index";
     }
