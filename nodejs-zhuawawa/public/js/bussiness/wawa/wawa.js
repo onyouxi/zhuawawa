@@ -274,7 +274,7 @@ var openUpdatePrize = function(id){
                  '<input type="file" class="span4"  name="上传新图" /></div><br>'+
                  '</div><br>';
                   $('#modalBody').html(htmlStr);
-                  var footerHtml = '<button class="btn btn-primary" onclick="updatePrize('+data.data.id+')">修改</button>';
+                  var footerHtml = '<button class="btn btn-primary" onclick="updatePrize(\''+data.data.id+'\')">修改</button>';
                   $('#modalFooter').html(footerHtml);
                   $('#myModal').modal('show');
           }else{
