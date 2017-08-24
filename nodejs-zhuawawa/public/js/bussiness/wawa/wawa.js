@@ -227,6 +227,10 @@ var savePrize = function(){
 
 
 var openSelectPrize = function(){
+        $('#modalBody').html('<table id="addressTableList" class="table table-striped" table-height="360"></table>');
+        var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>';
+        $('#modalFooter').html(buttonHtml);
+        $('#myModal').modal('show');
         var prizeTableUrl = '/v1/api/admin/prize/page';
         var prizeQueryObject = {
             pageSize: 6
@@ -245,15 +249,10 @@ var openSelectPrize = function(){
                }
             }
         ];
-
         var tableSuccess = function(){
             $('#modalBody').find('.pull-left').remove();
         }
-        $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl,tableSuccess);
-
-        var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>' +
-        '<button class="btn btn-primary" onclick="openAddress(\''+partyName+'\',\''+partyId+'\')">本活动的场地</button>';
-        $('#modalFooter').html(buttonHtml);
+        $.initTable('addressTableList', prizeColumnsArray, prizeQueryObject, prizeTableUrl,tableSuccess);
 
 }
 
