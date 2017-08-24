@@ -68,7 +68,7 @@
     </div>
     <#if gameStatus == 1>
     <div style="text-align:center;width:100%;">
-        <button class="startButton" style="font-size:40px;">开始游戏</button>
+        <button class="startButton" style="font-size:40px;" onclick="start()">开始游戏</button>
     </div>
     </#if>
      <#if gameStatus == 0>

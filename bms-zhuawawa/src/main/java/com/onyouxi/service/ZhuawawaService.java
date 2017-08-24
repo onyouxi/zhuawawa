@@ -52,7 +52,7 @@ public class ZhuawawaService {
             if( null ==wechatUserModel){
                 return "该用户不存在";
             }
-            if( wechatUserModel.getPlayNum() <=0){
+            if( null ==wechatUserModel.getPlayNum() || wechatUserModel.getPlayNum() <=0){
                 return "你已经没有游戏次数了，请充值";
             }
             if (machineModel.getCanUse() == 1) {
