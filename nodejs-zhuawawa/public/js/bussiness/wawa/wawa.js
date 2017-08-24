@@ -245,7 +245,7 @@ var openSelectPrize = function(){
                field: '', title: '操作',
                align: 'center',
                formatter: function (value, row, index) {
-                    return '<a class="btn" onclick="openUpdatePrize(\''+row.id+'\',\''+row.name+'\')">修改</a><a class="btn" onclick="selectPrize(\''+row.id+'\',\''+row.name+'\')">选择</a>';
+                    return '<a class="btn" onclick="openUpdatePrize(\''+row.id+'\',\''+row.name+'\')">修改</a><a class="btn" onclick="delPrize(\''+row.id+'\',\''+row.name+'\')">删除</a><a class="btn" onclick="selectPrize(\''+row.id+'\',\''+row.name+'\')">选择</a>';
                }
             }
         ];
@@ -294,7 +294,23 @@ var updatePrize = function(id){
     $.danmuAjax('/v1/api/admin/prize/update', 'POST','json',obj, function (data) {
           if (data.result == 200) {
               console.log(data);
-              $('#myModal').modal('hide');
+              openSelectPrize();
+              alert('更新成功')
+          }else{
+             alert('更新失败')
+          }
+        }, function (data) {
+            console.log(data);
+        });
+}
+
+var delPrize = function(id){
+    var obj = {
+        id:id
+    }
+    $.danmuAjax('/v1/api/admin/prize/del', 'GET','json',obj, function (data) {
+          if (data.result == 200) {
+              console.log(data);
               openSelectPrize();
               alert('更新成功')
           }else{
