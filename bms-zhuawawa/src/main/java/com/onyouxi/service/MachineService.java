@@ -120,6 +120,9 @@ public class MachineService {
     }
 
     public MachineResult findByMachineId(String machineId){
+        if( StringUtils.isEmpty(machineId)){
+            return null;
+        }
         MachineResult machineResult = new MachineResult();
         MachineModel machineModel = this.findById(machineId);
         machineResult.setMachineModel(machineModel);
