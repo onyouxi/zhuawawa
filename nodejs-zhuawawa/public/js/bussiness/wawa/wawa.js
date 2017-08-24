@@ -288,7 +288,7 @@ var openUpdatePrize = function(id){
 
 var updatePrize = function(id){
     var obj = {
-        id:id
+        id:id,
         name:$('#prizeName').val(),
         points:$('#prizePoints').val()
     }
