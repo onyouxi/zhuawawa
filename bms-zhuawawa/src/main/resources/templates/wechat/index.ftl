@@ -203,8 +203,8 @@
 
 
     function start(){
+        console.log('start');
         $(this).attr('class','startButton gray');
-
         $.ajax({
           url: "/wechat/start?macineId=${machine.machineModel.id}",
           type: "get"
