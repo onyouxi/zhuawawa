@@ -160,7 +160,7 @@ public class WechatRestController {
     }
 
     @RequestMapping(value = "/start", method = RequestMethod.GET)
-    public RestResultModel start(@CookieValue(required=false) String wechatId, String machineId) {
+    public RestResultModel start(String machineId ,String wechatId) {
         RestResultModel restResultModel = new RestResultModel();
         log.info("machineId:{}",machineId);
         String result = zhuawawaService.start(wechatId,machineId);

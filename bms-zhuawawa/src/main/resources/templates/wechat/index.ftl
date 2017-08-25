@@ -206,13 +206,13 @@
         console.log('start');
         $(this).attr('class','startButton gray');
         $.ajax({
-          url: "/wechat/start?macineId=${machine.machineModel.id}",
+          url: "/wechat/start?machineId=${machine.machineModel.id}",
           type: "get"
         }).done(function (data) {
              if(data.result == 200){
                 webSocketInit();
              }else{
-                  alert(data.result_msg);
+                alert(data.result_msg);
              }
         });
 
