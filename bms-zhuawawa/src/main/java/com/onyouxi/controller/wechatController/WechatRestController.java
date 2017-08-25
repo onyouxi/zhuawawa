@@ -162,6 +162,7 @@ public class WechatRestController {
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     public RestResultModel start(@CookieValue(required=false) String wechatId, String machineId) {
         RestResultModel restResultModel = new RestResultModel();
+        log.info("machineId:{}",machineId);
         String result = zhuawawaService.start(wechatId,machineId);
         if( null != result){
             restResultModel.setResult(500);
