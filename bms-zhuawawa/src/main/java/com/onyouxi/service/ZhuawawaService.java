@@ -181,6 +181,31 @@ public class ZhuawawaService {
     }
 
     /**
+     * 游戏超时
+     * @return
+     */
+    public String overTime(String wechatPlayId){
+        if(StringUtils.isEmpty(wechatPlayId) ){
+            return "错误的参数";
+        }
+        WechatUserPlayModel wechatUserPlayModel = wechatUserPlayService.findById(wechatPlayId);
+        if( null == wechatUserPlayModel){
+            return "错误的参数";
+        }
+        if( wechatUserPlayModel.getStatus() > 0){
+            return "本局游戏已经结束";
+        }
+        if(null == wechatUserPlayModel.getEndTime() ){
+            long gameTime = new Date().getTime() - wechatUserPlayModel.getStartTime().getTime();
+            if(gameTime > 30*1000){
+                wechatUserPlayService.updateStatus(wechatPlayId,1,null);
+                return "overTime";
+            }
+        }
+        return null;
+    }
+
+    /**
      * 排队通知 每分钟通知一次
      */
     @Scheduled(cron="0 30 * * * ?")

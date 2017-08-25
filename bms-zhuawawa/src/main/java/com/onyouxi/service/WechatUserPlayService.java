@@ -33,6 +33,14 @@ public class WechatUserPlayService {
         }
     }
 
+    public void updateEndTime(String id){
+        WechatUserPlayModel wechatUserPlayModel = this.findById(id);
+        if( null != wechatUserPlayModel){
+            wechatUserPlayModel.setEndTime(new Date());
+            wechatUserPlayRepository.save(wechatUserPlayModel);
+        }
+    }
+
     public WechatUserPlayModel findById(String id){
         return wechatUserPlayRepository.findOne(id);
     }
