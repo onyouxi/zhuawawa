@@ -68,7 +68,7 @@
         </div>
         </#if>
 
-        <div id="gameTime" style="margin-top:3%;text-align:center;<#if gameStatus == 0>display:none</#if>">
+        <div id="gameTime" style="margin-top:3%;text-align:center;<#if gameStatus == 1>display:none</#if>">
             <span style="color:#78c300">游戏时间:</span><span style="color:red;font-size:40px">${gameTime!30}</span><span style="color:#78c300">秒</span>
         </div>
     </div>
@@ -78,7 +78,7 @@
     </div>
     </#if>
 
-    <div id="controller" style="width:100%;margin-top:10px;<#if gameStatus == 0>display:none</#if>">
+    <div id="controller" style="width:100%;margin-top:10px;<#if gameStatus == 1>display:none</#if>">
             <div style="float:left;width:60%;margin-left:5%">
                 <div>
                     <img src="/wcstatic/imgs/btn2.png" btnNum="1" style="width:50px;padding-left:60px;" class="btn"/>
