@@ -1,5 +1,6 @@
 package com.onyouxi.handler;
 
+import com.onyouxi.model.pageModel.UserH5SocketModel;
 import com.onyouxi.service.MachineSessionService;
 import com.onyouxi.service.UserSessionService;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
@@ -46,6 +48,11 @@ public class UserH5ReceiveHandler extends BaseTextWebSocketHandler {
                 String openId = query.substring(query.indexOf("wechatId=")+9,query.length()-1);
                 log.info("openId {}",openId);
                 userSessionService.addUser(openId,session);
+                UserH5SocketModel userH5SocketModel = new UserH5SocketModel();
+                userH5SocketModel.setResult(200);
+                userH5SocketModel.setCmd("login");
+                TextMessage textMessage = new TextMessage(JSONObject.fromObject(userH5SocketModel).toString());
+                session.sendMessage(textMessage);
             }else{
                 session.close(CloseStatus.NOT_ACCEPTABLE.withReason("no openId"));
             }

@@ -24,6 +24,13 @@
             border-radius:39px;
             background-color:rgb(120, 195, 0);}
         .startButton:hover{color:#ffffff;background-color:#78c300;border-color:#c5e591;}
+        .gray {
+            filter: grayscale(100%);
+            -webkit-filter: grayscale(100%);
+            -moz-filter: grayscale(100%);
+            -ms-filter: grayscale(100%);
+            -o-filter: grayscale(100%);
+        }
     </style>
 </head>
 <body>
@@ -60,19 +67,18 @@
             </span>
         </div>
         </#if>
-        <#if gameStatus == 0>
-        <div style="margin-top:3%;text-align:center;">
+
+        <div id="gameTime" style="margin-top:3%;text-align:center;<#if gameStatus == 0>display:none</#if>">
             <span style="color:#78c300">游戏时间:</span><span style="color:red;font-size:40px">${gameTime!30}</span><span style="color:#78c300">秒</span>
         </div>
-        </#if>
     </div>
     <#if gameStatus == 1>
     <div style="text-align:center;width:100%;">
         <button class="startButton" style="font-size:40px;" onclick="start()">开始游戏</button>
     </div>
     </#if>
-     <#if gameStatus == 0>
-    <div style="width:100%;margin-top:10px;">
+
+    <div id="controller" style="width:100%;margin-top:10px;<#if gameStatus == 0>display:none</#if>">
             <div style="float:left;width:60%;margin-left:5%">
                 <div>
                     <img src="/wcstatic/imgs/btn2.png" btnNum="1" style="width:50px;padding-left:60px;" class="btn"/>
@@ -91,7 +97,6 @@
                 <img src="/wcstatic/imgs/btn.png" btnNum="5" style="width:94px" class="btn" />
             </div>
     </div>
-    </#if>
 <div>
 <script>
     var code='${machine.machineModel.code}';
@@ -187,18 +192,25 @@
         return false;
     }
     function acceptMessageHandler(event) {
-
+        var object = $.parseJSON(event);
+        if(object.result==200){
+            if(object.cmd == 'login'){
+                $('#gameTime').show();
+                $('#controller').show();
+            }
+        }
     }
-    webSocketInit();
 
 
     function start(){
+        $(this).attr('class','startButton gray');
+
         $.ajax({
           url: "/wechat/start?macineId=${machine.machineModel.id}",
           type: "get"
         }).done(function (data) {
              if(data.result == 200){
-                alert('开始游戏');
+                webSocketInit();
              }else{
                   alert(data.result_msg);
              }
