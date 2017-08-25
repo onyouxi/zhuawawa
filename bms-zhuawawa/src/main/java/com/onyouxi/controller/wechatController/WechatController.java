@@ -69,16 +69,15 @@ public class WechatController {
         if( null != wechatUserPlayModelList && wechatUserPlayModelList.size() > 0){
             WechatUserPlayModel wechatUserPlayModel = wechatUserPlayModelList.get(0);
             long gameTime = new Date().getTime() - wechatUserPlayModel.getStartTime().getTime();
-            model.addAttribute("gameTime",gameTime);
-            model.addAttribute("gameStatus",0);
+            //游戏时间超时
+            if(gameTime > 30*1000 ){
+                startGame(machineId,model,wechatUser);
+            }else {
+                model.addAttribute("gameTime", gameTime/1000);
+                model.addAttribute("gameStatus", 0);
+            }
         }else{
-            MachineResult machineResult = machineService.findByMachineId(machineId);
-            List<WechatMachineResult> wechatMachineResultList = wechatMachineService.findResultByMachineId(machineId);
-            model.addAttribute("websocketUrl",websocketUrl);
-            model.addAttribute("machine",machineResult);
-            model.addAttribute("user",wechatUser);
-            model.addAttribute("wechatMachineList",wechatMachineResultList);
-            model.addAttribute("gameStatus",1);
+            startGame(machineId,model,wechatUser);
         }
         Cookie cookie = new Cookie("wechatId", wechatUser.getId());
         cookie.setMaxAge(3600);
@@ -86,6 +85,16 @@ public class WechatController {
         response.addCookie(cookie);
 
         return "wechat/index";
+    }
+
+    private void startGame(String machineId , Model model , WechatUserModel wechatUser){
+        MachineResult machineResult = machineService.findByMachineId(machineId);
+        List<WechatMachineResult> wechatMachineResultList = wechatMachineService.findResultByMachineId(machineId);
+        model.addAttribute("websocketUrl",websocketUrl);
+        model.addAttribute("machine",machineResult);
+        model.addAttribute("user",wechatUser);
+        model.addAttribute("wechatMachineList",wechatMachineResultList);
+        model.addAttribute("gameStatus",1);
     }
 
 }
