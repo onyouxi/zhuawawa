@@ -165,7 +165,7 @@ public class WechatRestController {
         String result = zhuawawaService.start(wechatId,machineId);
         if( null != result){
             restResultModel.setResult(500);
-            restResultModel.setData(result);
+            restResultModel.setResult_msg(result);
         }else{
             restResultModel.setResult(200);
         }
