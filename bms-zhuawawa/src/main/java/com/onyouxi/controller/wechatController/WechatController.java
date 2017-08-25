@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -51,9 +52,19 @@ public class WechatController {
     private WechatUserPlayService wechatUserPlayService;
 
     @RequestMapping(value = "/zhuawawa", method = RequestMethod.GET)
-    public String zhuawawa(String code, String machineId, Model model, HttpServletResponse response, HttpServletRequest request){
+    public String zhuawawa(String code, String machineId, @CookieValue(required = false) String wechatId, Model model, HttpServletResponse response, HttpServletRequest request){
         String openId = WeixinUtil.getUserOpenId(code);
-        WechatUserModel wechatUser = wechatUserService.findByOpenId(openId);
+        if( StringUtils.isEmpty(openId) && StringUtils.isEmpty(wechatId)){
+            throw new IllegalArgumentException("非法的参数");
+        }
+        WechatUserModel wechatUser = null;
+        if(!StringUtils.isEmpty(openId)){
+            wechatUser = wechatUserService.findByOpenId(openId);
+        }
+        if(!StringUtils.isEmpty(wechatId)){
+            wechatUser = wechatUserService.findById(wechatId);
+        }
+
         List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findByWechatUserIdAndMachineIdAndStatus(wechatUser.getId(),machineId,0);
         if( null != wechatUserPlayModelList && wechatUserPlayModelList.size() > 0){
             WechatUserPlayModel wechatUserPlayModel = wechatUserPlayModelList.get(0);

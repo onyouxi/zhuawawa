@@ -192,7 +192,7 @@
         return false;
     }
     function acceptMessageHandler(event) {
-        var object = $.parseJSON(event);
+        var object = $.parseJSON(event.data);
         if(object.result==200){
             if(object.cmd == 'login'){
                 $('#gameTime').show();
