@@ -184,7 +184,7 @@ public class ZhuawawaService {
      * 游戏超时
      * @return
      */
-    public String overTime(String wechatPlayId){
+    public String overTime(String wechatPlayId,String machineId){
         if(StringUtils.isEmpty(wechatPlayId) ){
             return "错误的参数";
         }
@@ -199,6 +199,7 @@ public class ZhuawawaService {
             long gameTime = new Date().getTime() - wechatUserPlayModel.getStartTime().getTime();
             if(gameTime > 30*1000){
                 wechatUserPlayService.updateStatus(wechatPlayId,1,null);
+                machineService.updateCurrentUser(machineId,null);
                 return "overTime";
             }
         }
