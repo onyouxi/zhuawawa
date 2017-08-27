@@ -54,6 +54,8 @@ public class WechatController {
     @RequestMapping(value = "/zhuawawa", method = RequestMethod.GET)
     public String zhuawawa(String code, String machineId, @CookieValue(required = false) String wechatId, Model model, HttpServletResponse response, HttpServletRequest request){
         String openId = WeixinUtil.getUserOpenId(code);
+
+        log.info("openId:"+openId+"   wechatId:"+wechatId);
         if( StringUtils.isEmpty(openId) && StringUtils.isEmpty(wechatId)){
             throw new IllegalArgumentException("非法的参数");
         }
@@ -69,6 +71,7 @@ public class WechatController {
         if( null != wechatUserPlayModelList && wechatUserPlayModelList.size() > 0){
             WechatUserPlayModel wechatUserPlayModel = wechatUserPlayModelList.get(0);
             long gameTime = new Date().getTime() - wechatUserPlayModel.getStartTime().getTime();
+            log.info("gameTime"+gameTime);
             //游戏时间超时
             if(gameTime > 30*1000 ){
                 zhuawawaService.overTime(wechatUserPlayModel.getId());
