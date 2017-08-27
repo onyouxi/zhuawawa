@@ -69,6 +69,7 @@ public class WechatController {
 
         List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findByWechatUserIdAndMachineIdAndStatus(wechatUser.getId(),machineId,0);
         if( null != wechatUserPlayModelList && wechatUserPlayModelList.size() > 0){
+            log.info("wechatUserPlayModelList{}" ,wechatUserPlayModelList.size());
             WechatUserPlayModel wechatUserPlayModel = wechatUserPlayModelList.get(0);
             long gameTime = new Date().getTime() - wechatUserPlayModel.getStartTime().getTime();
             log.info("gameTime"+gameTime);
