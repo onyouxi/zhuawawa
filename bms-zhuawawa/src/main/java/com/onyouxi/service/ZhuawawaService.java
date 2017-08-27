@@ -199,7 +199,15 @@ public class ZhuawawaService {
             long gameTime = new Date().getTime() - wechatUserPlayModel.getStartTime().getTime();
             if(gameTime > 30*1000){
                 wechatUserPlayService.updateStatus(wechatPlayId,1,null);
-                machineService.updateCurrentUser(machineId,null);
+                List<WechatMachineModel> wechatMachineModelList = wechatMachineService.findByMachineId(wechatUserPlayModel.getMachineId());
+                //当没有人在排队了
+                if( null == wechatMachineModelList || wechatMachineModelList.size() == 0){
+                    machineService.updateStatus(wechatUserPlayModel.getMachineId(),0,null);
+                }else{
+                    //当还有人在排队的时候 TODO需要通知队列里的第一个人
+                    machineService.updateStatus(wechatUserPlayModel.getMachineId(),2,null);
+                    WechatMachineModel wechatMachineModel = wechatMachineModelList.get(0);
+                }
                 return "overTime";
             }
         }

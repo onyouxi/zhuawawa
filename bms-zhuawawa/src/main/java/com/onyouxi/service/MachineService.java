@@ -112,14 +112,6 @@ public class MachineService {
         }
     }
 
-    public void updateCurrentUser(String id,String wechatId){
-        MachineModel machineModel = machineRepository.findOne(id);
-        if( null != machineModel){
-            machineModel.setCurrentWechatId(wechatId);
-            machineRepository.save(machineModel);
-        }
-    }
-
     public MachineModel findById(String id){
         if(StringUtils.isEmpty(id)){
             return null;

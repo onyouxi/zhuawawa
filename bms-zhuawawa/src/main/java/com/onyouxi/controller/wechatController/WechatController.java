@@ -54,10 +54,9 @@ public class WechatController {
     @RequestMapping(value = "/zhuawawa", method = RequestMethod.GET)
     public String zhuawawa(String code, String machineId, @CookieValue(required = false) String wechatId, Model model, HttpServletResponse response, HttpServletRequest request){
         String openId = WeixinUtil.getUserOpenId(code);
-
         log.info("openId:"+openId+"   wechatId:"+wechatId);
         if( StringUtils.isEmpty(openId) && StringUtils.isEmpty(wechatId)){
-            throw new IllegalArgumentException("非法的参数");
+            return "redirect:https://open.weixin.qq.com/connect/oauth2/authorize?appid="+WeixinUtil.APP_ID+"&redirect_uri=http://zhua.party-time.cn/wechat/zhuawawa?machineId="+machineId+"&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
         }
         WechatUserModel wechatUser = null;
         if(!StringUtils.isEmpty(openId)){
