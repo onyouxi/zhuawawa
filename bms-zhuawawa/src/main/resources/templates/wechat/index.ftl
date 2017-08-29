@@ -40,6 +40,7 @@
     </div>
     <div>
         <#if gameStatus == 1>
+        <div id="gameInit">
         <div style="margin-top:3%;">
             <span style="color:#78c300">剩余的游戏次数:</span><span style="color:red">${user.playNum!0}</span><span style="color:#78c300">次</span><button class="startButton"  style="font-size:10px;">充值</button>
         </div>
@@ -66,6 +67,7 @@
                 </span>
             </span>
         </div>
+        <div>
         </#if>
 
         <div id="gameTime" style="margin-top:3%;text-align:center;<#if gameStatus == 1>display:none</#if>">
@@ -73,7 +75,7 @@
         </div>
     </div>
     <#if gameStatus == 1>
-    <div style="text-align:center;width:100%;">
+    <div id="startBtn" style="text-align:center;width:100%;">
         <button class="startButton" style="font-size:40px;" onclick="start()">开始游戏</button>
     </div>
     </#if>
@@ -197,6 +199,8 @@
             if(object.cmd == 'login'){
                 $('#gameTime').show();
                 $('#controller').show();
+                $('#gameInit').hide();
+                $('#startBtn').hide();
             }
         }
     }
