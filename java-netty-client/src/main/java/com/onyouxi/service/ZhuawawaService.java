@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.onyouxi.util.ArduinoSerialUtil;
 import com.onyouxi.util.CmdConst;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,10 @@ public class ZhuawawaService {
         }catch (Exception e){
             log.error("ArduinoSerial init error:",e);
         }
+    }
+
+    public void initChannel(ChannelHandlerContext ctx){
+        arduinoSerialUtil.initChannel(ctx);
     }
 
     /**

@@ -10,5 +10,5 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(mongoTemplateRef = "mongoTemplate")
 public interface MachineRepository extends MongoRepository<MachineModel,String> {
 
-
+    MachineModel findByCode(String code);
 }

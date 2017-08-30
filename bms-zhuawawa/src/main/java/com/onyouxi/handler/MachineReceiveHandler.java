@@ -1,6 +1,7 @@
 package com.onyouxi.handler;
 
 import com.onyouxi.service.MachineSessionService;
+import com.onyouxi.service.ZhuawawaService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,17 @@ public class MachineReceiveHandler extends BaseTextWebSocketHandler {
   @Autowired
   private MachineSessionService machineSessionService;
 
+  @Autowired
+  private ZhuawawaService zhuawawaService;
+
   @Override
   protected void handler(WebSocketSession session, String type, JSONObject json) throws IOException {
-
+    log.info(json.toString());
+    if("end".equals(type)){
+      String code = machineSessionService.returnMachineCode(session);
+      Integer status = json.getInt("status");
+      zhuawawaService.gameOver(code,status);
+    }
   }
 
   @Override

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by jack on 15/6/26.
@@ -30,6 +31,18 @@ public class MachineSessionService {
 
   public void removeMachine(WebSocketSession session) {
     machineSessionMap.remove(session);
+  }
+
+  public String returnMachineCode(WebSocketSession session){
+      Set<String> keySet = machineSessionMap.keySet();
+      for(String key : keySet){
+          WebSocketSession wss = machineSessionMap.get(key);
+          if(wss.equals(session)){
+              return key;
+          }
+      }
+
+      return null;
   }
 
   public void action(String code,String name){

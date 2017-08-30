@@ -112,6 +112,7 @@ public class ServerWebSocketClientHandler extends SimpleChannelInboundHandler<Ob
                 }
             }
             handshaker.finishHandshake(ch, (FullHttpResponse) msg);
+            zhuawawaService.initChannel(ctx);
             System.out.println("WebSocket Client connected!");
             handshakeFuture.setSuccess();
             return;
@@ -140,7 +141,6 @@ public class ServerWebSocketClientHandler extends SimpleChannelInboundHandler<Ob
             IdleStateEvent event = (IdleStateEvent) evt;
             if (event.state() == IdleState.READER_IDLE) {
                 Map<String,String> map = new HashMap<>();
-                map.put("type","ping");
                 map.put("code",configUtil.getCode());
                 channel.writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(map)));
             }

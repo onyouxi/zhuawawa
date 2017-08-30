@@ -32,6 +32,9 @@ public class ZhuawawaService {
     @Autowired
     private WechatUserService wechatUserService;
 
+    @Autowired
+    private PrizeService prizeService;
+
     private byte[] startlock = new byte[0];
 
     private byte[] queuelock = new byte[0];
@@ -134,18 +137,25 @@ public class ZhuawawaService {
      *
      * @return
      */
-    public String gameOver(String wechatPlayId , String prizeId){
-        if(StringUtils.isEmpty(wechatPlayId) ){
+    public String gameOver(String machineCode,Integer status){
+        if(StringUtils.isEmpty(machineCode)){
+            return "机器code不存在";
+        }
+        MachineModel machineModel = machineService.findByCode(machineCode);
+        if( null == machineModel){
             return "错误的参数";
         }
-        WechatUserPlayModel wechatUserPlayModel = wechatUserPlayService.findById(wechatPlayId);
+        List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findByWechatUserIdAndMachineIdAndStatus(machineModel.getCurrentWechatId(),machineModel.getId(),0);
+        WechatUserPlayModel wechatUserPlayModel = null;
+        if( null != wechatUserPlayModelList && wechatUserPlayModelList.size() > 0){
+            wechatUserPlayModel = wechatUserPlayModelList.get(0);
+        }
         if( null == wechatUserPlayModel){
             return "错误的参数";
         }
         if( wechatUserPlayModel.getStatus() > 0){
             return "本局游戏已经结束";
         }
-        MachineModel machineModel = machineService.findById(wechatUserPlayModel.getMachineId());
         WechatUserModel wechatUserModel = wechatUserService.findById(wechatUserPlayModel.getWechatUserId());
         if (null == machineModel) {
             return "机器不存在";
@@ -155,10 +165,10 @@ public class ZhuawawaService {
         }
 
         //更新游戏记录
-        if(StringUtils.isEmpty(prizeId)){
-            wechatUserPlayService.updateStatus(wechatPlayId,1,null);
+        if(status==0){
+            wechatUserPlayService.updateStatus(wechatUserPlayModel.getId(),1,null);
         }else{
-            wechatUserPlayService.updateStatus(wechatPlayId,2,prizeId);
+            wechatUserPlayService.updateStatus(wechatUserPlayModel.getId(),2,machineModel.getPrizeId());
         }
 
         //该用户没有游戏次数了

@@ -198,11 +198,13 @@
         var object = $.parseJSON(event.data);
         if(object.result==200){
             if(object.cmd == 'login'){
-                $('#gameTime').show();
+                $('#gameTime').hide();
                 $('#controller').show();
                 $('#gameInit').hide();
                 $('#startBtn').hide();
                 gameTimeStart();
+            }else if(object.cmd == 'end' ){
+                initStart();
             }
         }
     }
@@ -217,10 +219,15 @@
         console.log('gameTime:'+gameTime);
         if( gameTime == 0){
             window.clearInterval(gameTimeInterval);
+            $('#gameTime').hide();
+            $('#controller').html('<h1>游戏结束</h1>');
         }else{
             $('#gameTimeVal').html(gameTime-1);
         }
+    }
 
+    function initStart(){
+         window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0bd61f1f517bfa54&redirect_uri=http://zhua.party-time.cn/wechat/zhuawawa?machineId=599bcf07e4b0ed3ecbc57b8f&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
     }
 
     function start(){

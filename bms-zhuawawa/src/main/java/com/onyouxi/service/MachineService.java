@@ -162,5 +162,9 @@ public class MachineService {
         return pageResultModel;
     }
 
+    public MachineModel findByCode(String code){
+        return machineRepository.findByCode(code);
+    }
+
 
 }
