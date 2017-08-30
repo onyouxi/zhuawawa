@@ -77,7 +77,7 @@ public class WechatController {
                 zhuawawaService.overTime(wechatUserPlayModel.getId(),machineId);
                 startGame(machineId,model,wechatUser);
             }else {
-                model.addAttribute("gameTime", gameTime/1000);
+                model.addAttribute("gameTime", 30-(gameTime/1000));
                 model.addAttribute("gameStatus", 0);
             }
         }else{

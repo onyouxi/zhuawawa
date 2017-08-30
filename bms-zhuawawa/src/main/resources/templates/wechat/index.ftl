@@ -214,6 +214,7 @@
 
     function gameTime(){
         var gameTime = $('#gameTimeVal').html();
+        console.log('gameTime:'+gameTime);
         if( gameTime == 0){
             window.clearInterval(gameTimeInterval);
         }else{
