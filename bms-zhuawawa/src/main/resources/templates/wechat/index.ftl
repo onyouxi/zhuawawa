@@ -67,7 +67,7 @@
                 </span>
             </span>
         </div>
-        <div>
+        </div>
         </#if>
 
         <div id="gameTime" style="margin-top:3%;text-align:center;<#if gameStatus == 1>display:none</#if>">
