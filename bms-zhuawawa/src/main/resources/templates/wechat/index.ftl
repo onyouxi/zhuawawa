@@ -209,8 +209,7 @@
 
     var gameTimeInterval;
     function gameTimeStart(){
-        console.log('gameTimestart');
-        var gameTimeInterval = window.setInterval('gameTime()',1000);
+        gameTimeInterval = window.setInterval('gameTime()',1000);
     }
 
     function gameTime(){
