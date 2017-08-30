@@ -71,7 +71,7 @@
         </#if>
 
         <div id="gameTime" style="margin-top:3%;text-align:center;<#if gameStatus == 1>display:none</#if>">
-            <span style="color:#78c300">游戏时间:</span><span style="color:red;font-size:40px">${gameTime!30}</span><span style="color:#78c300">秒</span>
+            <span style="color:#78c300">游戏时间:</span><span style="color:red;font-size:40px" id="gameTimeVal">${gameTime!30}</span><span style="color:#78c300">秒</span>
         </div>
     </div>
     <#if gameStatus == 1>
@@ -193,6 +193,7 @@
         }
         return false;
     }
+
     function acceptMessageHandler(event) {
         var object = $.parseJSON(event.data);
         if(object.result==200){
@@ -201,10 +202,25 @@
                 $('#controller').show();
                 $('#gameInit').hide();
                 $('#startBtn').hide();
+                gameTimeStart();
             }
         }
     }
 
+    var gameTimeInterval;
+    function gameTimeStart(){
+        var gameTimeInterval = window.setInterval('gameTime',1000);
+    }
+
+    function gameTime(){
+        var gameTime = $('#gameTimeVal').html();
+        if( gameTime == 0){
+            window.clearInterval(gameTimeInterval);
+        }else{
+            $('#gameTimeVal').html(gameTime-1);
+        }
+
+    }
 
     function start(){
         console.log('start');
