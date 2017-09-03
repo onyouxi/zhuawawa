@@ -6,6 +6,7 @@ import com.onyouxi.model.dbModel.WechatUserModel;
 import com.onyouxi.model.dbModel.WechatUserPlayModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
+@EnableScheduling
 public class ZhuawawaService {
 
     @Autowired
