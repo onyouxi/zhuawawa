@@ -35,8 +35,8 @@
 </head>
 <body>
 <div>
-    <div>
-         <img src="/wcstatic/imgs/timg.jpeg" style="width:100%"/>
+    <div style="overflow:hidden;">
+         <img src="/wcstatic/imgs/timg.jpeg" style="width:100%;height:290px;"/>
     </div>
     <div>
         <#if gameStatus == 1>
@@ -49,7 +49,7 @@
             <span style="color:red">${machine.wechatUserModel.nick}</span><span style="color:#78c300">正在游戏中</span>
         </div>
         </#if>
-        <div style="margin-top:3%;word-wrap:break-word;height:5.3em">
+        <div style="margin-top:3%;word-wrap:break-word;height:3.5em">
             <span>
                 <span style="color:#78c300">目前排队中</span>：<span style="color:red">
                 <#if wechatMachineModelList??>
@@ -243,7 +243,14 @@
                 alert(data.result_msg);
              }
         });
+    }
 
+    window.onbeforeunload=function(){
+        if(event.clientX>document.body.clientWidth && event.clientY < 0 || event.altKey){
+            alert("你关闭了浏览器");
+        }else{
+            alert("你正在刷新页面");
+        }
     }
 </script>
 </body>
