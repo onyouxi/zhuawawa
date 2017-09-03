@@ -198,7 +198,7 @@
         var object = $.parseJSON(event.data);
         if(object.result==200){
             if(object.cmd == 'login'){
-                $('#gameTime').hide();
+                $('#gameTime').show();
                 $('#controller').show();
                 $('#gameInit').hide();
                 $('#startBtn').hide();
@@ -219,8 +219,7 @@
         console.log('gameTime:'+gameTime);
         if( gameTime == 0){
             window.clearInterval(gameTimeInterval);
-            $('#gameTime').hide();
-            $('#controller').html('<h1>游戏结束</h1>');
+            $('#gameTime').html('<div style="text-align:center;"><h1>游戏结束</h1></div>');
         }else{
             $('#gameTimeVal').html(gameTime-1);
         }
