@@ -238,6 +238,7 @@ public class ZhuawawaService {
      */
     @Scheduled(cron="2 * * * * ?")
     public void checkPlayTime(){
+        log.info("checkPlayTime");
         List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findAll();
         if( null != wechatUserPlayModelList && wechatUserPlayModelList.size() > 0){
             for(WechatUserPlayModel wechatUserPlayModel : wechatUserPlayModelList){
