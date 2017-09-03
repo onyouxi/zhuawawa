@@ -245,11 +245,17 @@
     }
 
     window.onbeforeunload=function(){
+        alert('onbeforeunload');
         if(event.clientX>document.body.clientWidth && event.clientY < 0 || event.altKey){
             alert("你关闭了浏览器");
         }else{
             alert("你正在刷新页面");
         }
+    }
+
+    window.onunload=function(){
+        alert('onunload');
+
     }
 </script>
 </body>
