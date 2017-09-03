@@ -236,7 +236,7 @@ public class ZhuawawaService {
     /**
      * 每2秒检查一次游戏时间
      */
-    @Scheduled(cron="2 * * * * ?")
+    @Scheduled(cron="0/2 * * * * ?")
     public void checkPlayTime(){
         log.info("checkPlayTime");
         List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findAll();
