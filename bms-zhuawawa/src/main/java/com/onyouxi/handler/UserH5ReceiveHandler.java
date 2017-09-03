@@ -66,11 +66,13 @@ public class UserH5ReceiveHandler extends BaseTextWebSocketHandler {
     public synchronized void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         log.info("close user {}", session);
         userSessionService.removeUser(session);
+        //需要更新macine状态
     }
 
     @Override
     protected void handlerBrokenPipe(WebSocketSession session) throws Exception {
         log.info("close user {}", session);
         userSessionService.removeUser(session);
+
     }
 }

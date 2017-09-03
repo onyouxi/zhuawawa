@@ -194,7 +194,7 @@ public class ZhuawawaService {
      * 游戏超时
      * @return
      */
-    public String overTime(String wechatPlayId,String machineId){
+    public String overTime(String wechatPlayId){
         if(StringUtils.isEmpty(wechatPlayId) ){
             return "错误的参数";
         }
@@ -230,6 +230,28 @@ public class ZhuawawaService {
     @Scheduled(cron="0 30 * * * ?")
     public void queueNotice(){
 
+
+    }
+
+    /**
+     * 每2秒检查一次游戏时间
+     */
+    @Scheduled(cron="2 * * * * ?")
+    public void checkPlayTime(){
+        List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findAll();
+        if( null != wechatUserPlayModelList && wechatUserPlayModelList.size() > 0){
+            for(WechatUserPlayModel wechatUserPlayModel : wechatUserPlayModelList){
+                if(wechatUserPlayModel.getStatus() == 0 ){
+                    Date now = new Date();
+                    long a = now.getTime() - wechatUserPlayModel.getStartTime().getTime();
+                    //如果大于30秒
+                    if( a > 30*1000){
+                        log.info("游戏超时:"+wechatUserPlayModel.getWechatUserId());
+                        this.overTime(wechatUserPlayModel.getId());
+                    }
+                }
+            }
+        }
 
     }
 

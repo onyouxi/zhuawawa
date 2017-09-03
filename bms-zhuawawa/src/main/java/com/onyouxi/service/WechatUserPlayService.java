@@ -61,5 +61,9 @@ public class WechatUserPlayService {
         return wechatUserPlayRepository.findByWechatUserIdAndMachineIdAndStatus(wechatUserId,machineId,status);
     }
 
+    public List<WechatUserPlayModel> findAll(){
+        return wechatUserPlayRepository.findAll();
+    }
+
 
 }

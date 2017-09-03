@@ -245,9 +245,13 @@
     }
 
     window.onbeforeunload=function(){
-        console.log('123123123123');
         event.returnValue="确定离开当前页面吗？";
     }
+
+    <#if gameStatus == 0>
+    gameTimeStart();
+    </#if>
+
 </script>
 </body>
 </html>
