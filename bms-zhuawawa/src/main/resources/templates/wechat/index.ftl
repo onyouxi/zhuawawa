@@ -42,7 +42,7 @@
         <#if gameStatus == 1>
         <div id="gameInit">
         <div style="margin-top:3%;">
-            <span style="color:#78c300">剩余的游戏币:</span><span style="color:red">${user.playNum!0}</span><span style="color:#78c300">次</span><button class="startButton"  style="font-size:10px;">充值</button>
+            <span style="color:#78c300">剩余的游戏币:</span><span style="color:red">${user.money!0}</span><span style="color:#78c300">个</span><button class="startButton"  style="font-size:10px;">充值</button>
         </div>
         <#if machine.wechatUserModel??>
         <div style="margin-top:3%;">
