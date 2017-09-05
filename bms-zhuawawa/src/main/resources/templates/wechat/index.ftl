@@ -52,7 +52,7 @@
         <div style="margin-top:3%;word-wrap:break-word;height:3.5em">
             <span>
                 <span style="color:#78c300">目前预约中</span>：<span style="color:red">
-                <#if wechatMachineModelList??>
+                <#if wechatMachineList??>
                     <#list wechatMachineModelList as wm>
                         <#if wm.wechatUserModel??>
                             ${wm.wechatUserModel.nick}
