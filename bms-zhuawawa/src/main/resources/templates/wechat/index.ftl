@@ -76,7 +76,13 @@
     </div>
     <#if gameStatus == 1>
     <div id="startBtn" style="text-align:center;width:100%;">
-        <button class="startButton" style="font-size:40px;" onclick="start()">开始游戏</button>
+        <#if machine.currentWechatId ??>
+            <#if machine.currentWechatId != user.id>
+               <button class="startButton" style="font-size:40px;" onclick="queue()">排队</button>
+            </#if>
+        <#else>
+            <button class="startButton" style="font-size:40px;" onclick="start()">开始游戏</button>
+        </#if>
     </div>
     </#if>
 
@@ -251,6 +257,10 @@
     <#if gameStatus == 0>
     gameTimeStart();
     </#if>
+
+    function queue(){
+        alert('12341234');
+    }
 
 </script>
 </body>

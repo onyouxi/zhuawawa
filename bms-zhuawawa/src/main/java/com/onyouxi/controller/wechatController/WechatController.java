@@ -66,6 +66,8 @@ public class WechatController {
             wechatUser = wechatUserService.findById(wechatId);
         }
 
+
+
         List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findByWechatUserIdAndMachineIdAndStatus(wechatUser.getId(),machineId,0);
         if( null != wechatUserPlayModelList && wechatUserPlayModelList.size() > 0){
             log.info("wechatUserPlayModelList{}" ,wechatUserPlayModelList.size());
@@ -83,6 +85,7 @@ public class WechatController {
         }else{
             startGame(machineId,model,wechatUser);
         }
+
         Cookie cookie = new Cookie("wechatId", wechatUser.getId());
         cookie.setMaxAge(3600);
         cookie.setPath("/");
