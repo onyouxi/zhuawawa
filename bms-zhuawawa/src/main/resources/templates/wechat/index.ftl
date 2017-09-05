@@ -55,7 +55,7 @@
                 <#if wechatMachineList??>
                     <#list wechatMachineList as wm>
                         <#if wm.wechatUserModel??>
-                            ${wm.wechatUserModel.nick}${wm_index}
+                            ${wm.wechatUserModel.nick}
                             <#if wm_index+1 != wechatMachineList?size>
                                 ,
                             </#if>
