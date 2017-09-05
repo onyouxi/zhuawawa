@@ -87,13 +87,14 @@ public class MachineService {
         }
     }
 
-    public void updateStatus(String id,Integer status,String wechatId){
+    public MachineModel updateStatus(String id,Integer status,String wechatId){
         MachineModel machineModel = machineRepository.findOne(id);
         if( null != machineModel){
             machineModel.setStatus(status);
             machineModel.setCurrentWechatId(wechatId);
             machineRepository.save(machineModel);
         }
+        return machineModel;
     }
 
     public void updateCanUse(String id,Integer canUse){

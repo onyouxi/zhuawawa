@@ -1,9 +1,6 @@
 package com.onyouxi.service;
 
-import com.onyouxi.model.dbModel.MachineModel;
-import com.onyouxi.model.dbModel.WechatMachineModel;
-import com.onyouxi.model.dbModel.WechatUserModel;
-import com.onyouxi.model.dbModel.WechatUserPlayModel;
+import com.onyouxi.model.dbModel.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -57,8 +54,8 @@ public class ZhuawawaService {
             if( null ==wechatUserModel){
                 return "该用户不存在";
             }
-            if( null ==wechatUserModel.getPlayNum() || wechatUserModel.getPlayNum() <=0){
-                return "你已经没有游戏次数了，请充值";
+            if( null ==wechatUserModel.getMoney() || wechatUserModel.getMoney() <=0){
+                return "你已经没有游戏币了，请充值";
             }
             if (machineModel.getCanUse() == 1) {
                 return "机器停止工作";
@@ -84,7 +81,7 @@ public class ZhuawawaService {
     private void updatePlayInfo(String wechatId,String machineId){
         //TODO需要事务 轮到此人玩，删除队列信息，更新机器状态
         wechatMachineService.del(wechatId);
-        machineService.updateStatus(machineId,1,wechatId);
+        MachineModel machineModel = machineService.updateStatus(machineId,1,wechatId);
         //保存一条游戏记录
         WechatUserPlayModel wechatUserPlayModel = new WechatUserPlayModel();
         wechatUserPlayModel.setMachineId(machineId);
@@ -93,16 +90,17 @@ public class ZhuawawaService {
         wechatUserPlayModel.setStatus(0);
         wechatUserPlayService.save(wechatUserPlayModel);
         //减少一次游戏次数
-        wechatUserService.updateWechatUserPlayNum(wechatId,-1);
+        PrizeModel prizeModel = prizeService.findById(machineModel.getPrizeId());
+        wechatUserService.updateWechatUserPlayNum(wechatId,-prizeModel.getMoney());
     }
 
     /**
-     * 排队
+     * 预约
      * @param wechatId
      * @param machineId
      * @return
      */
-    public String  queue(String wechatId,String machineId){
+    public String  reserve(String wechatId,String machineId){
         synchronized(queuelock) {
             MachineModel machineModel = machineService.findById(machineId);
             WechatUserModel wechatUserModel = wechatUserService.findById(wechatId);
@@ -113,8 +111,8 @@ public class ZhuawawaService {
             if( null ==wechatUserModel){
                 return "该用户不存在";
             }
-            if( wechatUserModel.getPlayNum() <=0){
-                return "你已经没有游戏次数了，请充值";
+            if( wechatUserModel.getMoney() <=0){
+                return "你已经没有游戏币了，请充值";
             }
             if (machineModel.getCanUse() == 1) {
                 return "机器停止工作";
@@ -124,7 +122,7 @@ public class ZhuawawaService {
                 return "play";
             }
             if( null != wechatMachineModel){
-                return "您已经在排队了，请耐心等待！";
+                return "您已经在预约中了，请耐心等待！";
             }
             wechatMachineModel = new WechatMachineModel();
             wechatMachineModel.setMachineId(machineId);
@@ -174,7 +172,7 @@ public class ZhuawawaService {
         }
 
         //该用户没有游戏次数了
-        if(wechatUserModel.getPlayNum()<=0){
+        if(wechatUserModel.getMoney()<=0){
             List<WechatMachineModel> wechatMachineModelList = wechatMachineService.findByMachineId(wechatUserPlayModel.getMachineId());
             //当没有人在排队了
             if( null == wechatMachineModelList || wechatMachineModelList.size() == 0){

@@ -173,5 +173,19 @@ public class WechatRestController {
         return restResultModel;
     }
 
+    @RequestMapping(value = "/reserve", method = RequestMethod.GET)
+    public RestResultModel reserve(String machineId , @CookieValue(required = false) String wechatId) {
+        RestResultModel restResultModel = new RestResultModel();
+        log.info("machineId:{}",machineId);
+        String result = zhuawawaService.reserve(wechatId,machineId);
+        if( null != result){
+            restResultModel.setResult(500);
+            restResultModel.setResult_msg(result);
+        }else{
+            restResultModel.setResult(200);
+        }
+        return restResultModel;
+    }
+
 
 }

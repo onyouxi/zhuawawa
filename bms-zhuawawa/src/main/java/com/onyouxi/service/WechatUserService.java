@@ -59,7 +59,7 @@ public class WechatUserService {
             wechatUser.setLastOpenDate(new Date());
             wechatUser.setSubscribeState(0);
             //首次关注送5次游戏次数
-            wechatUser.setPlayNum(5);
+            wechatUser.setMoney(50);
             //保存微信用户信息
             return wechatUserRepository.insert(wechatUser);
         }
@@ -179,10 +179,10 @@ public class WechatUserService {
     public void updateWechatUserPlayNum(String wechatId,Integer num){
         WechatUserModel wechatUserModel = this.findById(wechatId);
         if( null != wechatUserModel){
-            if( null == wechatUserModel.getPlayNum() || wechatUserModel.getPlayNum() < 0){
-                wechatUserModel.setPlayNum(0);
+            if( null == wechatUserModel.getMoney() || wechatUserModel.getMoney() < 0){
+                wechatUserModel.setMoney(0);
             }
-            wechatUserModel.setPlayNum(wechatUserModel.getPlayNum()+num);
+            wechatUserModel.setMoney(wechatUserModel.getMoney()+num);
             wechatUserRepository.save(wechatUserModel);
         }
     }

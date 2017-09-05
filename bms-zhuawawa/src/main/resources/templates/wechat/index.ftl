@@ -42,7 +42,7 @@
         <#if gameStatus == 1>
         <div id="gameInit">
         <div style="margin-top:3%;">
-            <span style="color:#78c300">剩余的游戏次数:</span><span style="color:red">${user.playNum!0}</span><span style="color:#78c300">次</span><button class="startButton"  style="font-size:10px;">充值</button>
+            <span style="color:#78c300">剩余的游戏币:</span><span style="color:red">${user.playNum!0}</span><span style="color:#78c300">次</span><button class="startButton"  style="font-size:10px;">充值</button>
         </div>
         <#if machine.wechatUserModel??>
         <div style="margin-top:3%;">
@@ -51,7 +51,7 @@
         </#if>
         <div style="margin-top:3%;word-wrap:break-word;height:3.5em">
             <span>
-                <span style="color:#78c300">目前排队中</span>：<span style="color:red">
+                <span style="color:#78c300">目前预约中</span>：<span style="color:red">
                 <#if wechatMachineModelList??>
                     <#list wechatMachineModelList as wm>
                         <#if wm.wechatUserModel??>
@@ -78,7 +78,7 @@
     <div id="startBtn" style="text-align:center;width:100%;">
         <#if machine.wechatUserModel ??>
             <#if machine.wechatUserModel.id != user.id>
-               <button class="startButton" style="font-size:40px;" onclick="queue()">排队</button>
+               <button class="startButton" style="font-size:40px;" onclick="reserve()">预约</button>
             </#if>
         <#else>
             <button class="startButton" style="font-size:40px;" onclick="start()">开始游戏</button>
@@ -258,8 +258,21 @@
     gameTimeStart();
     </#if>
 
-    function queue(){
-        alert('12341234');
+    function reserve(){
+        if(confirm('确定要预约吗？预约会扣除您一次游戏次数，到时会通知您，如果您放弃，那么游戏次数不会退回给您')){
+            $.ajax({
+              url: "/wechat/reserve?machineId=${machine.machineModel.id}",
+              type: "get"
+            }).done(function (data) {
+                 if(data.result == 200){
+                    window.location.reload();
+                 }else{
+                    alert(data.result_msg);
+                 }
+            });
+
+        }
+
     }
 
 </script>

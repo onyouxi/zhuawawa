@@ -18,6 +18,9 @@ public class PrizeModel {
     //该奖品的分数
     private Integer points;
 
+    //该奖品需要话费的游戏币数量
+    private Integer money;
+
     private String imgUrl;
 
     private Date createTime = new Date();
@@ -60,5 +63,13 @@ public class PrizeModel {
 
     public void setPoints(Integer points) {
         this.points = points;
+    }
+
+    public Integer getMoney() {
+        return money;
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
     }
 }

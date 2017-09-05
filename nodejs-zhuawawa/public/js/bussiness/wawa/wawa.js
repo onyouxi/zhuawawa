@@ -206,6 +206,8 @@ var openPrize = function(){
    '<input type="text" class="span4" id="prizeName" /></div><br>'+
    '<label class="control-label" style="width:50px">奖品积分</label><div class="controls" style="margin-left:60px;">'+
    '<input type="text" class="span4" id="prizePoints"  /></div><br>'+
+   '<label class="control-label" style="width:50px">游戏币数量</label><div class="controls" style="margin-left:60px;">'+
+   '<input type="text" class="span4" id="money"  /></div><br>'+
    '<label class="control-label" style="width:50px">奖品图片</label><div class="controls" style="margin-left:60px;">'+
    '<input type="file" class="span4"  name="上传新图" /></div><br>'+
    '</div><br>';
@@ -218,7 +220,8 @@ var openPrize = function(){
 var savePrize = function(){
     var obj = {
         name:$('#prizeName').val(),
-        points:$('#prizePoints').val()
+        points:$('#prizePoints').val(),
+        money:$('#money').val()
     }
     $.danmuAjax('/v1/api/admin/prize/save', 'POST','json',obj, function (data) {
           if (data.result == 200) {
@@ -279,6 +282,8 @@ var openUpdatePrize = function(id){
                  '<input type="text" class="span4" id="prizeName" value="'+data.data.name+'" /></div><br>'+
                  '<label class="control-label" style="width:50px">奖品积分</label><div class="controls" style="margin-left:60px;">'+
                  '<input type="text" class="span4" id="prizePoints"  value="'+data.data.points+'"/></div><br>'+
+                 '<label class="control-label" style="width:50px">游戏币数量</label><div class="controls" style="margin-left:60px;">'+
+                   '<input type="text" class="span4" id="money"  value="'+data.data.money+'"/></div><br>'+
                  '<label class="control-label" style="width:50px">奖品图片</label><div class="controls" style="margin-left:60px;">'+
                  '<input type="file" class="span4"  name="上传新图" /></div><br>'+
                  '</div><br>';
@@ -298,7 +303,8 @@ var updatePrize = function(id){
     var obj = {
         id:id,
         name:$('#prizeName').val(),
-        points:$('#prizePoints').val()
+        points:$('#prizePoints').val(),
+        money:$('#money').val()
     }
     $.danmuAjax('/v1/api/admin/prize/update', 'POST','json',obj, function (data) {
           if (data.result == 200) {
