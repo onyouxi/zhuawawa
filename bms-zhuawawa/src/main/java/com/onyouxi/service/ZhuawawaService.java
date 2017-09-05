@@ -1,7 +1,11 @@
 package com.onyouxi.service;
 
 import com.onyouxi.model.dbModel.*;
+import com.onyouxi.model.pageModel.MsgTmpl;
+import com.onyouxi.utils.WeixinUtil;
+import com.onyouxi.wechat.pojo.AccessToken;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -253,6 +257,15 @@ public class ZhuawawaService {
             }
         }
 
+    }
+
+    /**
+     * 发送微信通知
+     * @param msgTmpl
+     */
+    public void sendMsg(MsgTmpl msgTmpl){
+        AccessToken accessToken = wechatUserService.getAccessToken();
+        WeixinUtil.sendTmpl(JSONObject.fromObject(msgTmpl).toString(), accessToken.getToken());
     }
 
 

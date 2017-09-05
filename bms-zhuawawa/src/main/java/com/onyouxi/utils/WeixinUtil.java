@@ -53,6 +53,8 @@ public class WeixinUtil {
 
     public final static String NOTIFY_URL = "http://";
 
+    public final static String send_tmpl_url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
+
 
     /**
      * 获取access_token
@@ -405,5 +407,15 @@ public class WeixinUtil {
         return orderNo+"";
     }
 
+    /**
+     * 发送模版消息
+     * @param tmplJson
+     * @param accessToken
+     */
+    public static JSONObject sendTmpl(String tmplJson, String accessToken){
+        String url = send_tmpl_url.replace("ACCESS_TOKEN", accessToken);
+        return httpRequest(url, "POST", tmplJson);
+
+    }
 
 }
