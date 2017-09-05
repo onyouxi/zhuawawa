@@ -267,7 +267,12 @@
                  if(data.result == 200){
                     window.location.reload();
                  }else{
-                    alert(data.result_msg);
+                    if(data.data == 'play'){
+                        webSocketInit();
+                    }else{
+                        alert(data.result_msg);
+                    }
+
                  }
             });
 
