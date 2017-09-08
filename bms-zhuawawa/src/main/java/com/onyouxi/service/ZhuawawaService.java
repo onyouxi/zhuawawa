@@ -233,6 +233,7 @@ public class ZhuawawaService {
      */
     @Scheduled(cron="0/10 * * * * ?")
     public void queueNotice(){
+        log.info("游戏通知启动");
         List<MachineModel> machineModelList = machineService.findAll();
         if( null != machineModelList){
             for(MachineModel machineModel : machineModelList){
