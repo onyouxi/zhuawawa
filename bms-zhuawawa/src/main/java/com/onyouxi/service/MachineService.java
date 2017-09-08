@@ -168,4 +168,9 @@ public class MachineService {
     }
 
 
+    public List<MachineModel> findAll(){
+        return machineRepository.findAll();
+    }
+
+
 }

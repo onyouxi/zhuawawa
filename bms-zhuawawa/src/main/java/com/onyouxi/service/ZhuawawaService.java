@@ -231,10 +231,52 @@ public class ZhuawawaService {
     /**
      * 排队通知 每分钟通知一次
      */
-    @Scheduled(cron="0 30 * * * ?")
+    @Scheduled(cron="0/10 * * * * ?")
     public void queueNotice(){
+        List<MachineModel> machineModelList = machineService.findAll();
+        if( null != machineModelList){
+            for(MachineModel machineModel : machineModelList){
+                if(machineModel.getCanUse() == 0 && machineModel.getStatus() ==2){
+                    List<WechatMachineModel> wechatMachineModelList = wechatMachineService.findByMachineId(machineModel.getId());
+                    if( null != wechatMachineModelList && wechatMachineModelList.size() > 0){
+                        //取到排队的第一个用户
+                        WechatMachineModel wechatMachineModel = wechatMachineModelList.get(0);
+                        WechatUserModel wechatUserModel = wechatUserService.findById(wechatMachineModel.getWechatId());
+                        MsgTmpl notifyMsg = new MsgTmpl();
+                        notifyMsg.setTouser(wechatUserModel.getOpenId());
+
+                        if( null == wechatMachineModel.getNotifyTime()){
+                            sendMsg(notifyMsg);
+                            wechatMachineService.updateNotifyTime(wechatMachineModel.getId());
+                            log.info("发送微信通知:"+wechatUserModel.getNick());
+                        }else{
+                            long a = new Date().getTime() - wechatMachineModel.getNotifyTime().getTime();
+                            //大于3分钟并且小于6分钟通知第二次
+                            if( a > 3*60*1000 && a < 6*60*1000){
+                                sendMsg(notifyMsg);
+                                wechatMachineService.updateNotifyTime(wechatMachineModel.getId());
+                                log.info("发送微信通知:"+wechatUserModel.getNick());
+                            }else if( a > 6*60*1000){
+                                //大于6分钟，相当于放弃 删除排队数据
+                                wechatMachineService.del(wechatMachineModel.getId());
+                                //当排队的人没有的时候,修改娃娃机的状态
+                                if(wechatMachineModelList.size() == 1){
+                                    machineService.updateStatus(machineModel.getId(),0,null);
+                                }
+                                //发送放弃通知
+                                MsgTmpl failMsg = new MsgTmpl();
+                                sendMsg(failMsg);
+                                log.info("发送微信放弃通知:"+wechatUserModel.getNick());
+                            }
+                        }
 
 
+                    }
+                }
+            }
+
+
+        }
     }
 
     /**
@@ -264,8 +306,8 @@ public class ZhuawawaService {
      * @param msgTmpl
      */
     public void sendMsg(MsgTmpl msgTmpl){
-        AccessToken accessToken = wechatUserService.getAccessToken();
-        WeixinUtil.sendTmpl(JSONObject.fromObject(msgTmpl).toString(), accessToken.getToken());
+        //AccessToken accessToken = wechatUserService.getAccessToken();
+        //WeixinUtil.sendTmpl(JSONObject.fromObject(msgTmpl).toString(), accessToken.getToken());
     }
 
 

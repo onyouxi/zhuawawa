@@ -18,6 +18,9 @@ public class WechatMachineModel {
 
     private Date createTime=new Date();
 
+    //通知的时间
+    private Date notifyTime;
+
     public String getId() {
         return id;
     }
@@ -48,5 +51,13 @@ public class WechatMachineModel {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getNotifyTime() {
+        return notifyTime;
+    }
+
+    public void setNotifyTime(Date notifyTime) {
+        this.notifyTime = notifyTime;
     }
 }

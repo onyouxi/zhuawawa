@@ -23,7 +23,7 @@ public class MachineModel {
     //描述信息
     private String des;
 
-    //机器状态 0空闲  1游戏中 2排队中
+    //机器状态 0空闲  1游戏中 2游戏结束等待排队中 3游戏结束等待是否继续
     private Integer status;
 
     //0运行中  1停止使用

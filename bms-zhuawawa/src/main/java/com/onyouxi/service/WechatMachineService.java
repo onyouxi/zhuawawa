@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -67,6 +68,18 @@ public class WechatMachineService {
 
         }
         return wechatMachineResultList;
+    }
+
+    public List<WechatMachineModel> findAll(){
+        return wechatMachineRepository.findAll();
+    }
+
+    public void updateNotifyTime(String id){
+        WechatMachineModel wechatMachineModel = wechatMachineRepository.findOne(id);
+        if( null != wechatMachineModel){
+            wechatMachineModel.setNotifyTime(new Date());
+            wechatMachineRepository.save(wechatMachineModel);
+        }
     }
 
 
