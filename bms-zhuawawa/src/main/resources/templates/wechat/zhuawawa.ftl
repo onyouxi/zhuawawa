@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>按钮操作</title>
+    <title>抓娃娃</title>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
@@ -11,6 +11,19 @@
     <meta name="x5-orientation" content="portrait">
     <script src="/wcstatic/js/jquery-3.2.1.min.js" ></script>
     <style>
+        body{padding: 0;margin: 0;height: 100%;}
+        .startButton {
+            color:rgb(255, 255, 255);
+            padding-top:10px;
+            padding-bottom:10px;
+            padding-left:25px;
+            padding-right:25px;
+            border-width:2px;
+            border-color:rgb(197, 229, 145);
+            border-style:solid;
+            border-radius:39px;
+            background-color:rgb(120, 195, 0);}
+        .startButton:hover{color:#ffffff;background-color:#78c300;border-color:#c5e591;}
         .gray {
             filter: grayscale(100%);
             -webkit-filter: grayscale(100%);
@@ -18,31 +31,63 @@
             -ms-filter: grayscale(100%);
             -o-filter: grayscale(100%);
         }
-
     </style>
 </head>
 <body>
-<div style="text-align:center;width:100%;position:absolute;">
-            <div style="margin-top:10%;">
-                <div style="width:100%">
-                    <img src="/wcstatic/img/button1.png" btnNum="1" style="width:20%" class="btn"/>
+<div>
+    <div style="overflow:hidden;">
+         <img src="/wcstatic/imgs/timg.jpeg" style="width:100%;height:290px;"/>
+    </div>
+    <div>
+        <#if gameStatus == 1>
+        <div id="gameInit">
+        <div style="margin-top:3%;">
+            <span style="color:#78c300">剩余的游戏币:</span><span style="color:red">${user.money!0}</span><span style="color:#78c300">个</span><button class="startButton"  style="font-size:10px;">充值</button>
+        </div>
+        <#if machine.wechatUserModel??>
+        <div style="margin-top:3%;margin-bottom:3%">
+            <span style="color:red">${machine.wechatUserModel.nick}</span><span style="color:#78c300">正在游戏中</span>
+        </div>
+        </#if>
+        </div>
+        </#if>
+
+        <div id="gameTime" style="margin-top:3%;text-align:center;<#if gameStatus == 1>display:none</#if>">
+            <span style="color:#78c300">游戏时间:</span><span style="color:red;font-size:40px" id="gameTimeVal">${gameTime!30}</span><span style="color:#78c300">秒</span>
+        </div>
+    </div>
+    <#if gameStatus == 1>
+    <div id="startBtn" style="text-align:center;width:100%;">
+        <#if machine.wechatUserModel ??>
+            <button class="startButton gray" style="font-size:40px;" >开始游戏</button>
+        <#else>
+            <button class="startButton" style="font-size:40px;" onclick="start()">开始游戏</button>
+        </#if>
+    </div>
+    </#if>
+
+    <div id="controller" style="width:100%;margin-top:10px;<#if gameStatus == 1>display:none</#if>">
+            <div style="float:left;width:60%;margin-left:5%">
+                <div>
+                    <img src="/wcstatic/imgs/btn2.png" btnNum="1" style="width:50px;padding-left:60px;" class="btn"/>
                 </div>
-                <div style="float:left;width:20%;margin-left:20%;margin-right:20%;">
-                    <img src="/wcstatic/img/button4.png" btnNum="2" style="width:100%" class="btn"/>
+                <div style="float:left;margin-left:5%;margin-right:20%;">
+                    <img src="/wcstatic/imgs/btn3.png" btnNum="2" style="width:50px;" class="btn"/>
                 </div>
-                <div style="float:left;width:20%">
-                    <img src="/wcstatic/img/button2.png" btnNum="3" style="width:100%" class="btn"/>
+                <div style="float:left;">
+                    <img src="/wcstatic/imgs/btn1.png" btnNum="3" style="width:50px;" class="btn"/>
                 </div>
-                <div  style="margin-top:24%;">
-                    <img src="/wcstatic/img/button3.png" btnNum="4" style="width:20%" class="btn"/>
+                <div  style="margin-top:20%;">
+                    <img src="/wcstatic/imgs/btn4.png" btnNum="4" style="width:50px;padding-right:50px;padding-left:60px;" class="btn"/>
                 </div>
             </div>
-            <div style="margin-top:20%">
-                <img src="/wcstatic/img/button.png" btnNum="5" style="width:40%" class="btn" />
+            <div style="float:left;margin-top:5%;">
+                <img src="/wcstatic/imgs/btn.png" btnNum="5" style="width:94px" class="btn" />
             </div>
-</div>
+    </div>
+<div>
 <script>
-    var code='123456789';
+    var code='${machine.machineModel.code}';
     $(function(){
         $('.btn').on({
             touchstart:function(e){
@@ -97,7 +142,7 @@
 
     var websoctAddress;
     var ws;
-    var websoctAddress = "ws://${websocketUrl}/ws/user?openId=123123123";
+    var websoctAddress = "ws://${websocketUrl}/ws/user?wechatId=${user.id}";
     var webSocketInit = function () {
         //初始化websocket
         if (WebSocket) {
@@ -134,10 +179,87 @@
         }
         return false;
     }
+
     function acceptMessageHandler(event) {
+        var object = $.parseJSON(event.data);
+        if(object.result==200){
+            if(object.cmd == 'login'){
+                $('#gameTime').show();
+                $('#controller').show();
+                $('#gameInit').hide();
+                $('#startBtn').hide();
+                gameTimeStart();
+            }else if(object.cmd == 'end' ){
+                initStart();
+            }
+        }
+    }
+
+    var gameTimeInterval;
+    function gameTimeStart(){
+        gameTimeInterval = window.setInterval('gameTime()',1000);
+    }
+
+    function gameTime(){
+        var gameTime = $('#gameTimeVal').html();
+        console.log('gameTime:'+gameTime);
+        if( gameTime == 0){
+            window.clearInterval(gameTimeInterval);
+            $('#gameTime').html('<div style="text-align:center;"><h1>游戏结束</h1></div>');
+        }else{
+            $('#gameTimeVal').html(gameTime-1);
+        }
+    }
+
+    function initStart(){
+         window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0bd61f1f517bfa54&redirect_uri=http://zhua.party-time.cn/wechat/zhuawawa?machineId=599bcf07e4b0ed3ecbc57b8f&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
+    }
+
+    function start(){
+        console.log('start');
+        $(this).attr('class','startButton gray');
+        $.ajax({
+          url: "/wechat/start?machineId=${machine.machineModel.id}",
+          type: "get"
+        }).done(function (data) {
+             if(data.result == 200){
+                webSocketInit();
+             }else{
+                alert(data.result_msg);
+             }
+        });
+    }
+
+    window.onbeforeunload=function(){
+        event.returnValue="确定离开当前页面吗？";
+    }
+
+    <#if gameStatus == 0>
+    gameTimeStart();
+    </#if>
+
+    function reserve(){
+        if(confirm('确定要预约吗？预约会扣除您一次游戏次数，到时会通知您，如果您放弃，那么游戏次数不会退回给您')){
+            $.ajax({
+              url: "/wechat/reserve?machineId=${machine.machineModel.id}",
+              type: "get"
+            }).done(function (data) {
+                 if(data.result == 200){
+                    window.location.reload();
+                 }else{
+                    if(data.data == 'play'){
+                        webSocketInit();
+                    }else{
+                        alert(data.result_msg);
+                    }
+
+                 }
+            });
+
+        }
 
     }
-    webSocketInit();
+
 </script>
 </body>
 </html>

@@ -77,8 +77,12 @@
     <#if gameStatus == 1>
     <div id="startBtn" style="text-align:center;width:100%;">
         <#if machine.wechatUserModel ??>
-            <#if machine.wechatUserModel.id != user.id>
-               <button class="startButton" style="font-size:40px;" onclick="reserve()">预约</button>
+            <#if canReserve??>
+                <button class="startButton" style="font-size:40px;" >取消预约</button>
+            <#else>
+                <#if machine.wechatUserModel.id != user.id>
+                   <button class="startButton" style="font-size:40px;" onclick="reserve()">预约</button>
+                </#if>
             </#if>
         <#else>
             <button class="startButton" style="font-size:40px;" onclick="start()">开始游戏</button>

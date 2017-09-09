@@ -66,8 +66,6 @@ public class WechatController {
             wechatUser = wechatUserService.findById(wechatId);
         }
 
-
-
         List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findByWechatUserIdAndMachineIdAndStatus(wechatUser.getId(),machineId,0);
         if( null != wechatUserPlayModelList && wechatUserPlayModelList.size() > 0){
             log.info("wechatUserPlayModelList{}" ,wechatUserPlayModelList.size());
@@ -91,7 +89,7 @@ public class WechatController {
         cookie.setPath("/");
         response.addCookie(cookie);
 
-        return "wechat/index";
+        return "wechat/zhuawawa";
     }
 
     private void startGame(String machineId , Model model , WechatUserModel wechatUser){
@@ -102,6 +100,13 @@ public class WechatController {
         model.addAttribute("user",wechatUser);
         model.addAttribute("wechatMachineList",wechatMachineResultList);
         model.addAttribute("gameStatus",1);
+        //判断自己是否在已经在排队了
+        for(WechatMachineResult wechatMachineResult : wechatMachineResultList){
+            if(wechatMachineResult.getWechatUserModel().getId().equals(wechatUser.getId())){
+                model.addAttribute("canReserve",0);
+            }
+        }
+
     }
 
 }
