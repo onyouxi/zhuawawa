@@ -31,6 +31,14 @@
             -ms-filter: grayscale(100%);
             -o-filter: grayscale(100%);
         }
+        .confirm {
+            position: absolute;
+            z-index: 5;
+            top: 30%;
+            width: 70%;
+            left: 15%;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -85,6 +93,15 @@
                 <img src="/wcstatic/imgs/btn.png" btnNum="5" style="width:94px" class="btn" />
             </div>
     </div>
+    <div class="confirm">
+      <div class="confirm-con">
+          <h2>表情！发射！</h2>
+          <div class="btnbox">
+              <button class="cancel">不来</button>
+              <button class="determine">来一发</button>
+          </div>
+      </div>
+  </div>
 <div>
 <script>
     var code='${machine.machineModel.code}';
@@ -206,6 +223,7 @@
         if( gameTime == 0){
             window.clearInterval(gameTimeInterval);
             $('#gameTime').html('<div style="text-align:center;"><h1>游戏结束</h1></div>');
+            $('.confirm').show();
         }else{
             $('#gameTimeVal').html(gameTime-1);
         }
@@ -238,27 +256,6 @@
     gameTimeStart();
     </#if>
 
-    function reserve(){
-        if(confirm('确定要预约吗？预约会扣除您一次游戏次数，到时会通知您，如果您放弃，那么游戏次数不会退回给您')){
-            $.ajax({
-              url: "/wechat/reserve?machineId=${machine.machineModel.id}",
-              type: "get"
-            }).done(function (data) {
-                 if(data.result == 200){
-                    window.location.reload();
-                 }else{
-                    if(data.data == 'play'){
-                        webSocketInit();
-                    }else{
-                        alert(data.result_msg);
-                    }
-
-                 }
-            });
-
-        }
-
-    }
 
 </script>
 </body>

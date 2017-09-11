@@ -179,19 +179,18 @@ public class ZhuawawaService {
         if(wechatUserModel.getMoney()<=0){
             List<WechatMachineModel> wechatMachineModelList = wechatMachineService.findByMachineId(wechatUserPlayModel.getMachineId());
             //当没有人在排队了
-            if( null == wechatMachineModelList || wechatMachineModelList.size() == 0){
+           // if( null == wechatMachineModelList || wechatMachineModelList.size() == 0){
                 machineService.updateStatus(wechatUserPlayModel.getMachineId(),0,null);
-            }else{
+           // }else{
                 //当还有人在排队的时候 TODO需要通知队列里的第一个人
-                machineService.updateStatus(wechatUserPlayModel.getMachineId(),2,null);
-                queueNotice(wechatUserPlayModel.getMachineId());
-            }
+            //    machineService.updateStatus(wechatUserPlayModel.getMachineId(),2,null);
+            //    queueNotice(wechatUserPlayModel.getMachineId());
+            //}
+            return "no";
         }else{
             //当用户还有游戏次数的时候，提醒用户是否继续
             return "play";
         }
-
-        return null;
     }
 
     /**
@@ -213,15 +212,15 @@ public class ZhuawawaService {
             long gameTime = new Date().getTime() - wechatUserPlayModel.getStartTime().getTime();
             if(gameTime > 30*1000){
                 wechatUserPlayService.updateStatus(wechatPlayId,1,null);
-                List<WechatMachineModel> wechatMachineModelList = wechatMachineService.findByMachineId(wechatUserPlayModel.getMachineId());
+                //List<WechatMachineModel> wechatMachineModelList = wechatMachineService.findByMachineId(wechatUserPlayModel.getMachineId());
                 //当没有人在排队了
-                if( null == wechatMachineModelList || wechatMachineModelList.size() == 0){
+                //if( null == wechatMachineModelList || wechatMachineModelList.size() == 0){
                     machineService.updateStatus(wechatUserPlayModel.getMachineId(),0,null);
-                }else{
+                //}else{
                     //当还有人在排队的时候 TODO需要通知队列里的第一个人
-                    machineService.updateStatus(wechatUserPlayModel.getMachineId(),2,null);
-                    queueNotice(wechatUserPlayModel.getMachineId());
-                }
+                    //machineService.updateStatus(wechatUserPlayModel.getMachineId(),2,null);
+                    //queueNotice(wechatUserPlayModel.getMachineId());
+                //}
                 return "overTime";
             }
         }
@@ -276,10 +275,8 @@ public class ZhuawawaService {
     }
     /**
      * 排队通知 每分钟通知一次
-     */
     @Scheduled(cron="0/10 * * * * ?")
     public void queueNotice(){
-        log.info("游戏通知启动");
         List<MachineModel> machineModelList = machineService.findAll();
         if( null != machineModelList){
             for(MachineModel machineModel : machineModelList){
@@ -287,6 +284,7 @@ public class ZhuawawaService {
             }
         }
     }
+     */
 
     /**
      * 每2秒检查一次游戏时间
