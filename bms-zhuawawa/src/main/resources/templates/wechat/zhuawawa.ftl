@@ -39,6 +39,16 @@
             left: 15%;
             display: none;
         }
+        .mask {
+            position: absolute;
+            z-index: 4;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +103,7 @@
                 <img src="/wcstatic/imgs/btn.png" btnNum="5" style="width:94px" class="btn" />
             </div>
     </div>
+    <div class="mask"></div>
     <div class="confirm">
       <div class="confirm-con">
           <h2>表情！发射！</h2>
