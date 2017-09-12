@@ -54,7 +54,7 @@
 <body>
 <div>
     <div style="overflow:hidden;">
-         <img src="/wcstatic/imgs/timg.jpeg" style="width:100%;height:290px;"/>
+         <img src="/wcstatic/imgs/timg.jpeg" style="width:100%;height:290px;z-index:3"/>
     </div>
     <div>
         <#if gameStatus == 1>
@@ -103,17 +103,17 @@
                 <img src="/wcstatic/imgs/btn.png" btnNum="5" style="width:94px" class="btn" />
             </div>
     </div>
-    <div class="mask"></div>
     <div class="confirm">
-      <div class="confirm-con">
-          <h2>表情！发射！</h2>
-          <div class="btnbox">
-              <button class="cancel">不来</button>
-              <button class="determine">来一发</button>
+      <div>
+          <h2>再来一局</h2>
+          <div>
+              <button class="cancel">好的</button>
+              <button class="determine">不玩了</button>
           </div>
       </div>
   </div>
 <div>
+<div class="mask"></div>
 <script>
     var code='${machine.machineModel.code}';
     $(function(){
