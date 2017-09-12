@@ -107,7 +107,7 @@
                 <img src="/wcstatic/imgs/btn.png" btnNum="5" style="width:94px" class="btn" />
             </div>
     </div>
-    <div class="confirm" style="display: block;">
+    <div class="confirm">
         <h2>游戏结束，再来一局</h2>
         <div>
             时间：<span style="color:red;font-size:40px" id="gameOverTime">30</span>
