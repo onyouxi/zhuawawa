@@ -32,16 +32,20 @@
             -o-filter: grayscale(100%);
         }
         .confirm {
-            position: absolute;
-            z-index: 5;
+            position:fixed;
+            z-index: 10;
             top: 30%;
             width: 70%;
             left: 15%;
             display: none;
+            background-color:#ffffff;
+            text-align:center;
+            border-radius:15px;
+
         }
         .mask {
-            position: absolute;
-            z-index: 4;
+            position:fixed;
+            z-index: 5;
             width: 100%;
             height: 100%;
             top: 0;
@@ -54,7 +58,7 @@
 <body>
 <div>
     <div style="overflow:hidden;">
-         <img src="/wcstatic/imgs/timg.jpeg" style="width:100%;height:290px;z-index:3"/>
+         <img src="/wcstatic/imgs/timg.jpeg" style="width:100%;height:290px;"/>
     </div>
     <div>
         <#if gameStatus == 1>
@@ -103,15 +107,16 @@
                 <img src="/wcstatic/imgs/btn.png" btnNum="5" style="width:94px" class="btn" />
             </div>
     </div>
-    <div class="confirm">
-      <div>
-          <h2>再来一局</h2>
-          <div>
-              <button class="cancel">好的</button>
-              <button class="determine">不玩了</button>
-          </div>
-      </div>
-  </div>
+    <div class="confirm" style="display: block;">
+        <h2>游戏结束，再来一局</h2>
+        <div>
+            时间：<span style="color:red;font-size:40px" id="gameOverTime">30</span>
+        </div>
+        <div>
+            <button class="cancel">好的</button>
+            <button class="determine">不玩了</button>
+        </div>
+    </div>
 </div>
 <div class="mask"></div>
 <script>
@@ -228,13 +233,29 @@
         gameTimeInterval = window.setInterval('gameTime()',1000);
     }
 
+    var gameOverTimeInterval;
+    function gameOverTimeStart(){
+        gameTimeInterval = window.setInterval('gameOverTime()',1000);
+    }
+
+    function gameOverTime(){
+        var gameOverTime = $('#gameOverTime').html();
+        if(gameOverTime==0){
+            window.clearInterval(gameOverTimeInterval);
+        }else{
+            $('#gameOverTime').html(gameOverTime-1);
+        }
+
+    }
+
     function gameTime(){
         var gameTime = $('#gameTimeVal').html();
         console.log('gameTime:'+gameTime);
         if( gameTime == 0){
             window.clearInterval(gameTimeInterval);
-            $('#gameTime').html('<div style="text-align:center;"><h1>游戏结束</h1></div>');
+            //$('#gameTime').html('<div style="text-align:center;"><h1>游戏结束</h1></div>');
             $('.confirm,.mask').show();
+            gameOverTimeStart();
         }else{
             $('#gameTimeVal').html(gameTime-1);
         }
