@@ -234,7 +234,7 @@
         if( gameTime == 0){
             window.clearInterval(gameTimeInterval);
             $('#gameTime').html('<div style="text-align:center;"><h1>游戏结束</h1></div>');
-            $('.confirm').show();
+            $('.confirm,.mask').show();
         }else{
             $('#gameTimeVal').html(gameTime-1);
         }
