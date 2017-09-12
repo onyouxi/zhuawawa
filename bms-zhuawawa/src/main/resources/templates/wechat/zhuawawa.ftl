@@ -59,14 +59,14 @@
     <div>
         <#if gameStatus == 1>
         <div id="gameInit">
-        <div style="margin-top:3%;">
-            <span style="color:#78c300">剩余的游戏币:</span><span style="color:red">${user.money!0}</span><span style="color:#78c300">个</span><button class="startButton"  style="font-size:10px;">充值</button>
-        </div>
-        <#if machine.wechatUserModel??>
-        <div style="margin-top:3%;margin-bottom:3%">
-            <span style="color:red">${machine.wechatUserModel.nick}</span><span style="color:#78c300">正在游戏中</span>
-        </div>
-        </#if>
+            <div style="margin-top:3%;">
+                <span style="color:#78c300">剩余的游戏币:</span><span style="color:red">${user.money!0}</span><span style="color:#78c300">个</span><button class="startButton"  style="font-size:10px;">充值</button>
+            </div>
+            <#if machine.wechatUserModel??>
+            <div style="margin-top:3%;margin-bottom:3%">
+                <span style="color:red">${machine.wechatUserModel.nick}</span><span style="color:#78c300">正在游戏中</span>
+            </div>
+            </#if>
         </div>
         </#if>
 
@@ -112,7 +112,7 @@
           </div>
       </div>
   </div>
-<div>
+</div>
 <div class="mask"></div>
 <script>
     var code='${machine.machineModel.code}';
@@ -266,7 +266,6 @@
     <#if gameStatus == 0>
     gameTimeStart();
     </#if>
-
 
 </script>
 </body>
