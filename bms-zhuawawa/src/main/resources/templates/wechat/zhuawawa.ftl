@@ -335,9 +335,6 @@
         $('.mask').hide();
     }
 
-    window.onbeforeunload=function(){
-        event.returnValue="确定离开当前页面吗？";
-    }
 
     <#if gameStatus == 0>
     gameTimeStart();
