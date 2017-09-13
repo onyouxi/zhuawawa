@@ -70,7 +70,7 @@
         <#if gameStatus == 1>
         <div id="gameInit">
             <div style="margin-top:3%;">
-                <span style="color:#78c300">剩余的游戏币:</span><span style="color:red">${user.money!0}</span><span style="color:#78c300">个</span><button class="startButton"  style="font-size:10px;">充值</button>
+                <span style="color:#78c300">剩余的游戏币:</span><span style="color:red">${user.money!0}</span><span style="color:#78c300">个</span><button class="startButton"  style="font-size:10px;" onclick="recharge()">充值</button>
             </div>
             <#if machine.wechatUserModel??>
             <div style="margin-top:3%;margin-bottom:3%">
@@ -121,6 +121,24 @@
         <div style="margin-top: 10px;margin-bottom:10px;">
             <button class="endButton" onclick="restart()">好的</button>
             <button class="endButton" onclick="endGame()">不玩了</button>
+        </div>
+    </div>
+    <div class="confirm recharge" >
+        <div style="background-color:#78c300;text-align:right;border-radius:10px 10px 0px 0px;">
+            <img src="/wcstatic/imgs/delete.png" style="width:20px;" onclick="closeRecharge()"/>
+        </div>
+        <div style="margin-top:5px;margin-bottom:5px;">
+            <span style="background-color:#339900;padding-left:10px;padding-right: 10px;color:FFFFFF" >首次分享免费得50个游戏币</span>
+        </div>
+        <div style="margin-top:20px;margin-bottom:20px;">
+            <span style="border:2px solid black;">
+                <span style="margin-right:20px;padding-left:8px;">100游戏币</span><span style="margin-right:20px;">送20游戏币</span><span style="background-color:#339900;color:FFFFFF">10元</span>
+            </span>
+        </div>
+        <div style="margin-top:20px;margin-bottom:20px;">
+            <span style="border:2px solid black;x">
+                <span style="margin-right:20px;padding-left:4px;">200游戏币</span><span style="margin-right:20px;">送80游戏币</span><span style="background-color:#339900;color:FFFFFF">20元</span>
+            </span>
         </div>
     </div>
 </div>
@@ -303,6 +321,14 @@
                 alert(data.result_msg);
              }
         });
+    }
+
+    function recharge(){
+        $('.confirm.recharge').show();
+    }
+
+    function closeRecharge(){
+        $('.confirm.recharge').hide();
     }
 
     window.onbeforeunload=function(){
