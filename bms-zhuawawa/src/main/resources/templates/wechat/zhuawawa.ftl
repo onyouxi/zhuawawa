@@ -113,7 +113,7 @@
                 <img src="/wcstatic/imgs/btn.png" btnNum="5" style="width:94px" class="btn" />
             </div>
     </div>
-    <div class="confirm">
+    <div class="confirm" id="endGame">
         <h3>游戏结束，再来一局</h3>
         <div>
             时间：<span style="color:red;font-size:20px" id="gameOverTime">30</span>
@@ -123,7 +123,7 @@
             <button class="endButton" onclick="endGame()">不玩了</button>
         </div>
     </div>
-    <div class="confirm recharge" >
+    <div class="confirm" id="recharge">
         <div style="background-color:#78c300;text-align:right;border-radius:10px 10px 0px 0px;">
             <img src="/wcstatic/imgs/delete.png" style="width:20px;" onclick="closeRecharge()"/>
         </div>
@@ -279,7 +279,8 @@
         if( gameTime == 0){
             window.clearInterval(gameTimeInterval);
             //$('#gameTime').html('<div style="text-align:center;"><h1>游戏结束</h1></div>');
-            $('.confirm,.mask').show();
+            $('#endGame').show();
+            $('.mask').show();
             gameOverTimeStart();
         }else{
             $('#gameTimeVal').html(gameTime-1);
@@ -306,7 +307,8 @@
     }
 
     function restart(){
-        $('.confirm,.mask').hide();
+        $('#endGame').hide();
+        $('.mask').hide();
         start();
     }
 
@@ -324,11 +326,13 @@
     }
 
     function recharge(){
-        $('.confirm.recharge').show();
+        $('#recharge').show();
+        $('.mask').show();
     }
 
     function closeRecharge(){
-        $('.confirm.recharge').hide();
+        $('#recharges').hide();
+        $('.mask').hide();
     }
 
     window.onbeforeunload=function(){
