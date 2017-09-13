@@ -53,6 +53,12 @@
             background: rgba(0, 0, 0, 0.4);
             display: none;
         }
+        .endButton {
+            border-color:rgb(197, 229, 145);
+            border-style:solid;
+            border-radius:15px;
+            background-color:rgb(120, 195, 0);
+        }
     </style>
 </head>
 <body>
@@ -108,13 +114,13 @@
             </div>
     </div>
     <div class="confirm">
-        <h2>游戏结束，再来一局</h2>
+        <h3>游戏结束，再来一局</h3>
         <div>
-            时间：<span style="color:red;font-size:40px" id="gameOverTime">30</span>
+            时间：<span style="color:red;font-size:20px" id="gameOverTime">30</span>
         </div>
-        <div>
-            <button class="cancel">好的</button>
-            <button class="determine">不玩了</button>
+        <div style="margin-top: 10px;margin-bottom:10px;">
+            <button class="endButton" onclick="restart()">好的</button>
+            <button class="endButton" onclick="endGame()">不玩了</button>
         </div>
     </div>
 </div>
@@ -242,6 +248,7 @@
         var gameOverTime = $('#gameOverTime').html();
         if(gameOverTime==0){
             window.clearInterval(gameOverTimeInterval);
+            initStart();
         }else{
             $('#gameOverTime').html(gameOverTime-1);
         }
@@ -274,6 +281,24 @@
         }).done(function (data) {
              if(data.result == 200){
                 webSocketInit();
+             }else{
+                alert(data.result_msg);
+             }
+        });
+    }
+
+    function restart(){
+        $('.confirm,.mask').hide();
+        start();
+    }
+
+    function endGame(){
+        $.ajax({
+          url: "/wechat/end?machineId=${machine.machineModel.id}",
+          type: "get"
+        }).done(function (data) {
+             if(data.result == 200){
+                initStart();
              }else{
                 alert(data.result_msg);
              }

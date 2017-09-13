@@ -194,6 +194,23 @@ public class ZhuawawaService {
     }
 
     /**
+     * 游戏结束
+     *
+     * @return
+     */
+    public String endGame(String machineId){
+        if(StringUtils.isEmpty(machineId)){
+            return "机器编号s不存在";
+        }
+        MachineModel machineModel = machineService.findById(machineId);
+        if( null == machineModel){
+            return "错误的参数";
+        }
+        machineService.updateStatus(machineId,0,null);
+        return null;
+    }
+
+    /**
      * 游戏超时
      * @return
      */
