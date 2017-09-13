@@ -85,13 +85,11 @@
         </div>
     </div>
     <#if gameStatus == 1>
-    <div id="startBtn" style="text-align:center;width:100%;margin-top:10px;">
-        <div id="startBtn" style="margin-top:10px;" align="center">
-            <div  <#if machine.wechatUserModel ??>class="startButton gray"<#else>onclick="start()" class="startButton"</#if> style="width:280px;">
-                <span style="font-size:40px;">开始游戏</span>
-                </br>
-                <span>20币／每次</span>
-            </div>
+    <div id="startBtn" style="margin-top:10px;" align="center">
+        <div  <#if machine.wechatUserModel ??>class="startButton gray"<#else>onclick="start()" class="startButton"</#if> style="width:280px;">
+            <span style="font-size:40px;">开始游戏</span>
+            </br>
+            <span>20币／每次</span>
         </div>
     </div>
     </#if>
