@@ -331,7 +331,7 @@
     }
 
     function closeRecharge(){
-        $('#recharges').hide();
+        $('#recharge').hide();
         $('.mask').hide();
     }
 
