@@ -162,6 +162,10 @@ public class WechatRestController {
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     public RestResultModel start(String machineId , @CookieValue(required = false) String wechatId) {
         RestResultModel restResultModel = new RestResultModel();
+        if( StringUtils.isEmpty(wechatId)){
+            restResultModel.setResult(500);
+            restResultModel.setResult_msg("账号已经过期，请刷新页面");
+        }
         log.info("machineId:{}",machineId);
         String result = zhuawawaService.start(wechatId,machineId);
         if( null != result){
@@ -176,6 +180,10 @@ public class WechatRestController {
     @RequestMapping(value = "/reserve", method = RequestMethod.GET)
     public RestResultModel reserve(String machineId , @CookieValue(required = false) String wechatId) {
         RestResultModel restResultModel = new RestResultModel();
+        if( StringUtils.isEmpty(wechatId)){
+            restResultModel.setResult(500);
+            restResultModel.setResult_msg("账号已经过期，请刷新页面");
+        }
         log.info("machineId:{}",machineId);
         String result = zhuawawaService.reserve(wechatId,machineId);
         if( null != result){
@@ -188,7 +196,7 @@ public class WechatRestController {
     }
 
     @RequestMapping(value = "/end", method = RequestMethod.GET)
-    public RestResultModel endGame(String machineId , @CookieValue(required = false) String wechatId) {
+    public RestResultModel endGame(String machineId ) {
         RestResultModel restResultModel = new RestResultModel();
         log.info("machineId:{}",machineId);
         String result = zhuawawaService.endGame(machineId);
