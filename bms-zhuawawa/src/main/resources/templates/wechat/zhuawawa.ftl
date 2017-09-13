@@ -14,10 +14,6 @@
         body{padding: 0;margin: 0;height: 100%;}
         .startButton {
             color:rgb(255, 255, 255);
-            padding-top:10px;
-            padding-bottom:10px;
-            padding-left:25px;
-            padding-right:25px;
             border-width:2px;
             border-color:rgb(197, 229, 145);
             border-style:solid;
