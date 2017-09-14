@@ -302,10 +302,30 @@
         });
     }
 
+    function gameOver(){
+        console.log('gameOver');
+        $(this).attr('class','startButton gray');
+        $.ajax({
+          url: "/wechat/gameOver?machineCode="+code,
+          type: "get"
+        }).done(function (data) {
+             if(data.result == 200){
+                if(data.data=='no'){
+                    alert('请充值');
+                }else if(data.data=='play'){
+                    start();
+                }
+             }else{
+                alert(data.result_msg);
+             }
+        });
+    }
+
     function restart(){
         $('#endGame').hide();
         $('.mask').hide();
-        start();
+        gameOver();
+
     }
 
     function endGame(){
@@ -333,7 +353,7 @@
 
 
     <#if gameStatus == 0>
-    gameTimeStart();
+        gameTimeStart();
     </#if>
 
 </script>

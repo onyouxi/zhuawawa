@@ -65,7 +65,7 @@ public class ZhuawawaService {
                 return "机器停止工作";
             }
             if(machineModel.getStatus() == 1){
-                return "有人正在游戏中，请排队！";
+                return "有人正在游戏中，请稍后！";
             }
             if(machineModel.getStatus() == 2){
                 WechatMachineModel wechatMachineModel = wechatMachineService.findByWechatId(wechatId);
@@ -75,6 +75,11 @@ public class ZhuawawaService {
                     wechatMachineModel.setWechatId(wechatId);
                     wechatMachineService.save(wechatMachineModel);
                     return "已经被人预定，已经将您放入到队列中！";
+                }
+            }
+            if(machineModel.getStatus() == 3 ){
+                if(!machineModel.getCurrentWechatId().equals(wechatId)){
+                    return "有人正在游戏中，请稍后";
                 }
             }
             updatePlayInfo(wechatId,machineId);
@@ -189,6 +194,8 @@ public class ZhuawawaService {
             return "no";
         }else{
             //当用户还有游戏次数的时候，提醒用户是否继续
+            //将机器设置为等待用户决定的状态
+            machineService.updateStatus(machineModel.getId(),3,wechatUserModel.getId());
             return "play";
         }
     }
@@ -198,7 +205,7 @@ public class ZhuawawaService {
      *
      * @return
      */
-    public String endGame(String machineId){
+    public String endGame(String machineId,String wechatId){
         if(StringUtils.isEmpty(machineId)){
             return "机器编号s不存在";
         }
@@ -206,6 +213,10 @@ public class ZhuawawaService {
         if( null == machineModel){
             return "错误的参数";
         }
+        if( !machineModel.getCurrentWechatId().equals(wechatId)){
+            return "您不能结束不是您玩的娃娃机";
+        }
+
         machineService.updateStatus(machineId,0,null);
         return null;
     }
