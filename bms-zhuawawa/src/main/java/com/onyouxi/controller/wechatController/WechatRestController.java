@@ -218,9 +218,14 @@ public class WechatRestController {
         RestResultModel restResultModel = new RestResultModel();
         log.info("machineId:{}",machineCode);
         String result = zhuawawaService.gameOver(machineCode,0);
-        if( null != result){
-            restResultModel.setResult(500);
-            restResultModel.setResult_msg(result);
+        if( !StringUtils.isEmpty(result)){
+            if( "play".equals(result) || "no".equals(result)){
+                restResultModel.setResult(200);
+                restResultModel.setData(result);
+            }else{
+                restResultModel.setResult(500);
+                restResultModel.setResult_msg(result);
+            }
         }else{
             restResultModel.setResult(200);
             restResultModel.setData(result);

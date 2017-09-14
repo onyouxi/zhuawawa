@@ -311,7 +311,7 @@
         }).done(function (data) {
              if(data.result == 200){
                 if(data.data=='no'){
-                    alert('请充值');
+                    endGame();
                 }else if(data.data=='play'){
                     start();
                 }
