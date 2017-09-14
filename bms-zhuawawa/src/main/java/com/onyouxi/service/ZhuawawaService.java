@@ -152,7 +152,7 @@ public class ZhuawawaService {
         }
         MachineModel machineModel = machineService.findByCode(machineCode);
         if( null == machineModel){
-            return "错误的参数";
+            return "机器不存在";
         }
         List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findByWechatUserIdAndMachineIdAndStatus(machineModel.getCurrentWechatId(),machineModel.getId(),0);
         WechatUserPlayModel wechatUserPlayModel = null;
@@ -166,9 +166,6 @@ public class ZhuawawaService {
             return "本局游戏已经结束";
         }
         WechatUserModel wechatUserModel = wechatUserService.findById(wechatUserPlayModel.getWechatUserId());
-        if (null == machineModel) {
-            return "机器不存在";
-        }
         if( null ==wechatUserModel){
             return "该用户不存在";
         }
