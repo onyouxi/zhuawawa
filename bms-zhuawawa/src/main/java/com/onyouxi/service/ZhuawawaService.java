@@ -154,7 +154,7 @@ public class ZhuawawaService {
         if( null == machineModel){
             return "机器不存在";
         }
-        List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findByWechatUserIdAndMachineIdAndStatus(machineModel.getCurrentWechatId(),machineModel.getId(),0);
+        List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findByWechatUserIdAndMachineIdAndStatus(machineModel.getCurrentWechatId(),machineModel.getId(),1);
         WechatUserPlayModel wechatUserPlayModel = null;
         if( null != wechatUserPlayModelList && wechatUserPlayModelList.size() > 0){
             wechatUserPlayModel = wechatUserPlayModelList.get(0);
@@ -162,7 +162,7 @@ public class ZhuawawaService {
         if( null == wechatUserPlayModel){
             return "错误的参数";
         }
-        if( wechatUserPlayModel.getStatus() > 0){
+        if( wechatUserPlayModel.getStatus() > 1){
             return "本局游戏已经结束";
         }
         WechatUserModel wechatUserModel = wechatUserService.findById(wechatUserPlayModel.getWechatUserId());
@@ -230,7 +230,7 @@ public class ZhuawawaService {
         if( null == wechatUserPlayModel){
             return "错误的参数";
         }
-        if( wechatUserPlayModel.getStatus() > 0){
+        if( wechatUserPlayModel.getStatus() > 1){
             return "本局游戏已经结束";
         }
         if(null == wechatUserPlayModel.getEndTime() ){
@@ -240,13 +240,20 @@ public class ZhuawawaService {
                 //List<WechatMachineModel> wechatMachineModelList = wechatMachineService.findByMachineId(wechatUserPlayModel.getMachineId());
                 //当没有人在排队了
                 //if( null == wechatMachineModelList || wechatMachineModelList.size() == 0){
-                    machineService.updateStatus(wechatUserPlayModel.getMachineId(),0,null);
+                    //machineService.updateStatus(wechatUserPlayModel.getMachineId(),0,null);
                 //}else{
                     //当还有人在排队的时候 TODO需要通知队列里的第一个人
                     //machineService.updateStatus(wechatUserPlayModel.getMachineId(),2,null);
                     //queueNotice(wechatUserPlayModel.getMachineId());
                 //}
                 return "overTime";
+            }
+        }
+        if( wechatUserPlayModel.getStatus() == 1){
+            long waitTime = new Date().getTime() - wechatUserPlayModel.getEndTime().getTime();
+            if(waitTime > 30*1000){
+                wechatUserPlayService.updateStatus(wechatPlayId,11,null);
+                machineService.updateStatus(wechatUserPlayModel.getMachineId(),0,null);
             }
         }
         return null;

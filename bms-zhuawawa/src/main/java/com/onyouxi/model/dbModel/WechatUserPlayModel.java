@@ -21,7 +21,7 @@ public class WechatUserPlayModel {
     //游戏开始时间
     private Date startTime;
 
-    //0游戏进行中  1游戏结束但没有抓到娃娃 2游戏结束但抓到娃娃
+    //0游戏进行中 1游戏已经结束等待下一局开始  10游戏结束但没有抓到娃娃 11游戏超时结束 20游戏结束但抓到娃娃
     private Integer status;
 
     //游戏结束时间
