@@ -265,7 +265,7 @@ public class ZhuawawaService {
         }
         if(null == wechatUserPlayModel.getEndTime() ){
             long gameTime = new Date().getTime() - wechatUserPlayModel.getStartTime().getTime();
-            if(gameTime > 30*1000){
+            if(gameTime > 50*1000){
                 wechatUserPlayService.updateStatus(wechatPlayId,11,null);
                 //List<WechatMachineModel> wechatMachineModelList = wechatMachineService.findByMachineId(wechatUserPlayModel.getMachineId());
                 //当没有人在排队了
@@ -276,19 +276,19 @@ public class ZhuawawaService {
                     //machineService.updateStatus(wechatUserPlayModel.getMachineId(),2,null);
                     //queueNotice(wechatUserPlayModel.getMachineId());
                 //}
-                MachineModel machineModel = machineService.findById(wechatUserPlayModel.getMachineId());
-                if( null != machineModel){
-                    if( null != machineModel.getPlayEndTime()){
-                        long waitTime = new Date().getTime() - machineModel.getPlayEndTime().getTime();
-                        if (waitTime > 30 * 1000) {
-                            machineService.updateStatus(machineModel.getId(), 0, null);
-                        }
-                    }else{
-                        machineService.updateStatus(wechatUserPlayModel.getMachineId(), 3, wechatUserPlayModel.getWechatUserId());
-                    }
 
+            }
+            MachineModel machineModel = machineService.findById(wechatUserPlayModel.getMachineId());
+            if( null != machineModel){
+                if( null != machineModel.getPlayEndTime()){
+                    long waitTime = new Date().getTime() - machineModel.getPlayEndTime().getTime();
+                    if (waitTime > 30 * 1000) {
+                        machineService.updateStatus(machineModel.getId(), 0, null);
+                    }
+                }else{
+                    machineService.updateStatus(wechatUserPlayModel.getMachineId(), 3, wechatUserPlayModel.getWechatUserId());
                 }
-                return "overTime";
+
             }
         }
         return null;
@@ -365,7 +365,7 @@ public class ZhuawawaService {
                     Date now = new Date();
                     long a = now.getTime() - wechatUserPlayModel.getStartTime().getTime();
                     //如果大于30秒
-                    if( a > 30*1000){
+                    if( a > 50*1000){
                         log.info("游戏超时:"+wechatUserPlayModel.getWechatUserId());
                         this.overTime(wechatUserPlayModel.getId());
                     }
