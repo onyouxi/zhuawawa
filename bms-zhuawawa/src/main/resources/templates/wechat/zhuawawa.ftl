@@ -66,7 +66,7 @@
         <#if gameStatus == 1>
         <div id="gameInit">
             <div style="margin-top:3%;">
-                <span style="color:#78c300">剩余的游戏币:</span><span style="color:red">${user.money!0}</span><span style="color:#78c300">个</span><button class="startButton"  style="font-size:10px;" onclick="recharge()">充值</button>
+                <span style="color:#78c300">剩余的游戏币:</span><span style="color:red">${user.money!0}</span><span style="color:#78c300">个</span><button class="startButton"  style="font-size:10px;padding-top:10px;padding-bottom:10px;padding-left:25px;padding-right:25px;" onclick="recharge()">充值</button>
             </div>
             <#if machine.wechatUserModel??>
             <div style="margin-top:3%;margin-bottom:3%">
