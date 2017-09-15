@@ -18,4 +18,6 @@ public interface WechatUserPlayRepository extends MongoRepository<WechatUserPlay
 
     List<WechatUserPlayModel> findByWechatUserIdAndMachineIdAndStatus(String wechatUserId,String machineId,Integer status);
 
+    List<WechatUserPlayModel> findByStatus(Integer status);
+
 }

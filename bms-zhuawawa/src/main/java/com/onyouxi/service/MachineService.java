@@ -92,6 +92,9 @@ public class MachineService {
         if( null != machineModel){
             machineModel.setStatus(status);
             machineModel.setCurrentWechatId(wechatId);
+            if(status==3){
+                machineModel.setPlayEndTime(new Date());
+            }
             machineRepository.save(machineModel);
         }
         return machineModel;

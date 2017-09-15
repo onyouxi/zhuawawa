@@ -26,6 +26,9 @@ public class MachineModel {
     //机器状态 0空闲  1游戏中 2游戏结束等待排队中 3游戏结束等待是否继续
     private Integer status;
 
+    //游戏的结束时间
+    private Date playEndTime;
+
     //0运行中  1停止使用
     private Integer canUse;
 
@@ -107,5 +110,13 @@ public class MachineModel {
 
     public void setPrizeId(String prizeId) {
         this.prizeId = prizeId;
+    }
+
+    public Date getPlayEndTime() {
+        return playEndTime;
+    }
+
+    public void setPlayEndTime(Date playEndTime) {
+        this.playEndTime = playEndTime;
     }
 }

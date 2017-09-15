@@ -266,7 +266,7 @@ public class ZhuawawaService {
         if(null == wechatUserPlayModel.getEndTime() ){
             long gameTime = new Date().getTime() - wechatUserPlayModel.getStartTime().getTime();
             if(gameTime > 30*1000){
-                wechatUserPlayService.updateStatus(wechatPlayId,1,null);
+                wechatUserPlayService.updateStatus(wechatPlayId,11,null);
                 //List<WechatMachineModel> wechatMachineModelList = wechatMachineService.findByMachineId(wechatUserPlayModel.getMachineId());
                 //当没有人在排队了
                 //if( null == wechatMachineModelList || wechatMachineModelList.size() == 0){
@@ -279,11 +279,21 @@ public class ZhuawawaService {
                 return "overTime";
             }
         }
-        if( wechatUserPlayModel.getStatus() == 1){
-            long waitTime = new Date().getTime() - wechatUserPlayModel.getEndTime().getTime();
-            if(waitTime > 30*1000){
-                wechatUserPlayService.updateStatus(wechatPlayId,11,null);
-                machineService.updateStatus(wechatUserPlayModel.getMachineId(),0,null);
+        MachineModel machineModel = machineService.findById(wechatUserPlayModel.getMachineId());
+        if( null != machineModel){
+            if( machineModel.getStatus() == 3 ){
+                if( ! StringUtils.isEmpty(machineModel.getCurrentWechatId()) ){
+                    if(machineModel.getCurrentWechatId().equals(wechatUserPlayModel.getWechatUserId())) {
+                        long waitTime = new Date().getTime() - wechatUserPlayModel.getEndTime().getTime();
+                        if (waitTime > 30 * 1000) {
+                            machineService.updateStatus(wechatUserPlayModel.getMachineId(), 0, null);
+                        }
+                    }else{
+
+                    }
+                }else{
+                    machineService.updateStatus(wechatUserPlayModel.getMachineId(), 0, null);
+                }
             }
         }
         return null;
@@ -353,7 +363,7 @@ public class ZhuawawaService {
      */
     @Scheduled(cron="0/2 * * * * ?")
     public void checkPlayTime(){
-        List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findAll();
+        List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findByStatus(0);
         if( null != wechatUserPlayModelList && wechatUserPlayModelList.size() > 0){
             for(WechatUserPlayModel wechatUserPlayModel : wechatUserPlayModelList){
                 if(wechatUserPlayModel.getStatus() < 10 ){
@@ -367,7 +377,23 @@ public class ZhuawawaService {
                 }
             }
         }
-
+        List<MachineModel> machineModelList = machineService.findAll();
+        if( null != machineModelList && machineModelList.size() > 0){
+            for( MachineModel machineModel : machineModelList){
+                if( machineModel.getStatus() == 3 ){
+                    if( !StringUtils.isEmpty(machineModel.getCurrentWechatId()) ){
+                        if( null != machineModel.getPlayEndTime()){
+                            long waitTime = new Date().getTime() - machineModel.getPlayEndTime().getTime();
+                            if (waitTime > 30 * 1000) {
+                                machineService.updateStatus(machineModel.getId(), 0, null);
+                            }
+                        }
+                    }else{
+                        machineService.updateStatus(machineModel.getId(), 0, null);
+                    }
+                }
+            }
+        }
     }
 
     /**
