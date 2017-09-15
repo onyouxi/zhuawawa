@@ -323,6 +323,7 @@
     function restart(){
         $('#endGame').hide();
         $('.mask').hide();
+        window.clearInterval(gameOverTimeInterval);
         $.ajax({
           url: "/wechat/restart?machineCode="+code,
           type: "get"
