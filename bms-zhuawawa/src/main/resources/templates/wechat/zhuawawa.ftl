@@ -312,6 +312,7 @@
                 }else if(data.data=='play'){
                     $('#endGame').show();
                     $('.mask').show();
+                    gameOverTimeStart();
                 }
              }else{
                 alert(data.result_msg);
@@ -323,7 +324,7 @@
         $('#endGame').hide();
         $('.mask').hide();
         $.ajax({
-          url: "/wechat/gameOver?machineCode="+code,
+          url: "/wechat/restart?machineCode="+code,
           type: "get"
         }).done(function (data) {
             if(data.result == 200){
