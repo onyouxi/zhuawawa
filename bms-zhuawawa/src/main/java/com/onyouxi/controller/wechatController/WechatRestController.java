@@ -233,5 +233,28 @@ public class WechatRestController {
         return restResultModel;
     }
 
+    @RequestMapping(value = "/restart", method = RequestMethod.GET)
+    public RestResultModel restart(String machineCode,@CookieValue(required = false) String wechatId) {
+        RestResultModel restResultModel = new RestResultModel();
+        if( StringUtils.isEmpty(wechatId)){
+            restResultModel.setResult(500);
+            restResultModel.setResult_msg("账号已经过期，请刷新页面");
+        }
+        String result = zhuawawaService.restartGame(machineCode);
+        if( !StringUtils.isEmpty(result)){
+            if( "play".equals(result) || "no".equals(result)){
+                restResultModel.setResult(200);
+                restResultModel.setData(result);
+            }else{
+                restResultModel.setResult(500);
+                restResultModel.setResult_msg(result);
+            }
+        }else{
+            restResultModel.setResult(200);
+            restResultModel.setData(result);
+        }
+        return restResultModel;
+    }
+
 
 }

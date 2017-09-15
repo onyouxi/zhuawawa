@@ -274,10 +274,7 @@
         console.log('gameTime:'+gameTime);
         if( gameTime == 0){
             window.clearInterval(gameTimeInterval);
-            //$('#gameTime').html('<div style="text-align:center;"><h1>游戏结束</h1></div>');
-            $('#endGame').show();
-            $('.mask').show();
-            gameOverTimeStart();
+            gameOver();
         }else{
             $('#gameTimeVal').html(gameTime-1);
         }
@@ -313,8 +310,9 @@
                 if(data.data=='no'){
                     endGame();
                 }else if(data.data=='play'){
-                    start();
-                    gameTimeStart();
+                    $('#endGame').show();
+                    $('.mask').show();
+                    gameOverTimeStart();
                 }
              }else{
                 alert(data.result_msg);
@@ -325,8 +323,22 @@
     function restart(){
         $('#endGame').hide();
         $('.mask').hide();
-        gameOver();
-
+        $.ajax({
+          url: "/wechat/gameOver?machineCode="+code,
+          type: "get"
+        }).done(function (data) {
+            if(data.result == 200){
+                if(data.data=='no'){
+                    initStart();
+                }else if(data.data=='play'){
+                    $('#endGame').hide();
+                    $('.mask').hide();
+                    gameOverTimeStart();
+                }
+             }else{
+                alert(data.result_msg);
+             }
+        }
     }
 
     function endGame(){
