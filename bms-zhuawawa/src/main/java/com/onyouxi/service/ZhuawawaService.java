@@ -169,7 +169,6 @@ public class ZhuawawaService {
         if( null ==wechatUserModel){
             return "该用户不存在";
         }
-
         //更新游戏记录
         if(status==0){
             wechatUserPlayService.updateStatus(wechatUserPlayModel.getId(),10,null);
@@ -202,7 +201,7 @@ public class ZhuawawaService {
      *重新开始游戏
      * @return
      */
-    public String restartGame(String machineCode){
+    public String restartGame(String machineCode,String wechatId){
         if(StringUtils.isEmpty(machineCode)){
             return "机器code不存在";
         }
@@ -210,24 +209,14 @@ public class ZhuawawaService {
         if( null == machineModel){
             return "机器不存在";
         }
-        List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findByWechatUserIdAndMachineIdAndStatus(machineModel.getCurrentWechatId(),machineModel.getId(),1);
-        WechatUserPlayModel wechatUserPlayModel = null;
-        if( null != wechatUserPlayModelList && wechatUserPlayModelList.size() > 0){
-            wechatUserPlayModel = wechatUserPlayModelList.get(0);
-        }
-        if( null == wechatUserPlayModel){
-            return "错误的参数";
-        }
-        if( wechatUserPlayModel.getStatus() > 1){
-            return "本局游戏已经结束";
-        }
-        WechatUserModel wechatUserModel = wechatUserService.findById(wechatUserPlayModel.getWechatUserId());
+
+        WechatUserModel wechatUserModel = wechatUserService.findById(wechatId);
         if( null ==wechatUserModel){
             return "该用户不存在";
         }
         //该用户没有游戏次数了
         if(wechatUserModel.getMoney()<=0){
-            machineService.updateStatus(wechatUserPlayModel.getMachineId(),0,null);
+            machineService.updateStatus(machineModel.getId(),0,null);
             return "no";
         }else{
             //当用户还有游戏次数的时候，重新开始游戏
