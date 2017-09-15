@@ -314,6 +314,7 @@
                     endGame();
                 }else if(data.data=='play'){
                     start();
+                    gameTimeStart();
                 }
              }else{
                 alert(data.result_msg);
