@@ -240,7 +240,7 @@ public class WechatRestController {
             restResultModel.setResult(500);
             restResultModel.setResult_msg("账号已经过期，请刷新页面");
         }
-        String result = zhuawawaService.restartGame(machineCode);
+        String result = zhuawawaService.restartGame(machineCode,wechatId);
         if( !StringUtils.isEmpty(result)){
             if( "play".equals(result) || "no".equals(result)){
                 restResultModel.setResult(200);
