@@ -312,8 +312,6 @@
                 }else if(data.data=='play'){
                     $('#endGame').show();
                     $('.mask').show();
-                    $('#gameTimeVal').html(30);
-                    gameTimeStart();
                 }
              }else{
                 alert(data.result_msg);
@@ -334,7 +332,8 @@
                 }else if(data.data=='play'){
                     $('#endGame').hide();
                     $('.mask').hide();
-                    gameOverTimeStart();
+                    $('#gameTimeVal').html(30);
+                    gameTimeStart();
                 }
              }else{
                 alert(data.result_msg);
