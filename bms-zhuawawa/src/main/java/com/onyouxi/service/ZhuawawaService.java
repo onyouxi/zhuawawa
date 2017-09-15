@@ -154,7 +154,7 @@ public class ZhuawawaService {
         if( null == machineModel){
             return "机器不存在";
         }
-        List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findByWechatUserIdAndMachineIdAndStatus(machineModel.getCurrentWechatId(),machineModel.getId(),1);
+        List<WechatUserPlayModel> wechatUserPlayModelList = wechatUserPlayService.findByWechatUserIdAndMachineIdAndStatus(machineModel.getCurrentWechatId(),machineModel.getId(),0);
         WechatUserPlayModel wechatUserPlayModel = null;
         if( null != wechatUserPlayModelList && wechatUserPlayModelList.size() > 0){
             wechatUserPlayModel = wechatUserPlayModelList.get(0);
@@ -172,9 +172,9 @@ public class ZhuawawaService {
 
         //更新游戏记录
         if(status==0){
-            wechatUserPlayService.updateStatus(wechatUserPlayModel.getId(),1,null);
+            wechatUserPlayService.updateStatus(wechatUserPlayModel.getId(),10,null);
         }else{
-            wechatUserPlayService.updateStatus(wechatUserPlayModel.getId(),2,machineModel.getPrizeId());
+            wechatUserPlayService.updateStatus(wechatUserPlayModel.getId(),20,machineModel.getPrizeId());
         }
 
         //该用户没有游戏次数了

@@ -367,6 +367,7 @@
 
 
     <#if gameStatus == 0>
+        webSocketInit();
         gameTimeStart();
     </#if>
 
