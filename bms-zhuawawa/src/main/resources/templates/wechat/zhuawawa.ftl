@@ -338,7 +338,7 @@
              }else{
                 alert(data.result_msg);
              }
-        }
+        });
     }
 
     function endGame(){
