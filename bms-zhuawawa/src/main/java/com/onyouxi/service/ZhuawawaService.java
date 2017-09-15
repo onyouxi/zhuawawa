@@ -276,24 +276,19 @@ public class ZhuawawaService {
                     //machineService.updateStatus(wechatUserPlayModel.getMachineId(),2,null);
                     //queueNotice(wechatUserPlayModel.getMachineId());
                 //}
-                return "overTime";
-            }
-        }
-        MachineModel machineModel = machineService.findById(wechatUserPlayModel.getMachineId());
-        if( null != machineModel){
-            if( machineModel.getStatus() == 3 ){
-                if( ! StringUtils.isEmpty(machineModel.getCurrentWechatId()) ){
-                    if(machineModel.getCurrentWechatId().equals(wechatUserPlayModel.getWechatUserId())) {
-                        long waitTime = new Date().getTime() - wechatUserPlayModel.getEndTime().getTime();
+                MachineModel machineModel = machineService.findById(wechatUserPlayModel.getMachineId());
+                if( null != machineModel){
+                    if( null != machineModel.getPlayEndTime()){
+                        long waitTime = new Date().getTime() - machineModel.getPlayEndTime().getTime();
                         if (waitTime > 30 * 1000) {
-                            machineService.updateStatus(wechatUserPlayModel.getMachineId(), 0, null);
+                            machineService.updateStatus(machineModel.getId(), 0, null);
                         }
                     }else{
-
+                        machineService.updateStatus(wechatUserPlayModel.getMachineId(), 3, wechatUserPlayModel.getWechatUserId());
                     }
-                }else{
-                    machineService.updateStatus(wechatUserPlayModel.getMachineId(), 0, null);
+
                 }
+                return "overTime";
             }
         }
         return null;
