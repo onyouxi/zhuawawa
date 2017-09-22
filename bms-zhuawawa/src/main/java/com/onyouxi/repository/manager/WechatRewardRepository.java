@@ -12,8 +12,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(mongoTemplateRef = "mongoTemplate")
 public interface WechatRewardRepository extends MongoRepository<WechatReward,String> {
 
-    Page<WechatReward> findAll(Pageable pageable);
 
-    Page<WechatReward> findAll(String wechatId,Pageable pageable);
+    Page<WechatReward> findByOpenId(String openId,Pageable pageable);
 
 }

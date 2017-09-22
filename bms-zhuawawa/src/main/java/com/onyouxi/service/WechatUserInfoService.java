@@ -3,10 +3,12 @@ package com.onyouxi.service;
 import com.onyouxi.model.dbModel.WechatUserInfo;
 import com.onyouxi.repository.manager.WechatUserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by administrator on 2017/9/22.
  */
+@Service
 public class WechatUserInfoService {
 
     @Autowired
