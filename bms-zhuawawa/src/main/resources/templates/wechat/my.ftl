@@ -219,7 +219,7 @@
           type: "get"
         }).done(function (data) {
              if(data.result == 200){
-                var name,phone,wechatNum,address,remark;
+                var name='',phone='',wechatNum='',address='',remark='';
                 if(data.data){
                     if(data.data.name){
                         name = data.data.name;
