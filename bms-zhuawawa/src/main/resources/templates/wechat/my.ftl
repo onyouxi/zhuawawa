@@ -235,7 +235,7 @@
 
     function updateInfo(){
         $.ajax({
-          url: "/wechat/end?machineId=${machine.machineModel.id}",
+          url: "/wechat/end?machineId=",
           type: "get"
         }).done(function (data) {
              if(data.result == 200){
