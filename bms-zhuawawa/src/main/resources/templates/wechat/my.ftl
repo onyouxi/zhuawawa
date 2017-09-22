@@ -166,7 +166,7 @@
         </div>
         <div id="content" class="wrapper">
             <ul>
-                <#if page?? && page.rows>
+                <#if page?? && page.rows??>
                 <li>日期</li><li>行为</li><li>内容</li>
                 <#list page.rows as item>
                     <li>${item.wechatUserPlayModel.startTime?string("yy/MM/dd HH:mm")}</li>
