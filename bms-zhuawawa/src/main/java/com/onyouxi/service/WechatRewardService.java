@@ -52,7 +52,6 @@ public class WechatRewardService {
             pageResultModel.setTotal(wechatRewardPage.getTotalElements());
 
         }
-
         return pageResultModel;
 
     }

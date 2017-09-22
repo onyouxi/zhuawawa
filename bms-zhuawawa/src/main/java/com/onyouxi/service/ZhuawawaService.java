@@ -2,6 +2,7 @@ package com.onyouxi.service;
 
 import com.onyouxi.model.dbModel.*;
 import com.onyouxi.model.pageModel.MsgTmpl;
+import com.onyouxi.model.pageModel.PageResultModel;
 import com.onyouxi.utils.WeixinUtil;
 import com.onyouxi.wechat.pojo.AccessToken;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,9 @@ public class ZhuawawaService {
 
     @Autowired
     private PrizeService prizeService;
+
+    @Autowired
+    private WechatRewardService wechatRewardService;
 
     private byte[] startlock = new byte[0];
 
@@ -398,6 +402,12 @@ public class ZhuawawaService {
     public void sendMsg(MsgTmpl msgTmpl){
         //AccessToken accessToken = wechatUserService.getAccessToken();
         //WeixinUtil.sendTmpl(JSONObject.fromObject(msgTmpl).toString(), accessToken.getToken());
+    }
+
+    public PageResultModel findRecharge(String wechatId,Integer pageNum,Integer pageSize){
+        PageResultModel pageResultModel = new PageResultModel();
+
+        return pageResultModel;
     }
 
 

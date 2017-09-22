@@ -1,7 +1,9 @@
 package com.onyouxi.controller.wechatController;
 
 import com.onyouxi.constant.Const;
+import com.onyouxi.model.pageModel.PageResultModel;
 import com.onyouxi.model.pageModel.RestResultModel;
+import com.onyouxi.service.WechatUserPlayService;
 import com.onyouxi.service.WechatUserService;
 import com.onyouxi.service.ZhuawawaService;
 import com.onyouxi.utils.MessageUtil;
@@ -36,6 +38,9 @@ public class WechatRestController {
 
     @Autowired
     private ZhuawawaService zhuawawaService;
+
+    @Autowired
+    private WechatUserPlayService wechatUserPlayService;
 
     /**
      * 微信公众平台验证用
@@ -254,6 +259,16 @@ public class WechatRestController {
             restResultModel.setData(result);
         }
         return restResultModel;
+    }
+
+    @RequestMapping(value = "/myPlay", method = RequestMethod.GET)
+    public PageResultModel myPlay(@CookieValue(required = false) String wechatId,Integer pageSize , Integer pageNum) {
+        return wechatUserPlayService.findPageByWechatUserId(wechatId,pageNum,pageSize);
+    }
+
+    @RequestMapping(value = "/myRecharge", method = RequestMethod.GET)
+    public PageResultModel myRecharge(@CookieValue(required = false) String wechatId,Integer pageSize , Integer pageNum) {
+        return wechatUserPlayService.findPageByWechatUserId(wechatId,pageNum,pageSize);
     }
 
 

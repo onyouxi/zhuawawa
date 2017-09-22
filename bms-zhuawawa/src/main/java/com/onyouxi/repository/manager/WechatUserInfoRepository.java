@@ -1,14 +1,12 @@
 package com.onyouxi.repository.manager;
 
-import com.onyouxi.model.dbModel.WechatUserLog;
+import com.onyouxi.model.dbModel.WechatUserInfo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
- * Created by administrator on 2016/11/30.
+ * Created by administrator on 2017/9/22.
  */
 @EnableMongoRepositories(mongoTemplateRef = "mongoTemplate")
-public interface WechatUserLogRepository extends MongoRepository<WechatUserLog,String> {
-
-
+public interface WechatUserInfoRepository extends MongoRepository<WechatUserInfo,String> {
 }

@@ -5,6 +5,7 @@ import com.onyouxi.model.dbModel.WechatMachineModel;
 import com.onyouxi.model.dbModel.WechatUserModel;
 import com.onyouxi.model.dbModel.WechatUserPlayModel;
 import com.onyouxi.model.pageModel.MachineResult;
+import com.onyouxi.model.pageModel.PageResultModel;
 import com.onyouxi.model.pageModel.WechatMachineResult;
 import com.onyouxi.service.*;
 import com.onyouxi.utils.WeixinUtil;
@@ -107,6 +108,28 @@ public class WechatController {
             }
         }
 
+    }
+
+    @RequestMapping(value = "/my", method = RequestMethod.GET)
+    public String my(String code, @CookieValue(required = false) String wechatId, Integer pageSize , Integer pageNum , Model model, HttpServletResponse response, HttpServletRequest request){
+        String openId = WeixinUtil.getUserOpenId(code);
+        log.info("openId:"+openId+"   wechatId:"+wechatId);
+        if( StringUtils.isEmpty(openId) && StringUtils.isEmpty(wechatId)){
+            return "redirect:https://open.weixin.qq.com/connect/oauth2/authorize?appid="+WeixinUtil.APP_ID+"&redirect_uri=http://zhua.party-time.cn/wechat/my?&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+        }
+        WechatUserModel wechatUser = null;
+        if(!StringUtils.isEmpty(openId)){
+            wechatUser = wechatUserService.findByOpenId(openId);
+        }
+        if(!StringUtils.isEmpty(wechatId)){
+            wechatUser = wechatUserService.findById(wechatId);
+        }
+        model.addAttribute("user",wechatUser);
+
+        PageResultModel pageResultModel = wechatUserPlayService.findPageByWechatUserId(wechatId,pageNum,pageSize);
+        model.addAttribute("page",pageResultModel);
+
+        return "wechat/my";
     }
 
 }

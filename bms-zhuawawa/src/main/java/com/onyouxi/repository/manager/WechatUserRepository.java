@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by liuwei on 16/7/21.
  */
-
+@EnableMongoRepositories(mongoTemplateRef = "mongoTemplate")
 public interface WechatUserRepository extends MongoRepository<WechatUserModel, String> {
 
     public WechatUserModel findByOpenId(String openId);
