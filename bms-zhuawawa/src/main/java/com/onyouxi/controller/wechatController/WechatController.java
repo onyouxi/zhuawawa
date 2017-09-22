@@ -111,7 +111,7 @@ public class WechatController {
     }
 
     @RequestMapping(value = "/my", method = RequestMethod.GET)
-    public String my(String code, @CookieValue(required = false) String wechatId, Integer pageSize , Integer pageNum , Model model, HttpServletResponse response, HttpServletRequest request){
+    public String my(String code, @CookieValue(required = false) String wechatId,  Model model, HttpServletResponse response, HttpServletRequest request){
         String openId = WeixinUtil.getUserOpenId(code);
         log.info("openId:"+openId+"   wechatId:"+wechatId);
         if( StringUtils.isEmpty(openId) && StringUtils.isEmpty(wechatId)){
@@ -125,7 +125,8 @@ public class WechatController {
             wechatUser = wechatUserService.findById(wechatId);
         }
         model.addAttribute("user",wechatUser);
-
+        Integer pageSize =20;
+        Integer pageNum =0;
         PageResultModel pageResultModel = wechatUserPlayService.findPageByWechatUserId(wechatId,pageNum,pageSize);
         model.addAttribute("page",pageResultModel);
 
