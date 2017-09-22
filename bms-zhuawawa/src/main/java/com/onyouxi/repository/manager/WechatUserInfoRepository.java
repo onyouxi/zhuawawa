@@ -9,4 +9,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  */
 @EnableMongoRepositories(mongoTemplateRef = "mongoTemplate")
 public interface WechatUserInfoRepository extends MongoRepository<WechatUserInfo,String> {
+
+    WechatUserInfo findByWechatId(String wechatId);
+
 }

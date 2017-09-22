@@ -42,6 +42,9 @@ public class ZhuawawaService {
     @Autowired
     private WechatRewardService wechatRewardService;
 
+    @Autowired
+    private WechatUserInfoService wechatUserInfoService;
+
     private byte[] startlock = new byte[0];
 
     private byte[] queuelock = new byte[0];
@@ -409,6 +412,16 @@ public class ZhuawawaService {
 
         return pageResultModel;
     }
+
+    public WechatUserInfo findByWechatId(String wechatId){
+        return wechatUserInfoService.findByWechatId(wechatId);
+    }
+
+    public void update(WechatUserInfo wechatUserInfo){
+        wechatUserInfoService.update(wechatUserInfo);
+    }
+
+
 
 
 }

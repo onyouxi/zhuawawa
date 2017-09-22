@@ -129,6 +129,11 @@ public class WechatController {
         PageResultModel pageResultModel = wechatUserPlayService.findPageByWechatUserId(wechatId,pageNum,pageSize);
         model.addAttribute("page",pageResultModel);
 
+        Cookie cookie = new Cookie("wechatId", wechatUser.getId());
+        cookie.setMaxAge(3600);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
         return "wechat/my";
     }
 

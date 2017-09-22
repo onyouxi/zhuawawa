@@ -1,6 +1,7 @@
 package com.onyouxi.controller.wechatController;
 
 import com.onyouxi.constant.Const;
+import com.onyouxi.model.dbModel.WechatUserInfo;
 import com.onyouxi.model.pageModel.PageResultModel;
 import com.onyouxi.model.pageModel.RestResultModel;
 import com.onyouxi.service.WechatUserPlayService;
@@ -15,10 +16,7 @@ import com.onyouxi.wechat.process.ReceiveXmlProcess;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -269,6 +267,28 @@ public class WechatRestController {
     @RequestMapping(value = "/myRecharge", method = RequestMethod.GET)
     public PageResultModel myRecharge(@CookieValue(required = false) String wechatId,Integer pageSize , Integer pageNum) {
         return wechatUserPlayService.findPageByWechatUserId(wechatId,pageNum,pageSize);
+    }
+
+    @RequestMapping(value = "/getInfo", method = RequestMethod.GET)
+    public RestResultModel getInfo(@CookieValue(required = false) String wechatId) {
+        RestResultModel restResultModel = new RestResultModel();
+        WechatUserInfo wechatUserInfo = zhuawawaService.findByWechatId(wechatId);
+        restResultModel.setData(wechatUserInfo);
+        restResultModel.setResult(200);
+        return restResultModel;
+    }
+
+    @RequestMapping(value = "/updateInfo", method = RequestMethod.GET)
+    public RestResultModel updateInfo(@CookieValue(required = false) String wechatId, @RequestBody WechatUserInfo wechatUserInfo) {
+        RestResultModel restResultModel = new RestResultModel();
+        try {
+            zhuawawaService.update(wechatUserInfo);
+            restResultModel.setResult(200);
+        }catch (Exception e){
+            log.error("",e);
+            restResultModel.setResult(500);
+        }
+        return restResultModel;
     }
 
 

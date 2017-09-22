@@ -161,7 +161,7 @@
         <div class="divcss5">
             <img src="${user.imgUrl}" />
             <div style="margin-top: 10px;padding-bottom:8px;">
-                <a class="navselect" onclick="record(this)">游戏记录</a><a class="nav" style="margin-left:40px;margin-right:40px;" onclick="recharge(this)">充值记录</a><span class="nav" onclick="info(this)">送货地址</span>
+                <a class="navselect" onclick="record(this)">游戏记录</a><a class="nav" style="margin-left:40px;margin-right:40px;" onclick="recharge(this)">充值记录</a><span class="nav" onclick="getInfo(this)">送货地址</span>
             </div>
         </div>
         <div id="content" class="wrapper">
@@ -210,19 +210,43 @@
         html += '</ul>';
         $('#content').html(html);
     }
-    function info(obj){
+    function getInfo(obj){
         $('.navselect').attr('class','nav');
         $(obj).attr('class','navselect');
         $('#content').attr('class','bootstrap-frm');
-        var html = '<label><span>姓名 :</span><input id="name" type="text" name="name"  /></label>';
-        html += '<label><span>电话 :</span><input id="name" type="text" name="name"  /></label>';
-        html += '<label><span>微信号 :</span><input id="name" type="text" name="name"  /></label>';
-        html += '<label><span>地址 :</span><textarea></textarea></label>';
-        html += '<label><span>备注 :</span><textarea></textarea></label>';
-        html += '<div style="text-align:center"><a class="startButton">保存</a></div>'
-        $('#content').html(html);
+        $.ajax({
+          url: "/wechat/getInfo",
+          type: "get"
+        }).done(function (data) {
+             if(data.result == 200){
+                var html = '<label><span>姓名 :</span><input id="name" type="text" name="name"  value="'+data.data.name+'"/></label>';
+                html += '<label><span>电话 :</span><input id="phone" type="text" name="phone"  value="'+data.data.phone+'"/></label>';
+                html += '<label><span>微信号 :</span><input id="wechatNum" type="text" name="wechatNum"  value="'+data.data.wechatNum+'"/></label>';
+                html += '<label><span>地址 :</span><textarea id="address" >'+data.data.address+'</textarea></label>';
+                html += '<label><span>备注 :</span><textarea id="remark">'+data.data.remark+'</textarea></label>';
+                html += '<div style="text-align:center"><a class="startButton">保存</a></div>'
+                $('#content').html(html);
+             }else{
+                alert(data.result_msg);
+             }
+        });
 
     }
+
+    function updateInfo(){
+        $.ajax({
+          url: "/wechat/end?machineId=${machine.machineModel.id}",
+          type: "get"
+        }).done(function (data) {
+             if(data.result == 200){
+                initStart();
+             }else{
+                alert(data.result_msg);
+             }
+        });
+
+    }
+
 </script>
 </body>
 </html>
