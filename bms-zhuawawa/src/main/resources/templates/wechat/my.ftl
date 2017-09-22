@@ -168,19 +168,19 @@
             <ul>
                 <#if page?? && page.rows??>
                 <li>日期</li><li>行为</li><li>内容</li>
-                <#list page.rows as item>
-                    <li>${item.wechatUserPlayModel.startTime?string("yy/MM/dd HH:mm")}</li>
-                    <#if item.wechatUserPlayModel.status ==0>
-                        <li>游戏进行中</li><li></li>
-                    <#elseif item.wechatUserPlayModel.status ==10 || item.wechatUserPlayModel.status ==11>
-                        <li>未抓到</li><li></li>
-                    <#elseif item.wechatUserPlayModel.status ==20>
-                        <li>抓到</li>
-                        <#if item.prizeModel??>
-                        <li>${item.prizeModel.name}</li>
+                    <#list page.rows as item>
+                        <li>${item.wechatUserPlayModel.startTime?string("yy/MM/dd HH:mm")}</li>
+                        <#if item.wechatUserPlayModel.status ==0>
+                            <li>游戏进行中</li><li></li>
+                        <#elseif item.wechatUserPlayModel.status ==10 || item.wechatUserPlayModel.status ==11>
+                            <li>未抓到</li><li></li>
+                        <#elseif item.wechatUserPlayModel.status ==20>
+                            <li>抓到</li>
+                            <#if item.prizeModel??>
+                            <li>${item.prizeModel.name}</li>
+                            </#if>
                         </#if>
-                    </#if>
-                </#list>
+                    </#list>
                 <#else>
                     <h3>您还没有抓过娃娃！</h3>
                 </#if>
@@ -219,11 +219,29 @@
           type: "get"
         }).done(function (data) {
              if(data.result == 200){
-                var html = '<label><span>姓名 :</span><input id="name" type="text" name="name"  value="'+data.data.name+'"/></label>';
-                html += '<label><span>电话 :</span><input id="phone" type="text" name="phone"  value="'+data.data.phone+'"/></label>';
-                html += '<label><span>微信号 :</span><input id="wechatNum" type="text" name="wechatNum"  value="'+data.data.wechatNum+'"/></label>';
-                html += '<label><span>地址 :</span><textarea id="address" >'+data.data.address+'</textarea></label>';
-                html += '<label><span>备注 :</span><textarea id="remark">'+data.data.remark+'</textarea></label>';
+                var name,phone,wechatNum,address,remark;
+                if(data.data){
+                    if(data.data.name){
+                        name = data.data.name;
+                    }
+                    if(data.data.phone){
+                        phone = data.data.phone;
+                    }
+                    if(data.data.wechatNum){
+                        wechatNum = data.data.wechatNum;
+                    }
+                    if(data.data.address){
+                        address = data.data.address;
+                    }
+                    if(data.data.remark){
+                        remark = data.data.remark;
+                    }
+                }
+                var html = '<label><span>姓名 :</span><input id="name" type="text" name="name"  value="'+name+'"/></label>';
+                html += '<label><span>电话 :</span><input id="phone" type="text" name="phone"  value="'+phone+'"/></label>';
+                html += '<label><span>微信号 :</span><input id="wechatNum" type="text" name="wechatNum"  value="'+wechatNum+'"/></label>';
+                html += '<label><span>地址 :</span><textarea id="address" >'+address+'</textarea></label>';
+                html += '<label><span>备注 :</span><textarea id="remark">'+remark+'</textarea></label>';
                 html += '<div style="text-align:center"><a class="startButton">保存</a></div>'
                 $('#content').html(html);
              }else{
