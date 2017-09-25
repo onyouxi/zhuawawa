@@ -199,14 +199,36 @@
         $('.navselect').attr('class','nav');
         $(obj).attr('class','navselect');
         $('#content').attr('class','bootstrap-frm');
-        var html = '<label><span>姓名 :</span><input id="name" type="text" name="name"  /></label>';
-        html += '<label><span>电话 :</span><input id="name" type="text" name="name"  /></label>';
-        html += '<label><span>微信号 :</span><input id="name" type="text" name="name"  /></label>';
-        html += '<label><span>地址 :</span><textarea></textarea></label>';
-        html += '<label><span>备注 :</span><textarea></textarea></label>';
-        html += '<div style="text-align:center"><a class="startButton">保存</a></div>'
+        var html = '<form><label><span>姓名 :</span><input id="name" type="text" name="name"  /></label>';
+        html += '<label><span>电话 :</span><input id="phone" type="text" name="phone"  /></label>';
+        html += '<label><span>微信号 :</span><input id="wechatNum" type="text" name="wechatNum"  /></label>';
+        html += '<label><span>地址 :</span><textarea id="address"></textarea></label>';
+        html += '<label><span>备注 :</span><textarea id="remark"></textarea></label>';
+        html += '<div style="text-align:center"><a class="startButton" onclick="updateInfo()">保存</a></div></form>';
         $('#content').html(html);
+    }
 
+    function updateInfo(){
+        var wechatUserInfo = {
+            "name":$('#name').val(),
+            "phone":$('#phone').val(),
+            "wechatNum":$('#wechatNum').val(),
+            "address":$('#address').val(),
+            "remark":$('#remark').val()
+        }
+        $.ajax({
+          url: "/wechat/updateInfo",
+          type: "post",
+          dataType: "json",
+          data:JSON.stringify(wechatUserInfo),
+          contentType:"application/json; charset=utf-8"
+        }).done(function (data) {
+             if(data.result == 200){
+                alert('保存成功');
+             }else{
+                alert(data.result_msg);
+             }
+        });
     }
 </script>
 </body>

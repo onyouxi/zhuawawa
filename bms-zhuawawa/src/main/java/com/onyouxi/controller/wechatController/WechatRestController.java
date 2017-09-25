@@ -278,7 +278,7 @@ public class WechatRestController {
         return restResultModel;
     }
 
-    @RequestMapping(value = "/updateInfo", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateInfo", method = RequestMethod.POST)
     public RestResultModel updateInfo(@CookieValue(required = false) String wechatId, @RequestBody WechatUserInfo wechatUserInfo) {
         RestResultModel restResultModel = new RestResultModel();
         if( null != wechatUserInfo){
@@ -287,8 +287,9 @@ public class WechatRestController {
             log.info("wechatUserInfo is null");
         }
         try {
-            zhuawawaService.update(wechatUserInfo);
-            restResultModel.setResult(200);
+             wechatUserInfo.setWechatId(wechatId);
+             zhuawawaService.update(wechatUserInfo);
+             restResultModel.setResult(200);
         }catch (Exception e){
             log.error("",e);
             restResultModel.setResult(500);

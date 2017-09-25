@@ -253,17 +253,18 @@
 
     function updateInfo(){
         var wechatUserInfo = {
-            "name":$('#name'),
-            "phone":$('#phone'),
-            "wechatNum":$('#wechatNum'),
-            "address":$('#address'),
-            "remark":$('#remark')
+            "name":$('#name').val(),
+            "phone":$('#phone').val(),
+            "wechatNum":$('#wechatNum').val(),
+            "address":$('#address').val(),
+            "remark":$('#remark').val()
         }
         $.ajax({
           url: "/wechat/updateInfo",
           type: "post",
           dataType: "json",
-          data:wechatUserInfo
+          data:JSON.stringify(wechatUserInfo),
+          contentType:"application/json; charset=utf-8"
         }).done(function (data) {
              if(data.result == 200){
                 alert('保存成功');
