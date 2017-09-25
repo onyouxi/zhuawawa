@@ -240,7 +240,7 @@
             var html = '<ul><li>日期</li><li>行为</li><li>内容</li>';
             if(data && data.rows){
                 for(var i=0;i<data.rows.length;i++){
-                    html += '<li>'+new Date(parseInt(data.rows[i].wechatUserPlayModel.startTime)).format('yy/MM/dd hh:mm')+'/li>';
+                    html += '<li>'+new Date(parseInt(data.rows[i].wechatUserPlayModel.startTime)).format('yy/MM/dd hh:mm')+'</li>';
                     if(data.rows[i].wechatUserPlayModel.status==0){
                         html += '<li>进行中</li><li></li>';
                     }else if(data.rows[i].wechatUserPlayModel.status==10 || data.rows[i].wechatUserPlayModel.status==11){
