@@ -107,6 +107,7 @@ public class WechatUserPlayService {
                         }
                     }
                 }
+                wechatPlayResultList.add(wechatPlayResult);
             }
             pageResultModel.setRows(wechatPlayResultList);
             pageResultModel.setTotal(wechatUserPlayModelPage.getTotalElements());
