@@ -261,11 +261,23 @@ public class WechatRestController {
 
     @RequestMapping(value = "/myPlay", method = RequestMethod.GET)
     public PageResultModel myPlay(@CookieValue(required = false) String wechatId,Integer pageSize , Integer pageNum) {
+        if( null == pageSize){
+            pageSize = 20;
+        }
+        if( null == pageNum){
+            pageNum = 0;
+        }
         return wechatUserPlayService.findPageByWechatUserId(wechatId,pageNum,pageSize);
     }
 
     @RequestMapping(value = "/myRecharge", method = RequestMethod.GET)
     public PageResultModel myRecharge(@CookieValue(required = false) String wechatId,Integer pageSize , Integer pageNum) {
+        if( null == pageSize){
+            pageSize = 20;
+        }
+        if( null == pageNum){
+            pageNum = 0;
+        }
         return wechatUserPlayService.findPageByWechatUserId(wechatId,pageNum,pageSize);
     }
 

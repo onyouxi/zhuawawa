@@ -191,24 +191,72 @@
         </div>
     </div>
 <script>
+    Date.prototype.format = function(f){
+        var o ={
+            "M+" : this.getMonth()+1, //month
+            "d+" : this.getDate(),    //day
+            "h+" : this.getHours(),   //hour
+            "m+" : this.getMinutes(), //minute
+            "s+" : this.getSeconds(), //second
+            "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+            "S" : this.getMilliseconds() //millisecond
+        }
+        if(/(y+)/.test(f))f=f.replace(RegExp.$1,(this.getFullYear()+"").substr(4 - RegExp.$1.length));
+        for(var k in o)
+            if(new RegExp("("+ k +")").test(f))f = f.replace(RegExp.$1,RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));return f
+    }
+
     function recharge(obj){
         $('.navselect').attr('class','nav');
         $(obj).attr('class','navselect');
         $('#content').attr('class','wrapper');
         var html = '<ul><li>日期</li><li>金额</li><li>游戏币</li>';
-        html += '<li> 17/09/18 18:35</li><li>20元</li><li>400</li>';
-        html += '</ul>';
         $('#content').html(html);
+        $.ajax({
+          url: "/wechat/myRecharge",
+          type: "get"
+        }).done(function (data) {
+            var html = '<ul><li>日期</li><li>金额</li><li>游戏币</li>';
+            if(data && data.rows){
+                for(var i=0;i<data.rows.length;i++){
+                    html += '<li> 17/09/18 18:35</li><li>20元</li><li>400</li>';
+                }
+            }
+            html += '</ul>';
+            $('#content').html(html);
+        });
+
     }
     function record(obj){
         $('.navselect').attr('class','nav');
         $(obj).attr('class','navselect');
         $('#content').attr('class','wrapper');
         var html = '<ul><li>日期</li><li>行为</li><li>内容</li>';
-        html += '<li> 17/09/18 18:35</li><li>未抓到</li><li></li>';
-        html += '<li> 17/09/17 14:35</li><li>抓到</li><li>机器猫</li>';
-        html += '</ul>';
         $('#content').html(html);
+        $.ajax({
+          url: "/wechat/myPlay",
+          type: "get"
+        }).done(function (data) {
+            var html = '<ul><li>日期</li><li>行为</li><li>内容</li>';
+            if(data && data.rows){
+                for(var i=0;i<data.rows.length;i++){
+                    html += '<li>'+new Date(parseInt(data.rows[i].wechatUserPlayModel.startTime)).format('yy/MM/dd hh:mm')+'/li>';
+                    if(data.rows[i].wechatUserPlayModel.status==0){
+                        html += '<li>进行中</li><li></li>';
+                    }else if(data.rows[i].wechatUserPlayModel.status==10 || data.rows[i].wechatUserPlayModel.status==11){
+                        html += '<li>未抓到</li><li></li>';
+                    }else if(data.rows[i].wechatUserPlayModel.status==20){
+                        html += '<li>抓到</li>';
+                        if(data.rows[i].prizeModel){
+                            html += '<li>'+data.rows[i].prizeModel.name+'</li>';
+                        }
+                    }
+                }
+            }
+            html += '</ul>';
+            $('#content').html(html);
+        });
+
     }
     function getInfo(obj){
         $('.navselect').attr('class','nav');
