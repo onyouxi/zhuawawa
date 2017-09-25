@@ -4,6 +4,7 @@ import com.onyouxi.model.dbModel.WechatUserInfo;
 import com.onyouxi.repository.manager.WechatUserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * Created by administrator on 2017/9/22.
@@ -24,9 +25,13 @@ public class WechatUserInfoService {
 
     public void update(WechatUserInfo wechatUserInfo){
         if( null != wechatUserInfo){
-            WechatUserInfo old = this.findById(wechatUserInfo.getId());
-            if( null != old){
+            if(StringUtils.isEmpty(wechatUserInfo.getId())){
                 wechatUserInfoRepository.save(wechatUserInfo);
+            }else{
+                WechatUserInfo old = this.findById(wechatUserInfo.getId());
+                if( null != old){
+                    wechatUserInfoRepository.save(wechatUserInfo);
+                }
             }
         }
     }

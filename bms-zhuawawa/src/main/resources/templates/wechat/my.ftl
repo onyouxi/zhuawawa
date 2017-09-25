@@ -219,7 +219,7 @@
           type: "get"
         }).done(function (data) {
              if(data.result == 200){
-                var name='',phone='',wechatNum='',address='',remark='';
+                var name='',phone='',wechatNum='',address='',remark='',id='';
                 if(data.data){
                     if(data.data.name){
                         name = data.data.name;
@@ -236,13 +236,16 @@
                     if(data.data.remark){
                         remark = data.data.remark;
                     }
+                    if(data.data.id){
+                        id = data.data.id;
+                    }
                 }
                 var html = '<label><span>姓名 :</span><input id="name" type="text" name="name"  value="'+name+'"/></label>';
                 html += '<label><span>电话 :</span><input id="phone" type="text" name="phone"  value="'+phone+'"/></label>';
                 html += '<label><span>微信号 :</span><input id="wechatNum" type="text" name="wechatNum"  value="'+wechatNum+'"/></label>';
                 html += '<label><span>地址 :</span><textarea id="address" >'+address+'</textarea></label>';
                 html += '<label><span>备注 :</span><textarea id="remark">'+remark+'</textarea></label>';
-                html += '<div style="text-align:center"><a class="startButton" onclick="updateInfo()">保存</a></div>'
+                html += '<div style="text-align:center"><a class="startButton" onclick="updateInfo(\''+id+'\')">保存</a></div>'
                 $('#content').html(html);
              }else{
                 alert(data.result_msg);
@@ -251,8 +254,9 @@
 
     }
 
-    function updateInfo(){
+    function updateInfo(id){
         var wechatUserInfo = {
+            "id":id,
             "name":$('#name').val(),
             "phone":$('#phone').val(),
             "wechatNum":$('#wechatNum').val(),
