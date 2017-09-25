@@ -281,6 +281,11 @@ public class WechatRestController {
     @RequestMapping(value = "/updateInfo", method = RequestMethod.GET)
     public RestResultModel updateInfo(@CookieValue(required = false) String wechatId, @RequestBody WechatUserInfo wechatUserInfo) {
         RestResultModel restResultModel = new RestResultModel();
+        if( null != wechatUserInfo){
+            log.info("wechatUserInfo:{}",wechatUserInfo.getName());
+        }else{
+            log.info("wechatUserInfo is null");
+        }
         try {
             zhuawawaService.update(wechatUserInfo);
             restResultModel.setResult(200);
@@ -290,6 +295,5 @@ public class WechatRestController {
         }
         return restResultModel;
     }
-
 
 }

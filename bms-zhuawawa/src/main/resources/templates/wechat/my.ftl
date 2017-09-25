@@ -242,7 +242,7 @@
                 html += '<label><span>微信号 :</span><input id="wechatNum" type="text" name="wechatNum"  value="'+wechatNum+'"/></label>';
                 html += '<label><span>地址 :</span><textarea id="address" >'+address+'</textarea></label>';
                 html += '<label><span>备注 :</span><textarea id="remark">'+remark+'</textarea></label>';
-                html += '<div style="text-align:center"><a class="startButton">保存</a></div>'
+                html += '<div style="text-align:center"><a class="startButton" onclick="updateInfo()">保存</a></div>'
                 $('#content').html(html);
              }else{
                 alert(data.result_msg);
@@ -252,17 +252,25 @@
     }
 
     function updateInfo(){
+        var wechatUserInfo = {
+            "name":$('#name'),
+            "phone":$('#phone'),
+            "wechatNum":$('#wechatNum'),
+            "address":$('#address'),
+            "remark":$('#remark')
+        }
         $.ajax({
-          url: "/wechat/end?machineId=",
-          type: "get"
+          url: "/wechat/updateInfo",
+          type: "post",
+          dataType: "json",
+          data:wechatUserInfo
         }).done(function (data) {
              if(data.result == 200){
-                initStart();
+                alert('保存成功');
              }else{
                 alert(data.result_msg);
              }
         });
-
     }
 
 </script>
