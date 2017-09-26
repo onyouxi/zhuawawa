@@ -154,6 +154,19 @@
             border-style:solid;
             border-radius:15px;
             background-color:rgb(120, 195, 0);}
+
+            .pageBtn{
+                background-color:rgb(120, 195, 0);
+                padding:5px 10px 5px 10px;
+                border-radius:5px;
+            }
+            .gray {
+                filter: grayscale(100%);
+                -webkit-filter: grayscale(100%);
+                -moz-filter: grayscale(100%);
+                -ms-filter: grayscale(100%);
+                -o-filter: grayscale(100%);
+            }
     </style>
 </head>
 <body>
@@ -233,8 +246,12 @@
         $('#content').attr('class','wrapper');
         var html = '<ul><li>日期</li><li>行为</li><li>内容</li>';
         $('#content').html(html);
+        recordPage(1);
+    }
+
+    function recordPage(pageNum){
         $.ajax({
-          url: "/wechat/myPlay",
+          url: "/wechat/myPlay?pageNum="+pageNum,
           type: "get"
         }).done(function (data) {
             var html = '<ul><li>日期</li><li>行为</li><li>内容</li>';
@@ -255,9 +272,33 @@
             }
             html += '</ul>';
             $('#content').html(html);
+            drawPage(data.total,pageNum,'recordPage');
         });
 
     }
+
+    function drawPage(total,pageNum,pageFunc){
+        var pageSize = 10;
+        if(data.total > 5){
+            var pageHtml = '';
+            if( pageNum == 1){
+                pageHtml += '<a class="pageBtn gray" style="text-align:center;" ><</a>';
+            }else{
+                var last = pageNum-1;
+                pageHtml += '<a class="pageBtn" style="text-align:center;" onclick="'+pageFunc+'('+last+')"><</a>';
+            }
+
+            if(total - pageSize*pageNum < pageSize){
+                pageHtml += '<a class="pageBtn gray" style="text-align:center;margin-left:20px;">></a>';
+            }else{
+                var next = pageNum+1;
+                pageHtml += '<a class="pageBtn gray" style="text-align:center;margin-left:20px;" onclick="'+pageFunc+'('+next+')" >></a>';
+            }
+
+            $('#pages').html(pageHtml);
+        }
+    }
+
     function getInfo(obj){
         $('.navselect').attr('class','nav');
         $(obj).attr('class','navselect');

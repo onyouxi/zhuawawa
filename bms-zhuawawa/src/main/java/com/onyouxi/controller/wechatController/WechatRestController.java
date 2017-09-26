@@ -262,10 +262,13 @@ public class WechatRestController {
     @RequestMapping(value = "/myPlay", method = RequestMethod.GET)
     public PageResultModel myPlay(@CookieValue(required = false) String wechatId,Integer pageSize , Integer pageNum) {
         if( null == pageSize){
-            pageSize = 20;
+            pageSize = 10;
         }
         if( null == pageNum){
             pageNum = 0;
+        }
+        if( pageNum > 0 ){
+            pageNum = pageNum-1;
         }
         return wechatUserPlayService.findPageByWechatUserId(wechatId,pageNum,pageSize);
     }
