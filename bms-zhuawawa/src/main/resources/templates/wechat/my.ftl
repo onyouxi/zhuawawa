@@ -269,11 +269,11 @@
                 pageHtml += '<a class="pageBtn" style="text-align:center;" onclick="'+pageFunc+'('+last+')"><</a>';
             }
             console.log("total:"+total+",pageNum:"+pageNum);
-            if(total - pageSize*(pageNum+1) < 0){
-                pageHtml += '<a class="pageBtn gray" style="text-align:center;margin-left:20px;">></a>';
+            if(total - pageSize*pageNum > 0){
+                 var next = pageNum+1;
+                 pageHtml += '<a class="pageBtn gray" style="text-align:center;margin-left:20px;" onclick="'+pageFunc+'('+next+')" >></a>';
             }else{
-                var next = pageNum+1;
-                pageHtml += '<a class="pageBtn gray" style="text-align:center;margin-left:20px;" onclick="'+pageFunc+'('+next+')" >></a>';
+                 pageHtml += '<a class="pageBtn gray" style="text-align:center;margin-left:20px;">></a>';
             }
             $('#pages').html(pageHtml);
         }
