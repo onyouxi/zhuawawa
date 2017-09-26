@@ -174,7 +174,7 @@
         <div class="divcss5">
             <img src="${user.imgUrl}" />
             <div style="margin-top: 10px;padding-bottom:8px;">
-                <a class="navselect" onclick="record()" id="recordA">游戏记录</a><a class="nav" style="margin-left:40px;margin-right:40px;" onclick="recharge(this)" id="rechargeA">充值记录</a><span class="nav" onclick="getInfo(this)" id="getInfoA">送货地址</span>
+                <a class="navselect" onclick="record()" id="recordA">游戏记录</a><a class="nav" style="margin-left:40px;margin-right:40px;" onclick="recharge()" id="rechargeA">充值记录</a><span class="nav" onclick="getInfo(this)" id="getInfoA">送货地址</span>
             </div>
         </div>
         <div id="content" class="wrapper">
@@ -200,14 +200,18 @@
             if(new RegExp("("+ k +")").test(f))f = f.replace(RegExp.$1,RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));return f
     }
 
-    function recharge(obj){
+    function recharge(){
         $('.navselect').attr('class','nav');
-        $(obj).attr('class','navselect');
+        $('#rechargeA').attr('class','navselect');
         $('#content').attr('class','wrapper');
         var html = '<ul><li>日期</li><li>金额</li><li>游戏币</li>';
         $('#content').html(html);
+        rechargePage(1);
+    }
+
+    function rechargePage(pageNum){
         $.ajax({
-          url: "/wechat/myRecharge",
+          url: "/wechat/myRecharge?pageNum="+pageNum+"&pageSize=10",
           type: "get"
         }).done(function (data) {
             var html = '<ul><li>日期</li><li>金额</li><li>游戏币</li>';
@@ -218,9 +222,11 @@
             }
             html += '</ul>';
             $('#content').html(html);
+            drawPage(data.total,pageNum,'rechargePage');
         });
 
     }
+
     function record(){
         $('.navselect').attr('class','nav');
         $('#recordA').attr('class','navselect');
@@ -232,7 +238,7 @@
 
     function recordPage(pageNum){
         $.ajax({
-          url: "/wechat/myPlay?pageNum="+pageNum+"&pageSize=5",
+          url: "/wechat/myPlay?pageNum="+pageNum+"&pageSize=10",
           type: "get"
         }).done(function (data) {
             var html = '<ul><li>日期</li><li>行为</li><li>内容</li>';
@@ -259,8 +265,8 @@
     }
 
     function drawPage(total,pageNum,pageFunc){
-        var pageSize = 5;
-        if(total > 5){
+        var pageSize = 10;
+        if(total > 10){
             var pageHtml = '';
             if( pageNum == 1){
                 pageHtml += '<a class="pageBtn gray" style="text-align:center;" ><</a>';
