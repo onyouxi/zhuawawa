@@ -57,7 +57,7 @@ public class WechatController {
         String openId = WeixinUtil.getUserOpenId(code);
         log.info("openId:"+openId+"   wechatId:"+wechatId);
         if( StringUtils.isEmpty(openId) && StringUtils.isEmpty(wechatId)){
-            return "redirect:https://open.weixin.qq.com/connect/oauth2/authorize?appid="+WeixinUtil.APP_ID+"&redirect_uri=http://zhua.party-time.cn/wechat/zhuawawa?machineId="+machineId+"&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+            return "redirect:https://open.weixin.qq.com/connect/oauth2/authorize?appid="+WeixinUtil.APP_ID+"&redirect_uri=http://zhua.onyouxi.com/wechat/zhuawawa?machineId="+machineId+"&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
         }
         WechatUserModel wechatUser = null;
         if(!StringUtils.isEmpty(openId)){
@@ -115,7 +115,7 @@ public class WechatController {
         String openId = WeixinUtil.getUserOpenId(code);
         log.info("openId:"+openId+"   wechatId:"+wechatId);
         if( StringUtils.isEmpty(openId) && StringUtils.isEmpty(wechatId)){
-            return "redirect:https://open.weixin.qq.com/connect/oauth2/authorize?appid="+WeixinUtil.APP_ID+"&redirect_uri=http://zhua.party-time.cn/wechat/my?&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+            return "redirect:https://open.weixin.qq.com/connect/oauth2/authorize?appid="+WeixinUtil.APP_ID+"&redirect_uri=http://zhua.onyouxi.com/wechat/my?&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
         }
         WechatUserModel wechatUser = null;
         if(!StringUtils.isEmpty(openId)){
