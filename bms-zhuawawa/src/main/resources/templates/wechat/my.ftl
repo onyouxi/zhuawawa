@@ -271,7 +271,7 @@
             console.log("total:"+total+",pageNum:"+pageNum);
             if(total - pageSize*pageNum > 0){
                  var next = pageNum+1;
-                 pageHtml += '<a class="pageBtn gray" style="text-align:center;margin-left:20px;" onclick="'+pageFunc+'('+next+')" >></a>';
+                 pageHtml += '<a class="pageBtn" style="text-align:center;margin-left:20px;" onclick="'+pageFunc+'('+next+')" >></a>';
             }else{
                  pageHtml += '<a class="pageBtn gray" style="text-align:center;margin-left:20px;">></a>';
             }
