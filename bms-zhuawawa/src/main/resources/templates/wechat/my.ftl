@@ -180,7 +180,7 @@
         <div id="content" class="wrapper">
 
         </div>
-        <div id="pages">
+        <div id="pages" style="text-align:center;margin-top: 10px;">
 
         </div>
     </div>
@@ -232,7 +232,7 @@
 
     function recordPage(pageNum){
         $.ajax({
-          url: "/wechat/myPlay?pageNum="+pageNum,
+          url: "/wechat/myPlay?pageNum="+pageNum+"&pageSize=5",
           type: "get"
         }).done(function (data) {
             var html = '<ul><li>日期</li><li>行为</li><li>内容</li>';
@@ -259,7 +259,7 @@
     }
 
     function drawPage(total,pageNum,pageFunc){
-        var pageSize = 10;
+        var pageSize = 5;
         if(total > 5){
             var pageHtml = '';
             if( pageNum == 1){
@@ -275,7 +275,6 @@
                 var next = pageNum+1;
                 pageHtml += '<a class="pageBtn gray" style="text-align:center;margin-left:20px;" onclick="'+pageFunc+'('+next+')" >></a>';
             }
-
             $('#pages').html(pageHtml);
         }
     }
