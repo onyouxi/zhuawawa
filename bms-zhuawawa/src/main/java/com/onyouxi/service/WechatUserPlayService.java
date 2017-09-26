@@ -81,7 +81,7 @@ public class WechatUserPlayService {
     }
 
     public Page<WechatUserPlayModel> findByWechatUserId(String wechatUserId,int pageNum,int pageSize){
-        Sort sort = new Sort(Sort.Direction.ASC, "startTime");
+        Sort sort = new Sort(Sort.Direction.DESC, "startTime");
         PageRequest pageRequest = new PageRequest(pageNum, pageSize, sort);
         return wechatUserPlayRepository.findByWechatUserId(wechatUserId,pageRequest);
     }
