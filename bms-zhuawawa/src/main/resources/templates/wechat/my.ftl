@@ -268,8 +268,8 @@
                 var last = pageNum-1;
                 pageHtml += '<a class="pageBtn" style="text-align:center;" onclick="'+pageFunc+'('+last+')"><</a>';
             }
-
-            if(total - pageSize*pageNum < pageSize){
+            console.log("total:"+total+",pageNum:"+pageNum);
+            if((total - pageSize*pageNum) < pageSize){
                 pageHtml += '<a class="pageBtn gray" style="text-align:center;margin-left:20px;">></a>';
             }else{
                 var next = pageNum+1;
