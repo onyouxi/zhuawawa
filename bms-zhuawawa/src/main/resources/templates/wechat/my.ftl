@@ -174,30 +174,11 @@
         <div class="divcss5">
             <img src="${user.imgUrl}" />
             <div style="margin-top: 10px;padding-bottom:8px;">
-                <a class="navselect" onclick="record(this)">游戏记录</a><a class="nav" style="margin-left:40px;margin-right:40px;" onclick="recharge(this)">充值记录</a><span class="nav" onclick="getInfo(this)">送货地址</span>
+                <a class="navselect" onclick="record()" id="recordA">游戏记录</a><a class="nav" style="margin-left:40px;margin-right:40px;" onclick="recharge(this)" id="rechargeA">充值记录</a><span class="nav" onclick="getInfo(this)" id="getInfoA">送货地址</span>
             </div>
         </div>
         <div id="content" class="wrapper">
-            <ul>
-                <#if page?? && page.rows??>
-                <li>日期</li><li>行为</li><li>内容</li>
-                    <#list page.rows as item>
-                        <li>${item.wechatUserPlayModel.startTime?string("yy/MM/dd HH:mm")}</li>
-                        <#if item.wechatUserPlayModel.status ==0>
-                            <li>游戏进行中</li><li></li>
-                        <#elseif item.wechatUserPlayModel.status ==10 || item.wechatUserPlayModel.status ==11>
-                            <li>未抓到</li><li></li>
-                        <#elseif item.wechatUserPlayModel.status ==20>
-                            <li>抓到</li>
-                            <#if item.prizeModel??>
-                            <li>${item.prizeModel.name}</li>
-                            </#if>
-                        </#if>
-                    </#list>
-                <#else>
-                    <h3>您还没有抓过娃娃！</h3>
-                </#if>
-            </ul>
+
         </div>
         <div id="pages">
 
@@ -240,9 +221,9 @@
         });
 
     }
-    function record(obj){
+    function record(){
         $('.navselect').attr('class','nav');
-        $(obj).attr('class','navselect');
+        $('#recordA').attr('class','navselect');
         $('#content').attr('class','wrapper');
         var html = '<ul><li>日期</li><li>行为</li><li>内容</li>';
         $('#content').html(html);
@@ -279,7 +260,7 @@
 
     function drawPage(total,pageNum,pageFunc){
         var pageSize = 10;
-        if(data.total > 5){
+        if(total > 5){
             var pageHtml = '';
             if( pageNum == 1){
                 pageHtml += '<a class="pageBtn gray" style="text-align:center;" ><</a>';
@@ -367,6 +348,7 @@
         });
     }
 
+    record();
 </script>
 </body>
 </html>
