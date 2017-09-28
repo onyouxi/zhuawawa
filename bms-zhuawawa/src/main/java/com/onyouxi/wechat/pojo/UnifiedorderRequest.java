@@ -1,5 +1,7 @@
 package com.onyouxi.wechat.pojo;
 
+import org.springframework.util.StringUtils;
+
 /**
  * Created by liuwei on 16/7/27.
  */
@@ -104,6 +106,50 @@ public class UnifiedorderRequest {
      * 用户标识 trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识
      */
     private String openid;
+
+
+    public String toSignString() {
+        String str = "";
+        str = str+"appid=" + appid;
+        if(!StringUtils.isEmpty(attach)) {
+            str = str+"&attach=" + attach;
+        }
+        str = str+"&body=" + body;
+        if(!StringUtils.isEmpty(detail)){
+            str = str + "&detail=" + detail;
+        }
+        if(!StringUtils.isEmpty(device_info)){
+            str = str+"&device_info=" + device_info;
+        }
+        if(!StringUtils.isEmpty(fee_type)){
+            str = str + "&fee_type=" + fee_type;
+        }
+        if(!StringUtils.isEmpty(goods_tag)){
+            str = str + "&goods_tag=" + goods_tag;
+        }
+        if( !StringUtils.isEmpty(limit_pay)){
+            str = str + "&limit_pay=" + limit_pay;
+        }
+        str = str +
+                "&mch_id=" + mch_id  +
+                "&nonce_str=" + nonce_str  +
+                "&notify_url=" + notify_url +
+                "&openid=" + openid +
+                "&out_trade_no=" + out_trade_no;
+        if( !StringUtils.isEmpty(product_id)){
+            str = str + "&product_id=" + product_id;
+        }
+        str = str + "&spbill_create_ip=" + spbill_create_ip;
+        if( !StringUtils.isEmpty(time_expire)){
+            str = str + "&time_expire=" + time_expire;
+        }
+        if( !StringUtils.isEmpty(time_start)){
+            str = str + "&time_start=" + time_start;
+        }
+        str = str + "&total_fee=" + total_fee +
+                "&trade_type=" + trade_type;
+        return  str;
+    }
 
     public String getAppid() {
         return appid;

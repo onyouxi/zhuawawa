@@ -1,9 +1,11 @@
 package com.onyouxi.wechat.process;
 
+import com.onyouxi.wechat.entity.ReceiveUnifiedOrderXmlEntity;
 import com.onyouxi.wechat.entity.ReceiveXmlEntity;
 import com.onyouxi.wechat.pojo.UnifiedorderResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
@@ -115,5 +117,46 @@ public class ReceiveXmlProcess {
 			log.error(e.getMessage());
 		}
 		return msg;
+	}
+
+	public ReceiveUnifiedOrderXmlEntity getUnifiedOrderEntity(String entityStr){
+
+		ReceiveUnifiedOrderXmlEntity entity = null;
+		try {
+
+			Document document =  DocumentHelper.parseText(entityStr);
+//			if (strXml.length() <= 0 || strXml == null)
+//				return null;
+
+			// 将字符串转化为XML文档对象
+//			Document document = DocumentHelper.parseText(strXml);
+
+			// 获得文档的根节点
+			Element root = document.getRootElement();
+			// 遍历根节点下所有子节点
+			Iterator<?> iter = root.elementIterator();
+
+			// 遍历所有结点
+			entity = new ReceiveUnifiedOrderXmlEntity();
+			//利用反射机制，调用set方法
+			//获取该实体的元类型
+			Class<?> c = Class.forName("cn.partytime.wechat.entity.ReceiveUnifiedOrderXmlEntity");
+			entity = (ReceiveUnifiedOrderXmlEntity)c.newInstance();//创建这个实体的对象
+
+			while(iter.hasNext()){
+				Element ele = (Element)iter.next();
+				//获取set方法中的参数字段（实体类的属性）
+				Field field = c.getDeclaredField(ele.getName());
+				//获取set方法，field.getType())获取它的参数数据类型
+				String name = ele.getName().substring(0, 1).toUpperCase() +  ele.getName().substring(1);
+				Method method = c.getDeclaredMethod("set"+name, new Class[] {field.getType()});
+				log.debug("set"+ele.getName(), field.getType());
+				//调用set方法
+				method.invoke(entity, ele.getText());
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		return entity;
 	}
 }

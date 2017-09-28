@@ -1,16 +1,22 @@
 package com.onyouxi.utils;
 
+import com.onyouxi.wechat.entity.ReceiveUnifiedOrderXmlEntity;
 import com.onyouxi.wechat.pojo.AccessToken;
 import com.onyouxi.wechat.pojo.Menu;
 import com.onyouxi.wechat.pojo.UnifiedorderRequest;
 import com.onyouxi.wechat.pojo.UserInfo;
 import com.onyouxi.wechat.process.FormatXmlProcess;
+import com.onyouxi.wechat.process.ReceiveXmlProcess;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 
+import javax.annotation.PostConstruct;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -25,17 +31,13 @@ import java.util.Date;
  * Created by Administrator on 2014/12/14.
  */
 @Slf4j
+@Component
 public class WeixinUtil {
 
-    public static String APP_ID = "wx0bd61f1f517bfa54";
+    @Autowired
+    private ConfigUtil configUtil;
 
-    private static String APP_SECRET = "6ac721127dd8c8363bbb3dbac2d7a29a";
-
-    /**
-     * 商户号
-     */
-    private static String MCH_ID = "1368583302";
-
+    private static WeixinUtil weixinUtil;
 
     // 获取access_token的接口地址（GET） 限200（次/天）
     public final static String access_token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
@@ -55,6 +57,11 @@ public class WeixinUtil {
 
     public final static String send_tmpl_url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
 
+    @PostConstruct
+    public void init() {
+        weixinUtil = this;
+        weixinUtil.configUtil = this.configUtil;
+    }
 
     /**
      * 获取access_token
@@ -87,7 +94,7 @@ public class WeixinUtil {
 
     public static AccessToken getAccessToken(){
         AccessToken accessToken = null;
-        String requestUrl = access_token_url.replace("APPID", APP_ID).replace("APPSECRET", APP_SECRET);
+        String requestUrl = access_token_url.replace("APPID", weixinUtil.configUtil.getAppId()).replace("APPSECRET", weixinUtil.configUtil.getAppSecret());
         log.info("get accessToken url:"+requestUrl);
         JSONObject jsonObject = httpRequest(requestUrl, "GET", null);
         // 如果请求成功
@@ -180,7 +187,7 @@ public class WeixinUtil {
         if(StringUtils.isEmpty(code)){
             return null;
         }
-        String requestUrl = openid_code_url.replace("APPID",APP_ID ).replace("APPSECRET", APP_SECRET).replace("CODE", code);
+        String requestUrl = openid_code_url.replace("APPID",weixinUtil.configUtil.getAppId() ).replace("APPSECRET", weixinUtil.configUtil.getAppSecret()).replace("CODE", code);
         log.info("code=>openid url:"+requestUrl);
 
         JSONObject jsonObject = httpRequest(requestUrl, "GET", null);
@@ -376,25 +383,28 @@ public class WeixinUtil {
     /**
      * 统一下单接口
      */
-    public static void unifiedorder(String body,String detail,String attach,Integer totalFee,String spbillCreateIp,String openId){
+    public static ReceiveUnifiedOrderXmlEntity unifiedorder(String nonceStr, String body, String detail, String attach, Integer totalFee, String spbillCreateIp, String openId){
         UnifiedorderRequest unifiedorderRequest = new UnifiedorderRequest();
-        unifiedorderRequest.setAppid(APP_ID);
-        unifiedorderRequest.setMch_id(MCH_ID);
+        unifiedorderRequest.setAppid(weixinUtil.configUtil.getAppId());
+        unifiedorderRequest.setMch_id(weixinUtil.configUtil.getMchId());
         unifiedorderRequest.setDevice_info("WEB");
-        unifiedorderRequest.setNonce_str(WechatSignUtil.getRandomString(16));
-        unifiedorderRequest.setSign("");
+        unifiedorderRequest.setNonce_str(nonceStr);
         unifiedorderRequest.setBody(body);
         unifiedorderRequest.setDetail(detail);
         unifiedorderRequest.setAttach(attach);
         unifiedorderRequest.setOut_trade_no(getOrderNo());
         unifiedorderRequest.setTotal_fee(totalFee);
         unifiedorderRequest.setSpbill_create_ip(spbillCreateIp);
-        unifiedorderRequest.setNotify_url(NOTIFY_URL);
+        unifiedorderRequest.setNotify_url(weixinUtil.configUtil.getPayNotifyUrl());
         unifiedorderRequest.setTrade_type("JSAPI");
         unifiedorderRequest.setOpenid(openId);
-        httpRequest(UNIFIEDORDER_URL, "POST", FormatXmlProcess.unifiedorderRequestToXml(unifiedorderRequest));
-
-
+        log.info(unifiedorderRequest.toSignString());
+        String sign = WechatSignUtil.createPaySign(unifiedorderRequest.toSignString());
+        unifiedorderRequest.setSign(sign);
+        String result = httpRequestStr(UNIFIEDORDER_URL, "POST", FormatXmlProcess.unifiedorderRequestToXml(unifiedorderRequest));
+        ReceiveUnifiedOrderXmlEntity entity = new ReceiveXmlProcess().getUnifiedOrderEntity(result);
+        log.info("***unifiedorder="+result);
+        return entity;
     }
 
     /**
@@ -416,6 +426,66 @@ public class WeixinUtil {
         String url = send_tmpl_url.replace("ACCESS_TOKEN", accessToken);
         return httpRequest(url, "POST", tmplJson);
 
+    }
+
+    public static String httpRequestStr(String requestUrl, String requestMethod, String outputStr) {
+        StringBuffer buffer = new StringBuffer();
+        outputStr = outputStr.replaceAll("__","_");
+        log.info("unifiedorderXML="+outputStr);
+        try {
+            // 创建SSLContext对象，并使用我们指定的信任管理器初始化
+            TrustManager[] tm = { new MyX509TrustManager() };
+            SSLContext sslContext = SSLContext.getInstance("SSL", "SunJSSE");
+            sslContext.init(null, tm, new java.security.SecureRandom());
+            // 从上述SSLContext对象中得到SSLSocketFactory对象
+            SSLSocketFactory ssf = sslContext.getSocketFactory();
+
+            URL url = new URL(requestUrl);
+            HttpsURLConnection httpUrlConn = (HttpsURLConnection) url.openConnection();
+            httpUrlConn.setSSLSocketFactory(ssf);
+
+            httpUrlConn.setDoOutput(true);
+            httpUrlConn.setDoInput(true);
+            httpUrlConn.setUseCaches(false);
+            httpUrlConn.setRequestProperty("Content-Type ","text/xml;charset=UTF-8");
+            httpUrlConn.setRequestProperty("Content-Length", String.valueOf(outputStr.length()));
+            // 设置请求方式（GET/POST）
+            httpUrlConn.setRequestMethod(requestMethod);
+
+            //if ("GET".equalsIgnoreCase(requestMethod))
+            httpUrlConn.connect();
+
+            // 当有数据需要提交时
+            if (null != outputStr) {
+                OutputStream outputStream = httpUrlConn.getOutputStream();
+                // 注意编码格式，防止中文乱码
+                outputStream.write(outputStr.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+            }
+            Integer code = httpUrlConn.getResponseCode();
+            // 将返回的输入流转换成字符串
+            InputStream inputStream = httpUrlConn.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+            String str = null;
+            while ((str = bufferedReader.readLine()) != null) {
+                buffer.append(str);
+            }
+            bufferedReader.close();
+            inputStreamReader.close();
+            // 释放资源
+            inputStream.close();
+            inputStream = null;
+            httpUrlConn.disconnect();
+            log.info("getInfo from wechat :"+buffer.toString());
+        } catch (ConnectException ce) {
+            log.error("Weixin server connection timed out.");
+        } catch (Exception e) {
+            log.error("https request error:{}", e);
+        }
+        return buffer.toString();
     }
 
 }
