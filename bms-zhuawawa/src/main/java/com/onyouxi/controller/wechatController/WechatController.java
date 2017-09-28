@@ -8,6 +8,7 @@ import com.onyouxi.model.pageModel.MachineResult;
 import com.onyouxi.model.pageModel.PageResultModel;
 import com.onyouxi.model.pageModel.WechatMachineResult;
 import com.onyouxi.service.*;
+import com.onyouxi.utils.ConfigUtil;
 import com.onyouxi.utils.WeixinUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.util.StringUtil;
@@ -52,12 +53,15 @@ public class WechatController {
     @Autowired
     private ZhuawawaService zhuawawaService;
 
+    @Autowired
+    private ConfigUtil configUtil;
+
     @RequestMapping(value = "/zhuawawa", method = RequestMethod.GET)
     public String zhuawawa(String code, String machineId, @CookieValue(required = false) String wechatId, Model model, HttpServletResponse response, HttpServletRequest request){
         String openId = WeixinUtil.getUserOpenId(code);
         log.info("openId:"+openId+"   wechatId:"+wechatId);
         if( StringUtils.isEmpty(openId) && StringUtils.isEmpty(wechatId)){
-            return "redirect:https://open.weixin.qq.com/connect/oauth2/authorize?appid="+WeixinUtil.APP_ID+"&redirect_uri=http://zhua.onyouxi.com/wechat/zhuawawa?machineId="+machineId+"&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+            return "redirect:https://open.weixin.qq.com/connect/oauth2/authorize?appid="+configUtil.getAppId()+"&redirect_uri=http://zhua.onyouxi.com/wechat/zhuawawa?machineId="+machineId+"&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
         }
         WechatUserModel wechatUser = null;
         if(!StringUtils.isEmpty(openId)){
@@ -115,7 +119,7 @@ public class WechatController {
         String openId = WeixinUtil.getUserOpenId(code);
         log.info("openId:"+openId+"   wechatId:"+wechatId);
         if( StringUtils.isEmpty(openId) && StringUtils.isEmpty(wechatId)){
-            return "redirect:https://open.weixin.qq.com/connect/oauth2/authorize?appid="+WeixinUtil.APP_ID+"&redirect_uri=http://zhua.onyouxi.com/wechat/my?&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+            return "redirect:https://open.weixin.qq.com/connect/oauth2/authorize?appid="+configUtil.getAppId()+"&redirect_uri=http://zhua.onyouxi.com/wechat/my?&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
         }
         WechatUserModel wechatUser = null;
         if(!StringUtils.isEmpty(openId)){
