@@ -2,15 +2,20 @@ package com.onyouxi.controller.wechatController;
 
 import com.onyouxi.constant.Const;
 import com.onyouxi.model.dbModel.WechatUserInfo;
+import com.onyouxi.model.dbModel.WechatUserModel;
 import com.onyouxi.model.pageModel.PageResultModel;
 import com.onyouxi.model.pageModel.RestResultModel;
+import com.onyouxi.service.WechatPayService;
 import com.onyouxi.service.WechatUserPlayService;
 import com.onyouxi.service.WechatUserService;
 import com.onyouxi.service.ZhuawawaService;
 import com.onyouxi.utils.MessageUtil;
 import com.onyouxi.utils.WechatSignUtil;
+import com.onyouxi.utils.WeixinUtil;
+import com.onyouxi.wechat.entity.PayNotifyXmlEntity;
 import com.onyouxi.wechat.entity.ReceiveXmlEntity;
 import com.onyouxi.wechat.message.TextMessage;
+import com.onyouxi.wechat.pojo.WxJsConfig;
 import com.onyouxi.wechat.process.FormatXmlProcess;
 import com.onyouxi.wechat.process.ReceiveXmlProcess;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +27,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by administrator on 2017/8/16.
@@ -39,6 +46,9 @@ public class WechatRestController {
 
     @Autowired
     private WechatUserPlayService wechatUserPlayService;
+
+    @Autowired
+    private WechatPayService wechatPayService;
 
     /**
      * 微信公众平台验证用
@@ -310,6 +320,69 @@ public class WechatRestController {
             restResultModel.setResult(500);
         }
         return restResultModel;
+    }
+
+    @RequestMapping(value = "/createJsConfig", method = RequestMethod.GET)
+    public RestResultModel createJsConfig(@CookieValue(required = false) String wechatId , HttpServletRequest request){
+        RestResultModel restResultModel = new RestResultModel();
+        if(StringUtils.isEmpty(wechatId)){
+            restResultModel.setResult(500);
+            restResultModel.setResult_msg("用户不存在，请刷新页面");
+            return restResultModel;
+        }
+        WxJsConfig wxJsConfig = wechatPayService.createWxjsConfig(request.getRequestURL().toString());
+        restResultModel.setResult(200);
+        restResultModel.setData(wxJsConfig);
+        return restResultModel;
+    }
+
+
+    @RequestMapping(value = "/pay", method = RequestMethod.GET)
+    public Map pay(String nonceStr, String timestamp , String openId, String attach, HttpServletRequest request, Integer type){
+        Integer total_fee=10;
+        if(type==1){
+            total_fee=10;
+        }else if(type==2){
+            total_fee=20;
+        }else if(type==3){
+            total_fee=50;
+        }
+        String body="线上游戏厅-充值"+total_fee+"元";
+        String detail="";
+        Map<String,String> map = new HashMap<>();
+        WechatUserModel wechatUser = wechatUserService.findByOpenId(openId);
+        if( null == wechatUser){
+            map.put("result","500");
+            map.put("result_msg","用户不存在，请刷新页面");
+            return map;
+        }
+        String clientIp = request.getHeader("x-forwarded-for");
+        if(StringUtils.isEmpty(clientIp)){
+            clientIp = request.getRemoteAddr();
+        }
+        if(!StringUtils.isEmpty(clientIp) && clientIp.indexOf(",")!=-1){
+            clientIp = clientIp.substring(0,clientIp.indexOf(","));
+        }
+        map = wechatPayService.createUnifiedorder(nonceStr,timestamp,openId,body,detail,attach,total_fee*100,clientIp);
+        map.put("result","200");
+        return map;
+    }
+
+
+
+    @RequestMapping(value = "/payNotify" , method = RequestMethod.POST)
+    public String payNotify(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 将请求、响应的编码均设置为UTF-8（防止中文乱码）
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        PayNotifyXmlEntity entity = new ReceiveXmlProcess().getWeChatPayEntity(request);
+        log.info(entity.toString());
+        Map<String, String> map = new HashMap<String, String>();
+        WechatUserModel wechatUser = wechatUserService.findByOpenId(entity.getOpenid());
+        if (null != wechatUser) {
+
+        }
+        return "success";
     }
 
 }
