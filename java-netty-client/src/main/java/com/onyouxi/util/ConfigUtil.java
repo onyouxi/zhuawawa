@@ -18,6 +18,9 @@ public class ConfigUtil {
     @Value("${code}")
     private String code;
 
+    @Value("${arduinoSerialUrl}")
+    private String arduinoSerialUrl;
+
     public String getWebSocketUrl(){
         return "http://"+ip+":"+port+"/ws/machine?code="+this.getCode();
     }
@@ -44,5 +47,13 @@ public class ConfigUtil {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getArduinoSerialUrl() {
+        return arduinoSerialUrl;
+    }
+
+    public void setArduinoSerialUrl(String arduinoSerialUrl) {
+        this.arduinoSerialUrl = arduinoSerialUrl;
     }
 }

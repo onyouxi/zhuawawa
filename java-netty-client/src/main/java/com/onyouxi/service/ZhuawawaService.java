@@ -6,6 +6,7 @@ import com.onyouxi.util.ArduinoSerialUtil;
 import com.onyouxi.util.CmdConst;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import javax.annotation.PostConstruct;
 @Service
 public class ZhuawawaService {
 
+    @Autowired
     private ArduinoSerialUtil arduinoSerialUtil;
 
 
@@ -25,7 +27,6 @@ public class ZhuawawaService {
     @PostConstruct
     public void init(){
         try {
-            arduinoSerialUtil = new ArduinoSerialUtil();
             arduinoSerialUtil.connect();
         }catch (Exception e){
             log.error("ArduinoSerial init error:",e);

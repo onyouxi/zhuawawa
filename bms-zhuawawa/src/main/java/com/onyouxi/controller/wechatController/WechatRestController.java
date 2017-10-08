@@ -344,8 +344,6 @@ public class WechatRestController {
             total_fee=10;
         }else if(type==2){
             total_fee=20;
-        }else if(type==3){
-            total_fee=50;
         }
         String body="线上游戏厅-充值"+total_fee+"元";
         String detail="";

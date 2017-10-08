@@ -24,8 +24,7 @@ import java.util.Map;
 @Service
 public class ArduinoSerialUtil {
 
-    @Value("${arduinoSerialUrl}")
-    private String arduinoSerialUrl;
+
 
     @Autowired
     private ConfigUtil configUtil;
@@ -51,8 +50,6 @@ public class ArduinoSerialUtil {
         {
             this.in = in;
         }
-
-
         public void run () {
             byte[] buffer = new byte[1024];
             int len = -1;
@@ -116,7 +113,7 @@ public class ArduinoSerialUtil {
     }
 
     public void connect() throws Exception {
-        CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(arduinoSerialUrl);
+        CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(configUtil.getArduinoSerialUrl());
         if ( portIdentifier.isCurrentlyOwned() ) {
             System.out.println("Error: Port is currently in use");
         } else {

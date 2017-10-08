@@ -9,6 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="screen-orientation" content="portrait">
     <meta name="x5-orientation" content="portrait">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
     <script src="/wcstatic/js/jquery-3.2.1.min.js" ></script>
     <style>
         body{padding: 0;margin: 0;height: 100%;}
@@ -281,7 +282,7 @@
     }
 
     function initStart(){
-         window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0bd61f1f517bfa54&redirect_uri=http://zhua.party-time.cn/wechat/zhuawawa?machineId=599bcf07e4b0ed3ecbc57b8f&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
+         window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0bd61f1f517bfa54&redirect_uri=http://zhua.onyouxi.com/wechat/zhuawawa?machineId=599bcf07e4b0ed3ecbc57b8f&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
     }
 
     function start(){
@@ -366,6 +367,57 @@
         $('.mask').hide();
     }
 
+
+
+    function createJsConfig(){
+        $.ajax({
+          url: "/wechat/createJsConfig",
+          type: "get"
+        }).done(function (data) {
+             if(data.result == 200){
+                    wx.config({
+                              debug: false,
+                              appId: data.data.appId,
+                              timestamp:data.data.timestamp,
+                              nonceStr:data.data.nonceStr,
+                              signature:data.data.signature,
+                              jsApiList: [
+                                'checkJsApi',
+                                'chooseWXPay'
+                              ]
+                     });
+             }else{
+                alert(data.result_msg);
+             }
+        });
+    }
+
+
+
+    var wechatPay = function(attach){
+          // 注意：此 Demo 使用 2.7 版本支付接口实现，建议使用此接口时参考微信支付相关最新文档。
+          var timestamp=new Date().getTime()
+          $.ajax({
+              url: "/wechat/pay?timestamp="+timestamp+"&nonceStr=${wxJsConfig.nonceStr}&openId=${opendId}&timestamp=${wxJsConfig.timestamp}&h5TempId=592689fd0cf24d415c21be6a&attach="+attach,
+              type: "get"
+          }).done(function (data) {
+                 if(data.result == 200){
+                      wx.chooseWXPay({
+                            timestamp: data.timeStamp,
+                            nonceStr: data.nonceStr,
+                            package: data.packageStr,
+                            signType: data.signType, // 注意：新版支付接口使用 MD5 加密
+                            paySign: data.paySign,
+                            success: function(res){
+                                window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxJsConfig.appId}&redirect_uri=http://www.onyouxi.com/wechat/payIndex&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+                                alert('支付成功');
+                            }
+                      });
+                 }else{
+                      alert('本功能仅在部分地区可以使用');
+                 }
+            });
+    }
 
     <#if gameStatus == 0>
         webSocketInit();

@@ -46,7 +46,7 @@
                                 signType: data.signType, // 注意：新版支付接口使用 MD5 加密
                                 paySign: data.paySign,
                                 success: function(res){
-                                    window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxJsConfig.appId}&redirect_uri=http://www.party-time.cn/wechat/payIndex&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+                                    window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxJsConfig.appId}&redirect_uri=http://www.onyouxi.com/wechat/payIndex&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
                                     alert('支付成功');
                                 }
                           });

@@ -236,7 +236,7 @@
     }
 
     function initStart(){
-         window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0bd61f1f517bfa54&redirect_uri=http://zhua.party-time.cn/wechat/zhuawawa?machineId=599bcf07e4b0ed3ecbc57b8f&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
+         window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0bd61f1f517bfa54&redirect_uri=http://zhua.onyouxi.com/wechat/zhuawawa?machineId=599bcf07e4b0ed3ecbc57b8f&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
     }
 
     function start(){
