@@ -77,6 +77,37 @@
 
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<id>test</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<excludes>
+							<exclude>application.properties</exclude>
+							<exclude>**/*</exclude>
+						</excludes>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>production</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<excludes>
+							<exclude>application.properties</exclude>
+							<exclude>**/*</exclude>
+						</excludes>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+	</profiles>
+
 	<build>
 		<finalName>arduino-server</finalName>
 		<plugins>
@@ -86,6 +117,7 @@
 			</plugin>
 		</plugins>
 	</build>
+
 
 
 </project>

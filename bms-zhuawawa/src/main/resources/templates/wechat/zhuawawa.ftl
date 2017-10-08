@@ -398,7 +398,7 @@
           // 注意：此 Demo 使用 2.7 版本支付接口实现，建议使用此接口时参考微信支付相关最新文档。
           var timestamp=new Date().getTime()
           $.ajax({
-              url: "/wechat/pay?timestamp="+timestamp+"&nonceStr=${wxJsConfig.nonceStr}&openId=${opendId}&timestamp=${wxJsConfig.timestamp}&h5TempId=592689fd0cf24d415c21be6a&attach="+attach,
+              url: "/wechat/pay?timestamp="+timestamp+",
               type: "get"
           }).done(function (data) {
                  if(data.result == 200){
@@ -409,7 +409,7 @@
                             signType: data.signType, // 注意：新版支付接口使用 MD5 加密
                             paySign: data.paySign,
                             success: function(res){
-                                window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxJsConfig.appId}&redirect_uri=http://www.onyouxi.com/wechat/payIndex&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+                                window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=&redirect_uri=http://www.onyouxi.com/wechat/payIndex&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
                                 alert('支付成功');
                             }
                       });
