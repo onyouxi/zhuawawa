@@ -94,7 +94,7 @@
     <div id="controller" style="width:100%;margin-top:10px;<#if gameStatus == 1>display:none</#if>">
             <div style="float:left;width:60%;margin-left:5%">
                 <div>
-                    <img src="/wcstatic/imgs/btn2.png" btnNum="3" style="width:50px;padding-left:60px;" class="btn"/>
+                    <img src="/wcstatic/imgs/btn2.png" btnNum="2" style="width:50px;padding-left:60px;" class="btn"/>
                 </div>
                 <div style="float:left;margin-left:5%;margin-right:20%;">
                     <img src="/wcstatic/imgs/btn3.png" btnNum="1" style="width:50px;" class="btn"/>
@@ -103,7 +103,7 @@
                     <img src="/wcstatic/imgs/btn1.png" btnNum="4" style="width:50px;" class="btn"/>
                 </div>
                 <div  style="margin-top:20%;">
-                    <img src="/wcstatic/imgs/btn4.png" btnNum="2" style="width:50px;padding-right:50px;padding-left:60px;" class="btn"/>
+                    <img src="/wcstatic/imgs/btn4.png" btnNum="3" style="width:50px;padding-right:50px;padding-left:60px;" class="btn"/>
                 </div>
             </div>
             <div style="float:left;margin-top:5%;">
