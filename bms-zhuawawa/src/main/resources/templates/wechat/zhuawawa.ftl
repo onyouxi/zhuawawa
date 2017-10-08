@@ -398,7 +398,7 @@
           // 注意：此 Demo 使用 2.7 版本支付接口实现，建议使用此接口时参考微信支付相关最新文档。
           var timestamp=new Date().getTime()
           $.ajax({
-              url: "/wechat/pay?timestamp="+timestamp+",
+              url: "/wechat/pay?timestamp=",
               type: "get"
           }).done(function (data) {
                  if(data.result == 200){
