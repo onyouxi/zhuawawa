@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConfigUtil {
 
-    @Value("${wechat.apikey}")
+    @Value("${wechat.appid}")
     private String appId;
 
     @Value("${wechat.appsecret}")

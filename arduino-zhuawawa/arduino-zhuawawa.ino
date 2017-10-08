@@ -41,8 +41,6 @@ void loop() {
         down();
     }else if(cmd == 'g'){
         zhua();
-    }else if(cmd == 'h'){
-        zhua();
     }
   }
   if(time != 0 && millis()-time >3000){
@@ -102,6 +100,7 @@ void zhua(){
   delay(200);
   digitalWrite(Pin5, LOW);
   Serial.println("s");
+  add();
 }
 
 //抓娃娃结束
